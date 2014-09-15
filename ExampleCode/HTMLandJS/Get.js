@@ -9,4 +9,4 @@ arg = JSON.parse(response);
 
 console.log(arg); //prints to console entire response that is JSON parsed
 
-console.log(arg.id);
+console.log(arg.id); //prints to console specific field in this case id
