@@ -1,10 +1,24 @@
 import requests, json
 
+"""
+
+POST / GET REQUESTS
+USES "REQUESTS"
+http://docs.python-requests.org/en/latest/
+
+http://docs.python-requests.org/en/latest/user/quickstart/
+
+FIELDs
+http://rsense-dev.cs.uml.edu/api/v1/projects/744
+
+"""
+
 # Seems to be able to GET, at least gets a code 200 apparently.
+# Also able to print a ton of JSON.
 r = []
 r = requests.get("http://rsense-dev.cs.uml.edu/api/v1/projects")
 
-print r
+print r.json()
 
 """
 	EXAMPLE JAVASCRIPT CODE.
@@ -23,20 +37,25 @@ print r
 
 """
 
+# Data stuff
 email = 'j@j.j'
 password = 'j'
-title = 'YOLO'
+title = 'Hello World.'
 
+# POST stuff.
 url = "http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload"
+
 payload = {
-		'email': 'j@j.j',
-		'password': 'j',
-		'title': 'hey',
+		'email': email,
+		'password': password,
+		'title': title,
 		'data':
 	  	{
-	  		'3398' : 5
+	  		'3398' : [5]
 	 	}
 	}
 
 r = requests.post(url, data=json.dumps(payload))
 r.raise_for_status()
+r.status_code
+r.headers
