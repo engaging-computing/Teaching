@@ -20,9 +20,9 @@ function POST_jsonDataUpload_Email()
 	var currentTime = new Date();
 	var timestamp = JSON.stringify(currentTime);
 
-	var    email;	// EX: a@a.a
+	var email;	// EX: a@a.a
 	var password;	// EX: a
-	var title;		// EX: Table A's Awesome Lab Data
+	var title;	// EX: Table A's Awesome Lab Data
 
 	var upload = {
 		'email': email,
@@ -112,10 +112,10 @@ function GET_Projects_ByProjectID()
 		async: false, because we want to make a cross domain request.
 		dataType: "JSON" because we are requesting the data in JSON format.		*/
 	var response = $.ajax({ type: "GET",
-							url: URL,
-							async: false,
-							dataType: "JSON"
-							}).responseText;
+				url: URL,
+				async: false,
+				dataType: "JSON"
+			}).responseText;
 
 	/*	If the response text ends up being undefined, we weren't able to find
 		anything about the project.			*/
@@ -188,10 +188,10 @@ function GET_Fields_ByFieldID()
 			than what I have listed below. You can however use these fields to
 			upload data to iSENSE.		*/
 		rev.innerHTML = "Information about this field: " 	+
-						"<br/>Name: " 			+ array[0] 	+
-						"<br/>Type: " 			+ array[1] 	+
-						"<br/>Unit: " 			+ array[2] 	+
-						"<br/>Restrictions: " 	+ array[3];
+					"<br/>Name: " 			+ array[0] 	+
+					"<br/>Type: " 			+ array[1] 	+
+					"<br/>Unit: " 			+ array[2] 	+
+					"<br/>Restrictions: " 		+ array[3];
 
 		//console.log(arg);	// Debugging
 	}
