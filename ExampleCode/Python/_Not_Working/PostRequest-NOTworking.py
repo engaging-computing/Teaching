@@ -18,7 +18,8 @@ http://rsense-dev.cs.uml.edu/api/v1/projects/744
 r = []
 r = requests.get("http://rsense-dev.cs.uml.edu/api/v1/projects")
 
-print r.json()
+#print r.json()
+print r.text
 
 """
 	EXAMPLE JAVASCRIPT CODE.
@@ -43,19 +44,20 @@ password = 'j'
 title = 'Hello World.'
 
 # POST stuff.
-url = "http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload"
+url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
 
 payload = {
-    		'email': email,
-    		'password': password,
-    		'title': title,
-            	'data':
-    	  	{
-    	  		'3398' : [5]
-    	 	}
-	   }
+    'email': email,
+    'password': password,
+    'title': title,
+    'data':
+    {
+    	'3398': [5]
+    }
+}
 
-r = requests.post(url, data=json.dumps(payload))
+headers = {'content-type': 'application/json'}
+
+r = requests.post(url, data=json.dumps(payload), headers=headers)
 r.raise_for_status()
 r.status_code
-r.headers
