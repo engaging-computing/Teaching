@@ -40,11 +40,9 @@ WORKING CODE BELOW, REJOICE.
 # Data stuff
 print "Basic iSENSE JSON uploader using Contributor Keys\n";
 
-email = raw_input("Enter an email: ")
-password = raw_input("Enter your password: ");
+contributor = raw_input("Enter a contributor key: ")
 title = raw_input("Enter the title of the dataset: ")
 data = raw_input("Enter a number: ")
-
 choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 
 if choice == 'Y':
@@ -54,8 +52,8 @@ if choice == 'Y':
 	url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
 
 	payload = {
-	    'email': email,
-	    'password': password,
+	    'contributor_key': [contributor],
+	    'contributor_name': "python-test",
 	    'title': title,
 	    'data':
 	    {
@@ -72,7 +70,7 @@ if choice == 'Y':
 		print "\nUploaded fine, with a code of 200!"
 	if r.status_code == 401:
 		print "\nHmm, got an error code of 401."
-		print "Try entering  the correct email and password combination."
+		print "Try entering  the correct contributor key."
 	if r.status_code == 422:
 		print "\nGot an error code of 422."
 		print "Try entering all the data fields correctly, with the right type for each field."
