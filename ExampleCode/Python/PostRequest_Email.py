@@ -5,35 +5,6 @@ import requests, json, getpass
 # (Which requires Python 2.7 and pip)
 # getpass hides the password entry for security.
 
-"""
-POST / GET REQUESTS
-USES "REQUESTS"
-http://docs.python-requests.org/en/latest/
-
-More information here:
-http://docs.python-requests.org/en/latest/user/quickstart/
-
-The actual working code is based on the following URL:
-http://docs.python-requests.org/en/latest/user/quickstart/#json-response-content
-
-Specifically this piece of code, modified for iSENSE:
->>> import json
->>> url = 'https://api.github.com/some/endpoint'
->>> payload = {'some': 'data'}
->>> headers = {'content-type': 'application/json'}
->>> r = requests.post(url, data=json.dumps(payload), headers=headers)
-
-FIELDs
-http://rsense-dev.cs.uml.edu/api/v1/projects/744
-"""
-#**************
-#* GET Request
-#**************
-r = []
-r = requests.get("http://rsense-dev.cs.uml.edu/api/v1/projects")
-r.raise_for_status() # Prints an error if something goes wrong.
-
-# Data stuff
 print "Basic iSENSE JSON uploader using email/password\n";
 
 email = raw_input("Enter an email: ")

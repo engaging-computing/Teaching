@@ -1,43 +1,10 @@
 import requests, json
 
-"""
-POST / GET REQUESTS
-USES "REQUESTS"
-http://docs.python-requests.org/en/latest/
+# Requests will probably need to be installed.
+# Try pip install requests
+# (Which requires Python 2.7 and pip)
 
-More information here:
-http://docs.python-requests.org/en/latest/user/quickstart/
-
-The actual working code is based on the following URL:
-http://docs.python-requests.org/en/latest/user/quickstart/#json-response-content
-
-Specifically this piece of code, modified for iSENSE:
->>> import json
->>> url = 'https://api.github.com/some/endpoint'
->>> payload = {'some': 'data'}
->>> headers = {'content-type': 'application/json'}
->>> r = requests.post(url, data=json.dumps(payload), headers=headers)
-
-FIELDs
-http://rsense-dev.cs.uml.edu/api/v1/projects/744
-"""
-
-""" 
-GET REQUEST
-"""
-# Seems to be able to GET, at least gets a code 200 apparently.
-# Also able to print a ton of JSON.
-r = []
-r = requests.get("http://rsense-dev.cs.uml.edu/api/v1/projects")
-r.raise_for_status() # Prints an error if something goes wrong.
-
-#print r.json()
-#print r.text
-
-""" 
-WORKING CODE BELOW, REJOICE.
-"""
-# Data stuff
+# Currently this code is not working.
 print "Basic iSENSE JSON uploader using Contributor Keys\n";
 
 contributor = raw_input("Enter a contributor key: ")
