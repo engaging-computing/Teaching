@@ -39,7 +39,7 @@ WORKING CODE BELOW, REJOICE.
 # Data stuff
 email = 'j@j.j'
 password = 'j'
-title = 'Hello World. WOO HOO'
+title = 'sleifjseithkjh'
 
 # POST stuff.
 url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
