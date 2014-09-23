@@ -13,6 +13,12 @@ status = r.status_code
 # Check to see if the project ID that the user gave us is valid
 if status == 200:
 	print "GET worked. Code 200!"
+	
+	# Print out the project information.
+	print r.json()['id']
+	print r.json()['name']
+	print r.json()['fields']
+	print "URL: %s" % r.json()['url']
 
 
 elif status == 404:

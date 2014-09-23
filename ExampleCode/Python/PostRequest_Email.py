@@ -8,12 +8,13 @@ import requests, json, getpass
 print "Basic iSENSE JSON uploader using email/password\n";
 
 email = raw_input("Enter an email: ")
-password = getpass.getpass("Enter your password: ");
+password = getpass.getpass("Enter your password: ")		# These characters are hidden from the user.
 title = raw_input("Enter the title of the dataset: ")
 data = raw_input("Enter a number: ")
 
 choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 
+# Yes branch, tries to POST to iSENSE
 if choice == 'Y':
 	print "\nUPLOADING TO iSENSE."
 
@@ -30,13 +31,14 @@ if choice == 'Y':
 	    }
 	}
 
+	# This is needed, otherwise I got code 422s and the data wasn't showing up right in the log.
 	headers = {'content-type': 'application/json'}
 
 	r = requests.post(url, data=json.dumps(payload), headers=headers)
 
 	# Detects status codes and tells the user what went right or wrong.
 	if r.status_code == 200:
-		print "\nUploaded fine, with a code of 200!"
+		print "\nUpload completed successfully!"
 	if r.status_code == 401:
 		print "\nHmm, got an error code of 401."
 		print "Try entering  the correct email and password combination."
@@ -46,6 +48,6 @@ if choice == 'Y':
 		print "IE a number must be a number, a string must be a series of characters,"
 		print "Lat/Long should be GPS coordinates and a timestamp should be correctly formatted."
 
-
+# User typed "N" or some other random character. So they didn't want to POST.
 else:
 	print "\nUSER CHOOSE NOT TO UPLOAD. \n"

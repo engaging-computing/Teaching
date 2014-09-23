@@ -4,7 +4,7 @@ import requests, json
 # Try pip install requests
 # (Which requires Python 2.7 and pip)
 
-# Currently this code is not working.
+# This currently works!
 print "Basic iSENSE JSON uploader using Contributor Keys\n";
 
 contributor = raw_input("Enter a contributor key: ")
@@ -12,6 +12,7 @@ title = raw_input("Enter the title of the dataset: ")
 data = raw_input("Enter a number: ")
 choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 
+# Yes branch, tries to POST to iSENSE
 if choice == 'Y':
 	print "\nUPLOADING TO iSENSE."
 
@@ -19,15 +20,16 @@ if choice == 'Y':
 	url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
 
 	payload = {
-	    'contributor_key': [contributor],
-	    'contributor_name': "python-test",
-	    'title': title,
+		'title': title,						# Note, spent forever trying to figure this out.
+	    'contribution_key': contributor,	# But it's contribution_key - not contributor_key
+	    'contributor_name': "python",	
 	    'data':
 	    {
 	    	'3398': [data]
 	    }
 	}
 
+	# This is needed, otherwise I got code 422s and the data wasn't showing up right in the log.
 	headers = {'content-type': 'application/json'}
 
 	r = requests.post(url, data=json.dumps(payload), headers=headers)
@@ -44,6 +46,6 @@ if choice == 'Y':
 		print "IE a number must be a number, a string must be a series of characters,"
 		print "Lat/Long should be GPS coordinates and a timestamp should be correctly formatted."
 
-
+# User typed "N" or some other random character. So they didn't want to POST.
 else:
 	print "\nUSER CHOOSE NOT TO UPLOAD. \n"
