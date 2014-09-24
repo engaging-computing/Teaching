@@ -21,7 +21,7 @@ if status == 200:
 	print "URL: %s" % r.json()['url']
 
 
-elif status == 404:
+if status == 404:
 	print "Couldn't find that project! You had entered %s for a project ID." % project_id
 
 else:
