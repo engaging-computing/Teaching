@@ -14,6 +14,7 @@ if choice == '1':
     title = raw_input('Enter a project title: ')
     email = raw_input('Enter email: ')
     password = raw_input('Enter password: ')
+    number = raw_input('Enter a number to be uploaded: ')
     url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/'+project+'/jsonDataUpload'
 
     payload = {
@@ -22,12 +23,14 @@ if choice == '1':
         'title': title,
         'data':
         {
-            ''+ str(data['fields'][0]['id']): [20]
+            ''+ str(data['fields'][0]['id']): [number]
         }
     }
 
     headers = {'content-type': 'application/json'}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+    print "\nUPLOADING TO iSENSE."
 
     if r.status_code == 200:
         print "\nUploaded fine, with a code of 200!"
