@@ -10,12 +10,30 @@ while choice != '1' and choice != '2':
 
 if choice == '1':
     project = raw_input('Enter a project id: ')
-    data = json.load(urllib2.urlopen('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project))
+    """data = json.load(urllib2.urlopen('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project)) """
     title = raw_input('Enter a project title: ')
+
+
+
     email = raw_input('Enter email: ')
     password = raw_input('Enter password: ')
+    credential_checker = requests.get('http://rsense-dev.cs.uml.edu/api/v1/users/myInfo?email='+email+'&password='+password)
+
+    while credential_checker.status_code != 200:
+        print "Incorrect email or password"
+        email = raw_input('Enter email: ')
+        password = raw_input('Enter password: ')
+        credential_checker = requests.get('http://rsense-dev.cs.uml.edu/api/v1/users/myInfo?email='+email+'&password='+password)
+
+
+
+
+
     number = raw_input('Enter a number to be uploaded: ')
     url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/'+project+'/jsonDataUpload'
+
+
+
 
     payload = {
         'email': email,
