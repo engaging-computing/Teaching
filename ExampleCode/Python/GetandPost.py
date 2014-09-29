@@ -10,7 +10,7 @@ while choice != '1' and choice != '2':
 
 if choice == '1':
     project = raw_input('Enter a project id: ')
-    """data = json.load(urllib2.urlopen('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project)) """
+    data = json.load(urllib2.urlopen('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project))
     title = raw_input('Enter a project title: ')
 
 
