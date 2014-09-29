@@ -1,4 +1,4 @@
-import requests, json, sys, get_input
+import requests, json, sys
 
 # Requests will probably need to be installed.
 # Try pip install requests
@@ -25,7 +25,7 @@ url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
 payload = {
     'title': title,                     # Note, spent forever trying to figure this out.
     'contribution_key': contributor,    # But it's contribution_key - not contributor_key
-    'contributor_name': "python",   
+    'contributor_name': "python",
     'data':
     {
         '3398': [data]
