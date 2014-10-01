@@ -22,12 +22,12 @@ while True:
     search_term = raw_input("Enter a search term: ")
     print "\n"
 
-    # GET Request
+    # GET Request:      /api/v1/projects
     URL = "http://rsense-dev.cs.uml.edu/api/v1/projects?utf8=true&search=%s&sort=updated_at&order=DESC" % search_term
     r = []
     r = requests.get(URL)
 
-    # Convert to JSON
+    # Convert to Python Array
     arg = r.json()
 
     # Turns out this GET only returns a 200... We'll have to see if arg is null instead.
@@ -40,8 +40,8 @@ while True:
             break;
 
     # This prints out all the projects that the search result found.
-    # Seems the GET request gives us an array of projects, each of which is a list.
-    # We can then grab specific information (Proj name, ID, URL, fields, etc) from each project list.
+    # The GET request we made gave us an array of projects. Each item in the array
+    #  is a list containing info about a given project.
     for x in arg:
         print "Project Name: ", x['name']
         print "Projct ID: ", x['id']
@@ -55,6 +55,6 @@ while True:
     if empty == False:
         try_again = raw_input("Would you like to search again? (Y/N) -> ")
         if try_again == 'N' or try_again == 'n':
-            print "See ya."
+            print "Exiting..."
             break;
         print "\n\n"
