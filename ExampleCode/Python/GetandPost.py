@@ -8,7 +8,7 @@ while choice != '1' and choice != '2':
     print "Not a valid input"
     choice = raw_input('Email upoload or contributor key [1/2] ')
 
-if choice == '1':
+if choice == '1': #Email uploader
 
     project = raw_input('Enter a project id: ')
 
@@ -52,12 +52,10 @@ if choice == '1':
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
 
-
-
     if r.status_code == 200:
         print "\nUploaded fine, with a code of 200!"
 
-elif choice == '2':
+elif choice == '2': #Contributor Key Uploading
     project = raw_input('Enter a project id: ')
 
     project_response_code = requests.get('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project)
@@ -73,7 +71,7 @@ elif choice == '2':
     contributor_name = raw_input("Enter a contibutor name: ")
     title = raw_input("Enter the title of the dataset: ")
     number = raw_input("Enter a number: ")
-    contributor = raw_input("Enter a contributor key: ")
+    contributor_key = raw_input("Enter a contributor key: ")
 
     print "\nUPLOADING TO iSENSE."
 
@@ -81,7 +79,7 @@ elif choice == '2':
     url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/683/jsonDataUpload'
     payload = {
         'title': title,                     # Note, spent forever trying to figure this out.
-        'contribution_key': contributor,    # But it's contribution_key - not contributor_key
+        'contribution_key': contributor_key,    # But it's contribution_key - not contributor_key
         'contributor_name': contributor_name,   
         'data':
         {
@@ -95,7 +93,7 @@ elif choice == '2':
 
     while r.status_code == 401:
         print "Wrong contributor key"
-        contributor = raw_input("Enter a contributor key: ")
+        contributor_key = raw_input("Enter a contributor key: ")
 
         print "\nUPLOADING TO iSENSE."
 
@@ -103,7 +101,7 @@ elif choice == '2':
         url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/683/jsonDataUpload'
         payload = {
             'title': title,                     # Note, spent forever trying to figure this out.
-            'contribution_key': contributor,    # But it's contribution_key - not contributor_key
+            'contribution_key': contributor_key,    # But it's contribution_key - not contributor_key
             'contributor_name': contributor_name,   
             'data':
             {
