@@ -22,7 +22,7 @@ if choice == '1':
 
     data = json.load(urllib2.urlopen('http://rsense-dev.cs.uml.edu/api/v1/projects/'+project))
 
-    title = raw_input('Enter a project title: ')
+    title = raw_input('Enter a dataset title: ')
     email = raw_input('Enter email: ')
     password = raw_input('Enter password: ')
     credential_checker = requests.get('http://rsense-dev.cs.uml.edu/api/v1/users/myInfo?email='+email+'&password='+password)
