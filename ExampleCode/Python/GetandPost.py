@@ -47,9 +47,12 @@ if choice == '1':
     }
 
     headers = {'content-type': 'application/json'}
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
 
     print "\nUPLOADING TO iSENSE."
+    
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+
 
     if r.status_code == 200:
         print "\nUploaded fine, with a code of 200!"
