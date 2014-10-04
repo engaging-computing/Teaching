@@ -1,20 +1,12 @@
 """
         This script will be a test of getting a project's fields
 """
-import requests, json
-
-# Pass a structure to this function to get a TRUE/FALSE response on
-# whether a structure is empty or not.
-def is_empty(struct):
-    if struct:
-        return False
-    else:
-        return True
+import requests, json, sys
 
 # This function will loop until the user tells it to quit.
 def loop_user():
     print "***************************"
-    print "*  GET FIELDS Script          *"
+    print "*    GET FIELDS Script    *"
     print "***************************"
 
      # Get a project ID from the user. Format the URL for a GET request.
@@ -35,17 +27,16 @@ def loop_user():
 
         # Print out the project information.
         print "\nPROJECT INFORMATION"
-        print "      Project ID: %s" % r.json()['id']
+        print "  Project ID: %s" % r.json()['id']
         print "Project Name: %s" % r.json()['name']
-        print "   Project URL: %s" % r.json()['url']
+        print " Project URL: %s" % r.json()['url']
 
-        # Let's make sure there are fields for us to check.
-        empty = r.json()['fields']
-        empty = is_empty(arg)
+        # Let's make sure there are fields for us to check. FieldCount should be 0 if there aren't any fields to show.
+        empty = r.json()['fieldCount']
 
         # If there aren't any fields, just go back to the beginning.
-        if empty == True:
-            print "Didn't find any fields for this project! Try a different Project that has fields.\n\n"
+        if empty == 0:
+            print "\nI didn't find any fields for this project! Try a different Project that has fields."
             loop_again()    # See if they want to search for more projects.
 
         # Even more info:
@@ -60,14 +51,16 @@ def loop_user():
 
     # 404 means not found.
     if status == 404:
-        print "Couldn't find that project! You had entered %s for a project ID." % project_id
+        print "\nCouldn't find that project! You had entered %s for a project ID." % project_ID
+        print "Try a project ID that exists."
+        loop_again()
 
 def loop_again():
     # Ask the user if they want to continue.
     try_again = raw_input("\nWould you like to search again? (Y/N) -> ")
 
     if try_again == 'Y' or try_again == 'y':
-        print "\n\n"
+        print "\n"
         loop_user()
 
     else:
@@ -75,6 +68,7 @@ def loop_again():
 
 # Prints out after the looping is over.
 def exit_script():
-    print "Exiting..."
+    print "\nExiting..."
+    sys.exit()
 
 loop_user()
