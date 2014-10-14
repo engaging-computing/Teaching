@@ -2,6 +2,7 @@
 #include <curl/curl.h>      // cURL to make HTTP requests
 #include <stdio.h>
 #include <string.h>
+#include <cstring>
 
 using namespace std;
 
@@ -13,12 +14,15 @@ using namespace std;
 
     This example uses cURL, through libcurl.
 
-    Its a bit of a pain, but I found a good example at the below site:
+    Its a bit of a pain, but I found a good example at this site:
     http://curl.haxx.se/libcurl/c/http-post.html
 
     Major issue in the beginnig - make sure to include headers specifying JSON as the content-type.
 
+    Also, had
+
     Works under Linux, going to test Windows next.
+    Also works using different titles and numbers, which is awesome.
 
 */
 
@@ -53,19 +57,18 @@ using namespace std;
 
 int main(void)
 {
-    char title[125] = "{\"title";
-
+    char title[41];
     int x;
 
     cout<<"Please enter a title for the dataset: ";
-    cin>>title;
+    cin.getline(title, 41, '\n');
 
-    cout<<"You entered the title: "<<title<< "\n";
+    //cout<<"You entered the title: "<<title<< "\n\n";
 
     cout<<"Please enter a number: ";
     cin>>x;
 
-    cout<<"You entered the number: "<<x;
+    //cout<<"You entered the number: "<<x;
     cout<<"\n\nUploading "<<x<<" to rSENSE.\n\n";
 
 
@@ -74,13 +77,27 @@ int main(void)
     // URL for the project. Change "821" for a different project.
     char url[] = "http://rsense-dev.cs.uml.edu/api/v1/projects/821/jsonDataUpload";
 
-    // DATA for the project.
-    //char upload[125];
-    char data[] = "{\"title\":\"C++ Test 3\",\"contribution_key\":\"key\",\"contributor_name\":\"cURL\",\"data\":{\"3550\":[22]}}";
+    // DATA for the project. This will be the entire uploaded string.
+    char upload[150] = "\0";    // Make sure to initialize this to NULL.
+    
+    // Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make sure to change that if you change the project ID in the URL.
+    char data[] = "\",\"contribution_key\":\"key\",\"contributor_name\":\"cURL\",\"data\":{\"3550\":[";
 
-    //strcat(title, data);
+    // Holds the value of the int entered above.
+    char value[21];
 
-    //cout<<strlen(data);
+    // This part combines everything entered above into one string that can be uploaded to rSENSE.
+    strcat(upload, "{\"title\":\"");
+    strcat(upload, title);
+    strcat(upload, data);
+
+    sprintf(value, "%d", x);    // Add the variable entered to the upload data.
+    strcat(upload, value);      // ^^^ 
+
+    strcat(upload, "]}}");
+
+    // Debugging: 
+    //cout<<"The string is: "<<upload<<endl;
 
     CURL *curl;
     CURLcode res;
@@ -98,19 +115,19 @@ int main(void)
     curl = curl_easy_init();
     if(curl) 
     {
-        /* First set the URL that is about to receive our POST. */ 
+        // Set the URL that we will be using for our POST.
         curl_easy_setopt(curl, CURLOPT_URL, url);
      
-        // POST data. Title will be the char array with all the data.
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+        // POST data. Upload will be the char array with all the data.
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, upload);
 
         // JSON Headers
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
      
-        /* get verbose debug output please */ 
+        // Verbose debug output
         //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
-        /* Perform the request, res will get the return code */ 
+        // Perform the request, res will get the return code
         res = curl_easy_perform(curl);
 
         /* Check for errors */ 
@@ -124,7 +141,7 @@ int main(void)
 
     curl_global_cleanup();
 
-    cout<<"\n\n";
+    cout<<"\n\n";   // extra new lines in the terminal.
 
     return 0;
 }
