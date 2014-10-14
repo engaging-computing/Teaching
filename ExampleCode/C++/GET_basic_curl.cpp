@@ -17,23 +17,18 @@ int main()
             How to get CURL working on Ubuntu 14.04LTS
 
             sudo apt-get install curl
-            sudo apt-get update
-
-            (this one is for NON SSL requests. iSENSE doesn't use SSL, so this should be fine.)
             sudo apt-get install libcurl4-gnutls-dev
-
-            (This one is for SSL requests. I have it installed as well, until I realized I didn't need it. Left it here for future reference)
-            sudo apt-get install libcurl4-openssl-dev
+            sudo apt-get update
 
             See this site for help:
             http://curl.haxx.se/docs/httpscripting.html
 
             WHEN COMPILING A WITH CURL, MAKE SURE TO INCLUDE "-lcurl" at the end of the gcc/g++ command.
             Example:
-            g++ GET_basic.cpp -lcurl
+            g++ GET_basic_curl.cpp -lcurl
 
-
-            Also: wow, the following actual works! It grabs the project page for project #744 and displays it to the terminal!
+            Also: wow, the following actual works! It grabs the project page for project #744 
+            and displays it to the terminal!
             And the following is straight off of the cURL webpage. See:
             http://curl.haxx.se/libcurl/c/example.html
         */
@@ -45,7 +40,7 @@ int main()
         curl = curl_easy_init();
 
         if(curl) {
-            curl_easy_setopt(curl, CURLOPT_URL, "http://rsense-dev.cs.uml.edu/api/v1/projects/744");
+            curl_easy_setopt(curl, CURLOPT_URL, "http://rsense-dev.cs.uml.edu/api/v1/projects/821");
 
             /* example.com is redirected, so we tell libcurl to follow redirection */
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
