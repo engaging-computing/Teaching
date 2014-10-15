@@ -1,0 +1,4 @@
+CC		= g++
+
+all:
+	$(CC) -Wall -g POST_curl.cpp -o test -lcurl
