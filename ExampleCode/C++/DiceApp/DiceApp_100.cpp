@@ -1,37 +1,33 @@
-#include <iostream>
-#include <stdio.h>
-#include <curl/curl.h>      // cURL to make HTTP requests
-#include <string.h>
-#include <cstring>
+#include <iostream>       // cout/cin
+#include <stdio.h>           // Printf/scanf
+#include <curl/curl.h>     // cURL to make HTTP requests
+#include <string.h>         // strings
+#include <cstring>          // strings
+#include <stdlib.h>         // srand, rand
+#include <time.h>           // time
 
 using namespace std;
 
-    // Below is an example of using cURL on the command line to POST to iSENSE.
-    //curl -X POST -H "Content-Type: application/json; charset=UTF-8" -d '{"title":"Curl Test","contribution_key":"key","contributor_name":"cURL","data":{"3550":[22]}}' http://rsense-dev.cs.uml.edu/api/v1/projects/821/jsonDataUpload
-
 /*
-    NOTES about using C++ with iSENSE.
+    This will be a DiceApp written in C++.
 
-    This example uses cURL, through libcurl.
+    All it will do is create two random numbers (probably using srand?) and
+    then upload those two numbers to rSENSE.
 
-    Its a bit of a pain, but I found a good example at this site:
-    http://curl.haxx.se/libcurl/c/http-post.html
-
-    Major issue in the beginnig - make sure to include headers specifying JSON as the content-type.
-
-    Works under Linux, going to test Windows next.
+    What also might be cool is to get this to run a loop, and save say 100 red dice and 100 white dice.
+    Then upload those two arrays to rSENSE.
 */
 
-void upload_to_rsense(char title[], int num)
+void upload_to_rsense(char title[], int red_die, int white_die)
 {
     // URL for the project. Change "821" for a different project.
-    char url[] = "http://rsense-dev.cs.uml.edu/api/v1/projects/821/jsonDataUpload";
+    char url[] = "http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload";
 
     // DATA for the project. This will be the entire uploaded string.
     char upload[150] = "\0";    // Make sure to initialize this to NULL.
 
     // Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make sure to change that if you change the project ID in the URL.
-    char data[] = "\",\"contribution_key\":\"key\",\"contributor_name\":\"cURL\",\"data\":{\"3550\":[";
+    char data[] = "\",\"contribution_key\":\"123\",\"contributor_name\":\"cURL\",\"data\":{\"4160\":[";
 
     // Holds the value of the int entered above.
     char value[21];
@@ -41,12 +37,17 @@ void upload_to_rsense(char title[], int num)
     strcat(upload, title);         // Add the title.
     strcat(upload, data);        // Add the contributor stuff and the field ID.
 
-    sprintf(value, "%d", num);    // Convert the variable to a string
-    strcat(upload, value);      // Add the variable entered to the upload data.
+    sprintf(value, "%d", red_die);      // Convert the first die into a string
+    strcat(upload, value);                  // Add the variable entered to the upload data.
 
-    strcat(upload, "]}}");      // Add the last few brackets.
+    strcat(upload, "], \"4161\":[");   // Add the second field ID
 
-    // Debugging:
+    sprintf(value, "%d", white_die);    // Convert the second die into a string
+    strcat(upload, value);
+
+    strcat(upload, "]}}");          // Add the last few brackets.
+
+    // Debugging. Uncomment if you have issues uploading to rSENSE.
     //cout<<"The string is: "<<upload<<endl;
 
     CURL *curl;
@@ -74,7 +75,7 @@ void upload_to_rsense(char title[], int num)
         // JSON Headers
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
-        // Verbose debug output - turn this on if you are having problems. It will spit out a ton of information.
+        // Verbose debug output -  uncomment this on if you are having problems. It will spit out a ton of information.
         //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
         cout<<"rSENSE says: \n";
@@ -98,25 +99,30 @@ void upload_to_rsense(char title[], int num)
     curl_global_cleanup();
 }
 
-int main(void)
+
+int main()
 {
     char title[41];
-    int num = 0;
+    int red_die = 0, white_die = 0;
 
     // Get user input.
     cout<<"Please enter a title for the dataset: ";
     cin.getline(title, 41, '\n');
-    cout<<"Please enter a number: ";
-    cin>>num;
+
+    // Dice roll simulation.
+    cout<<"Generating two die rolls. Numbers 1 through 6. \n";
+
+    srand(time(NULL));            // Seed the random function
+
+       red_die = rand()%6 + 1;        // Generate random numbers between 1 and 6.
+    white_die = rand()%6 + 1;
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout<<"\nUploading "<<num<<" to rSENSE.\n\n";
+    cout<<"\nUploading red_die "<<red_die<<" and white_die "<<white_die<<" to rSENSE.\n\n";
 
     // Right here I call a function to upload to rSENSE-dev.
     // I just pass it the title of the dataset and the number that the user entered.
-    upload_to_rsense(title, num);
-
-    // In the future we should tell the user if this upload function was a success. Or if it failed - if it failed then why.
+    upload_to_rsense(title, red_die, white_die);
 
     return 0;
 }

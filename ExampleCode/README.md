@@ -1,6 +1,5 @@
 Teaching
 ========
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Current Projects:
 1) Java GET + POST
