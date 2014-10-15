@@ -1,6 +1,8 @@
 Teaching
 ========
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Current Projects:
 1) Java GET + POST
 2) Visual Basic GET + POST
