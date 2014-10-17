@@ -18,13 +18,13 @@ using namespace std;
     Then upload those two arrays to rSENSE.
 */
 
-void upload_to_rsense(char title[], int red_die, int white_die)
+void upload_to_rsense(char title[], int red_die[], int white_die[])
 {
     // URL for the project. Change "821" for a different project.
     char url[] = "http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload";
 
     // DATA for the project. This will be the entire uploaded string.
-    char upload[150] = "\0";    // Make sure to initialize this to NULL.
+    char upload[550] = "\0";    // Make sure to initialize this to NULL.
 
     // Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make sure to change that if you change the project ID in the URL.
     char data[] = "\",\"contribution_key\":\"123\",\"contributor_name\":\"cURL\",\"data\":{\"4160\":[";
@@ -37,13 +37,35 @@ void upload_to_rsense(char title[], int red_die, int white_die)
     strcat(upload, title);         // Add the title.
     strcat(upload, data);        // Add the contributor stuff and the field ID.
 
-    sprintf(value, "%d", red_die);      // Convert the first die into a string
-    strcat(upload, value);                  // Add the variable entered to the upload data.
+    for(int i = 0; i < 100; i++)
+    {
+        sprintf(value, "%d", red_die[i]);       // Convert the first die into a string
+        cout<<value<<"\t";
+        strcat(upload, value);                      // Add the variable entered to the upload data.
+
+        if(i != 99)
+        {
+            strcat(upload, ",");                         // Add a comma to separate values.
+        }
+
+        memset(value, '\0', 21);                    // Reset the array each time.
+    }
 
     strcat(upload, "], \"4161\":[");   // Add the second field ID
 
-    sprintf(value, "%d", white_die);    // Convert the second die into a string
-    strcat(upload, value);
+    for(int i = 0; i < 100; i++)
+    {
+        sprintf(value, "%d", white_die[i]);    // Convert the second die into a string
+        cout<<value<<"\t";
+        strcat(upload, value);                      // Add the variable entered to the upload data.
+
+        if(i != 99)
+        {
+            strcat(upload, ",");                         // Add a comma to separate values.
+        }
+
+        memset(value, '\0', 21);                     // Reset the array each time.
+    }
 
     strcat(upload, "]}}");          // Add the last few brackets.
 
@@ -78,7 +100,7 @@ void upload_to_rsense(char title[], int red_die, int white_die)
         // Verbose debug output -  uncomment this on if you are having problems. It will spit out a ton of information.
         //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
-        cout<<"rSENSE says: \n";
+        cout<<"\n\nrSENSE says: \n";
 
         // Perform the request, res will get the return code
         res = curl_easy_perform(curl);
@@ -103,22 +125,27 @@ void upload_to_rsense(char title[], int red_die, int white_die)
 int main()
 {
     char title[41];
-    int red_die = 0, white_die = 0;
+    int red_die[100] , white_die[100];
+
+    cout<<"100 Dice Roll App\n\n";
 
     // Get user input.
     cout<<"Please enter a title for the dataset: ";
     cin.getline(title, 41, '\n');
 
     // Dice roll simulation.
-    cout<<"Generating two die rolls. Numbers 1 through 6. \n";
+    cout<<"Generating 100 die rolls. Numbers 1 through 6. \n";
 
-    srand(time(NULL));            // Seed the random function
+    srand(time(NULL));                  // Seed the random function
 
-       red_die = rand()%6 + 1;        // Generate random numbers between 1 and 6.
-    white_die = rand()%6 + 1;
+    for(int i = 0; i < 100; i++)
+    {
+           red_die[i] = rand()%6 + 1;        // Generate random numbers between 1 and 6.
+        white_die[i] = rand()%6 + 1;
+    }
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout<<"\nUploading red_die "<<red_die<<" and white_die "<<white_die<<" to rSENSE.\n\n";
+    cout<<"\nUploading red_dies and white_dies to rSENSE.\n\n";
 
     // Right here I call a function to upload to rSENSE-dev.
     // I just pass it the title of the dataset and the number that the user entered.

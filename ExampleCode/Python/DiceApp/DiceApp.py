@@ -1,4 +1,4 @@
-import requests, json, sys
+import requests, json, sys, random
 
 # Requests will probably need to be installed.
 # Try pip install requests
@@ -6,9 +6,7 @@ import requests, json, sys
 
 print "Basic iSENSE JSON uploader using Contributor Keys\n";
 
-contributor = raw_input("Enter a contributor key: ")
 title = raw_input("Enter the title of the dataset: ")
-data = raw_input("Enter a number: ")
 choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 
 # User typed "N" or some other random character. So they didn't want to POST.
@@ -20,15 +18,24 @@ if choice == 'N' or choice == 'n':
 print "\nUPLOADING TO iSENSE."
 
 # POST stuff.
-url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
+url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload'
+
+# Random number stuff here.
+random.seed();                # Seed the random function with the system time.
+
+# Generate random numbers between 1 and 6 here.
+red_die = random.randint(1, 6)
+white_die = random.randint(1, 6)
+
 
 payload = {
-    'title': title,                     # Note, spent forever trying to figure this out.
-    'contribution_key': contributor,    # But it's contribution_key - not contributor_key
+    'title': title,                                             # Note, spent forever trying to figure this out.
+    'contribution_key':  "123",                     # But it's contribution_key - not contributor_key
     'contributor_name': "python",
     'data':
     {
-        '3398': [data]
+        '4160': [red_die],
+        '4161': [white_die]
     }
 }
 

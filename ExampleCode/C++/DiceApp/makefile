@@ -1,4 +1,4 @@
 CC		= g++
 
 all:
-	$(CC) -Wall -g DiceApp.cpp -o test -lcurl
+	$(CC) -Wall -g DiceApp_100.cpp -o test -lcurl
