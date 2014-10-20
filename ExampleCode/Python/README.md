@@ -11,7 +11,9 @@ For HTTP GET/POST requests, there are two that seem to work:
 
 To install those, simply use the following command (on Linux. Windows How-To coming soon):
 
+```
 pip install requests
+```
 
 More information about the Requests library can be found here: 
 [Python Request Quickstart Guide](http://docs.python-requests.org/en/latest/user/quickstart/)

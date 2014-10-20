@@ -26,8 +26,9 @@ When compiling with curl, be sure to include "-lcurl" at the end of the gcc/g++ 
 
 Example:
 
+```
 g++ GET_basic_curl.cpp -lcurl
-
+```
 
 Other  C++ libraries to try:
 
