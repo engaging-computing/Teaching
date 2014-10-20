@@ -31,7 +31,7 @@ white_dice = []
 for i in range(0, 99):
     red_dice.append(random.randint(1, 6))
     white_dice.append(random.randint(1, 6))
-    print "%d %d" %red_dice[i] %white_die[i]
+    print "%d %d" %red_dice[i], %white_die[i]
 
 
 payload = {
