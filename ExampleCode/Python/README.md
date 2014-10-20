@@ -13,7 +13,7 @@ To install those, simply use the following command (on Linux. Windows How-To com
 
 pip install requests
 
-More information about the Requests library can be found here:
+More information about the Requests library can be found here: 
 [Python Request Quickstart Guide](http://docs.python-requests.org/en/latest/user/quickstart/)
 
 Notes
@@ -23,16 +23,15 @@ Notes
 
 This is an example of a request that should work, given a valid iSENSE URL:
 
-'''python
+```python
 import json
 url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload'
 payload = {'FIELDS': '[DATA, DATA, DATA]'}
 headers = {'content-type': 'application/json'}
 r = requests.post(url, data=json.dumps(payload), headers=headers)
-'''
+```
 
 The above code is based off of the following page:
-
 [Python Requests JSON content](http://docs.python-requests.org/en/latest/user/quickstart/#json-response-content)
 
 2) To get the fields for an iSENSE project, go to the following URL:

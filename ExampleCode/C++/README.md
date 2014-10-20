@@ -5,11 +5,11 @@ Some of these examples use cURL through the libcurl library for c/c++.
 
 You can get libcurl on Linux (Ubuntu/Debian) by running the following commands:
 
-'''
+```
 sudo apt-get install curl
 sudo apt-get install libcurl4-gnutls-dev
 sudo apt-get update
-'''
+```
 
 (I will include Windows instructions after I try compiling with Visual Studios Express.)
 
