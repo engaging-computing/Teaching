@@ -24,7 +24,7 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
     char url[] = "http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload";
 
     // DATA for the project. This will be the entire uploaded string.
-    char upload[550] = "\0";    // Make sure to initialize this to NULL.
+    char upload[550] = "\0";                        // Make sure to initialize this to NULL.
 
     // Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make sure to change that if you change the project ID in the URL.
     char data[] = "\",\"contribution_key\":\"123\",\"contributor_name\":\"cURL\",\"data\":{\"4160\":[";
