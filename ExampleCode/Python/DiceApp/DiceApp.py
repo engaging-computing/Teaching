@@ -19,9 +19,10 @@ print "\nUPLOADING TO iSENSE."
 
 # POST stuff.
 url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload'
+user_url = "http://rsense-dev.cs.uml.edu/projects/911"
 
 # Random number stuff here.
-random.seed();                # Seed the random function with the system time.
+random.seed();                                          # Seed the random function with the system time.
 
 # Generate random numbers between 1 and 6 here.
 red_die = random.randint(1, 6)
@@ -47,6 +48,7 @@ r = requests.post(url, data=json.dumps(payload), headers=headers)
 # Detects status codes and tells the user what went right or wrong.
 if r.status_code == 200:
     print "\nUploaded fine, with a code of 200!"
+    print "See your project here: %s" % user_url
 if r.status_code == 401:
     print "\nHmm, got an error code of 401."
     print "Try entering  the correct contributor key."

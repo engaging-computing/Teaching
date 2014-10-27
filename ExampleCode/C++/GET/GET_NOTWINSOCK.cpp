@@ -5,17 +5,17 @@
 #include <cpprest/filestream.h>
 
 // These one's are apparently useful
-#include <cpprest/http_listener.h>              // HTTP server
-#include <cpprest/uri.h>                        // URI library
-#include <cpprest/containerstream.h>            // Async streams backed by STL containers
-#include <cpprest/interopstream.h>              // Bridges for integrating Async streams with STL and WinRT streams
-#include <cpprest/rawptrstream.h>               // Async streams backed by raw pointer to memory
-#include <cpprest/producerconsumerstream.h>     // Async streams for producer consumer scenarios
+#include <cpprest/http_listener.h>                            	 // HTTP server
+#include <cpprest/uri.h>                                            	// URI library
+#include <cpprest/containerstream.h>                    	 	// Async streams backed by STL containers
+#include <cpprest/interopstream.h>                      		// Bridges for integrating Async streams with STL and WinRT streams
+#include <cpprest/rawptrstream.h>                       		// Async streams backed by raw pointer to memory
+#include <cpprest/producerconsumerstream.h>         	// Async streams for producer consumer scenarios
 
 
 /*
 	This one will use the C++ REST SDK
-	
+
 	https://casablanca.codeplex.com/wikipage?title=Http%20Client%20Tutorial
 
 	When using Visual Studios, just go to:
@@ -33,11 +33,11 @@
 
 */
 
-using namespace utility;                    // Common utilities like string conversions
-using namespace web;                        // Common features like URIs.
-using namespace web::http;                  // Common HTTP functionality
-using namespace web::http::client;          // HTTP client features
-using namespace concurrency::streams;       // Asynchronous streams
+using namespace utility;                    		// Common utilities like string conversions
+using namespace web;                        		// Common features like URIs.
+using namespace web::http;                  		// Common HTTP functionality
+using namespace web::http::client;        		// HTTP client features
+using namespace concurrency::streams;     // Asynchronous streams
 
 
 int main()
@@ -92,11 +92,11 @@ int main()
 	system("PAUSE");
 
 
-	/*	POST REQUEST HERE	*/
+	/*  POST REQUEST HERE   */
 	// https://casablanca.codeplex.com/discussions/470271
 	// http_client client(U("http://rsense-dev.cs.uml.edu/api/v1/projects/744"));
-	
-	
+
+
 	pplx::task<int> Post()
 	{
 		return pplx::create_task([]
@@ -121,8 +121,8 @@ int main()
 			return 0;
 		});
 	}
-	
-	
+
+
 	/*
 	return client.request(methods::GET).then([](http_response response) -> pplx::task<json::value>
 	{
@@ -131,7 +131,7 @@ int main()
 			return response.extract_json();
 		}
 
-		// Handle error cases, for now return empty json value... 
+		// Handle error cases, for now return empty json value...
 		return pplx::task_from_result(json::value());
 	})
 		.then([](pplx::task<json::value> previousTask)
