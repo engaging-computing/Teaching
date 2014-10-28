@@ -42,16 +42,61 @@ void upload_to_rsense_json_test(char title[], int num, char letters[], int times
     JSON_Object *root_object = json_value_get_object(root_value);
     char *serialized_string = NULL;
 
-    //char test[20] = "test";
-    int field_id = 5555;
+    // Data will be its own string, that we will add to the upload object.
+    JSON_Value *data_value = json_value_init_object();
+    JSON_Object *data_object = json_value_get_object(data_value);
+    char *data_string = NULL;
+
+    char buffer[10];
+
+    // Example field IDs
+    int field_IDs[3] = {4274, 4275, 4276};
+
+    sprintf(buffer, "%d", field_IDs[0]);                                       // Convert a field ID to a string.
+    json_object_set_number(data_object, buffer, num);           // add that field ID and the entered number to data_object
+    memset(buffer, '\0', 21);                                                     // Clear the value char array.
+
+    sprintf(buffer, "%d", field_IDs[1]);                                       // Convert a field ID to a string.
+    json_object_set_string(data_object, buffer, letters);              // add the random string.
+
+    memset(buffer, '\0', 21);                                                     // Clear the value char array.
+    sprintf(buffer, "%d", field_IDs[2]);                                       // Convert a field ID to a string.
+    json_object_set_string(data_object, buffer, title);
+
+    data_string = json_serialize_to_string(data_value);             // Convert data JSON object to string.
+    puts(data_string);                                                                // Print it out.
+
+
+    /*
+        {
+            "title": "will this work?",
+            "contribution_key":"key",
+            "contributor_name":"cURL",
+            "data":
+            {
+                "4274": [12345],
+                "4275": 'shjwhjjasw',
+                '4276": "1414510108'
+            }
+        }
+    */
+
 
     // The following is required.
     json_object_set_string(root_object, "title", title);
     json_object_set_string(root_object, "contribution_key", "123");
     json_object_set_string(root_object, "contributor_name", "cURL parson");
 
+
+    /*
+
+        Need to figure out how to get data with field IDs working here.
+        Must be a way to do it easily. Hopefuilly.
+
+    */
+
     // This part adds the variables given to the function.
-    json_object_dotset_string(root_object, "data.field_id", letters);
+    json_object_dotset_string(root_object, "data", data_string);
 
     // Convert the JSON object to a string.
     serialized_string = json_serialize_to_string(root_value);
