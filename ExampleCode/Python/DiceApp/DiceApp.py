@@ -51,7 +51,7 @@ if r.status_code == 200:
     print "See your project here: %s" % user_url
 if r.status_code == 401:
     print "\nHmm, got an error code of 401."
-    print "Try entering  the correct contributor key."
+    print "Try entering the correct contributor key."
 if r.status_code == 422:
     print "\nGot an error code of 422."
     print "Try entering all the data fields correctly, with the right type for each field."

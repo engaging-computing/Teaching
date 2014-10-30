@@ -51,9 +51,9 @@ function POST_jsonDataUpload_Email()
 
 function POST_jsonDataUpload_ContributorKey()
 {
-    var API_URL;        // EX: 'http://isenseproject.org/api/v1/projects/555/jsonDataUpload';
-    var USER_URL;       // EX: 'http://isenseproject.org/projects/555';
-    var USER_URL_TEXT   // EX: 'Click here to go to your project!';
+    var API_URL;                  // EX: 'http://isenseproject.org/api/v1/projects/555/jsonDataUpload';
+    var USER_URL;               // EX: 'http://isenseproject.org/projects/555';
+    var USER_URL_TEXT;     // EX: 'Click here to go to your project!';
 
     var currentTime = new Date();
     var timestamp = JSON.stringify(currentTime);
@@ -62,7 +62,8 @@ function POST_jsonDataUpload_ContributorKey()
     var  name;          // EX: 'WebApp';
     var title;          // EX: 'My awesome WebApp!'
 
-    /*  You probably want to use some JavaScript functions here, such as
+    /*
+        You probably want to use some JavaScript functions here, such as
         document.getElementById("PUT ID HERE").value;
         This way you can get user input and then submit that data to iSENSE.
     */

@@ -1,10 +1,10 @@
-#include <iostream>         // cout/cin
-#include <stdio.h>          // Printf/scanf
-#include <curl/curl.h>      // cURL to make HTTP requests
-#include <string.h>         // strings
-#include <cstring>          // strings
-#include <stdlib.h>         // srand, rand
-#include <time.h>           // time
+#include <iostream>
+#include <stdio.h>
+#include <curl/curl.h>         // cURL to make HTTP requests
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>             // srand, rand
+#include <time.h>
 
 using namespace std;
 
@@ -34,18 +34,18 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
     strcat(upload, "{\"title\":\"");
-    strcat(upload, title);                              // Add the title.
+    strcat(upload, title);                                // Add the title.
     strcat(upload, data);                               // Add the contributor stuff and the field ID.
 
     for(int i = 0; i < 100; i++)
     {
-        sprintf(value, "%d", red_die[i]);               // Convert the first die into a string
+        sprintf(value, "%d", red_die[i]);           // Convert the first die into a string
         cout<<value<<"\t";
         strcat(upload, value);                          // Add the variable entered to the upload data.
 
         if(i != 99)
         {
-            strcat(upload, ",");                        // Add a comma to separate values.
+            strcat(upload, ",");                            // Add a comma to separate values.
         }
 
         memset(value, '\0', 21);                        // Reset the array each time.
@@ -55,19 +55,19 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
 
     for(int i = 0; i < 100; i++)
     {
-        sprintf(value, "%d", white_die[i]);             // Convert the second die into a string
+        sprintf(value, "%d", white_die[i]);          // Convert the second die into a string
         cout<<value<<"\t";
-        strcat(upload, value);                          // Add the variable entered to the upload data.
+        strcat(upload, value);                            // Add the variable entered to the upload data.
 
         if(i != 99)
         {
-            strcat(upload, ",");                        // Add a comma to separate values.
+            strcat(upload, ",");                            // Add a comma to separate values.
         }
 
         memset(value, '\0', 21);                        // Reset the array each time.
     }
 
-    strcat(upload, "]}}");                              // Add the last few brackets.
+    strcat(upload, "]}}");                                // Add the last few brackets.
 
     // Debugging. Uncomment if you have issues uploading to rSENSE.
     //cout<<"The string is: "<<upload<<endl;
@@ -111,8 +111,10 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
 
         /* Check for errors */
         if(res != CURLE_OK)
-          fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                  curl_easy_strerror(res));
+        {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+            curl_easy_strerror(res));
+        }
 
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -127,25 +129,25 @@ int main()
     char title[41];
     int red_die[100] , white_die[100];
 
-    cout<<"100 Dice Roll App\n\n";
+    cout << "100 Dice Roll App\n\n";
 
     // Get user input.
-    cout<<"Please enter a title for the dataset: ";
+    cout << "Please enter a title for the dataset: ";
     cin.getline(title, 41, '\n');
 
     // Dice roll simulation.
-    cout<<"Generating 100 die rolls. Numbers 1 through 6. \n";
+    cout << "Generating 100 die rolls. Numbers 1 through 6. \n";
 
     srand(time(NULL));                      // Seed the random function
 
     for(int i = 0; i < 100; i++)
     {
-           red_die[i] = rand()%6 + 1;       // Generate random numbers between 1 and 6.
+        red_die[i] = rand()%6 + 1;       // Generate random numbers between 1 and 6.
         white_die[i] = rand()%6 + 1;
     }
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout<<"\nUploading red_dies and white_dies to rSENSE.\n\n";
+    cout << "\nUploading red_dies and white_dies to rSENSE.\n\n";
 
     // Right here I call a function to upload to rSENSE-dev.
     // I just pass it the title of the dataset and the number that the user entered.

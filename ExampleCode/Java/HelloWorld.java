@@ -22,11 +22,9 @@ class HelloWorld
         System.out.print("Enter a number:  ");      // Use print for no new line.
         int number = reader.nextInt();
 
-        System.out.println("You entered the number: " +number);
+        System.out.println("You entered the number: " + number);
 
         // Now to try GET / POST in Java
         String isense = "http://rsense-dev.cs.uml.edu/api/v1/projects/744/jsonDataUpload";
-
-
    }
 }

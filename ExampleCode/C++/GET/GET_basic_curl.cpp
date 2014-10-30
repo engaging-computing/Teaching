@@ -7,10 +7,10 @@ using namespace std;
 int main()
 {
     /************************************************************************
-        The following actual works! It grabs the project page for project #744
+        The following actually works! It grabs the project page for project #744
         and displays it to the terminal!
 
-        And the following is straight off of the cURL webpage. See:
+        And the following is off of the cURL webpage. See:
         http://curl.haxx.se/libcurl/c/example.html
     ************************************************************************/
 
@@ -20,7 +20,8 @@ int main()
 
     curl = curl_easy_init();
 
-    if(curl) {
+    if(curl)
+    {
         curl_easy_setopt(curl, CURLOPT_URL, "http://rsense-dev.cs.uml.edu/api/v1/projects/821");
 
         /* example.com is redirected, so we tell libcurl to follow redirection */
@@ -28,16 +29,19 @@ int main()
 
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
+
         /* Check for errors */
         if(res != CURLE_OK)
+        {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                curl_easy_strerror(res));
+            curl_easy_strerror(res));
+        }
 
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
 
-    cout<<"\n\n";       // Add some extra lines on the terminal.
+    cout << endl << endl;       // Add some extra lines on the terminal.
 
     return 0;
 }
