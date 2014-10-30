@@ -6,7 +6,7 @@ project_id = raw_input("Enter a project ID for me to check: ")
 # The below URL can be used to find out information about a given project(s)
 URL = "http://rsense-dev.cs.uml.edu/api/v1/projects/%s" % project_id
 
-#* GET Request
+# GET Request
 r = []
 r = requests.get(URL)
 

@@ -1,3 +1,7 @@
+/*
+	This is only a basic test to see if WINSOCK2 works.
+*/
+
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
 #include <windows.h>

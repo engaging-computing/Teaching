@@ -12,7 +12,7 @@ choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 # User typed "N" or some other random character. So they didn't want to POST.
 if choice == 'N' or choice == 'n':
     print "\nUSER CHOOSE NOT TO UPLOAD. \n"
-    sys.exit(0)     # Exit this script, the user is done.
+    sys.exit(0)                                         # Exit this script, the user is done.
 
 # User wants to upload to iSENSE.
 print "\nUPLOADING TO iSENSE."
@@ -30,8 +30,8 @@ white_die = random.randint(1, 6)
 
 
 payload = {
-    'title': title,                                             # Note, spent forever trying to figure this out.
-    'contribution_key':  "123",                     # But it's contribution_key - not contributor_key
+    'title': title,                                     # Note, spent forever trying to figure this out.
+    'contribution_key':  "123",                         # But it's contribution_key - not contributor_key
     'contributor_name': "python",
     'data':
     {

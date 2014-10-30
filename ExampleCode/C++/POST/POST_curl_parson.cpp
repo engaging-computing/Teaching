@@ -52,19 +52,19 @@ void upload_to_rsense_json_test(char title[], int num, char letters[], int times
     // Example field IDs
     int field_IDs[3] = {4274, 4275, 4276};
 
-    sprintf(buffer, "%d", field_IDs[0]);                                       // Convert a field ID to a string.
+    sprintf(buffer, "%d", field_IDs[0]);                        // Convert a field ID to a string.
     json_object_set_number(data_object, buffer, num);           // add that field ID and the entered number to data_object
-    memset(buffer, '\0', 21);                                                     // Clear the value char array.
+    memset(buffer, '\0', 21);                                   // Clear the value char array.
 
-    sprintf(buffer, "%d", field_IDs[1]);                                       // Convert a field ID to a string.
-    json_object_set_string(data_object, buffer, letters);              // add the random string.
+    sprintf(buffer, "%d", field_IDs[1]);                        // Convert a field ID to a string.
+    json_object_set_string(data_object, buffer, letters);       // add the random string.
 
-    memset(buffer, '\0', 21);                                                     // Clear the value char array.
-    sprintf(buffer, "%d", field_IDs[2]);                                       // Convert a field ID to a string.
+    memset(buffer, '\0', 21);                                   // Clear the value char array.
+    sprintf(buffer, "%d", field_IDs[2]);                        // Convert a field ID to a string.
     json_object_set_string(data_object, buffer, title);
 
-    data_string = json_serialize_to_string(data_value);             // Convert data JSON object to string.
-    puts(data_string);                                                                // Print it out.
+    data_string = json_serialize_to_string(data_value);         // Convert data JSON object to string.
+    puts(data_string);                                          // Print it out.
 
 
     /*
@@ -142,63 +142,31 @@ void upload_to_rsense(char title[], int num, char letters[], int timestamp)
     // Holds the value of the int entered above.
     char value[21];
 
-    /*
-            '2685': [5],
-            '2640': [4],
-            '2641': [4],
-    */
-
-/*
-        {
-            "title": "round 2",
-            "contribution_key": "key",
-            "contributor_name": "cURL",
-            "data":
-            {
-                "4274": [21345],
-                "4275":'jdjdhjdew',
-                "4276": [1414509593]
-            }
-        }
-
-
-        {
-            "title": "will this work?",
-            "contribution_key":"key",
-            "contributor_name":"cURL",
-            "data":
-            {
-                "4274": [12345],
-                "4275": 'shjwhjjasw',
-                '4276": "1414510108'
-            }
-        }
-*/
     time_t current_time;
     current_time = time(NULL);
     printf(ctime(&current_time));
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
     strcat(upload, "{\"title\":\"");
-    strcat(upload, title);                // Add the title.
-    strcat(upload, data);               // Add the contributor stuff and the field ID.
+    strcat(upload, title);                      // Add the title.
+    strcat(upload, data);                       // Add the contributor stuff and the field ID.
 
     // Add the numbers.
-    sprintf(value, "%d", num);      // Convert the variable to a string
-    strcat(upload, value);             // Add the variable entered to the upload data.
-    strcat(upload, "],");             // Add the last few brackets.
+    sprintf(value, "%d", num);                  // Convert the variable to a string
+    strcat(upload, value);                      // Add the variable entered to the upload data.
+    strcat(upload, "],");                       // Add the last few brackets.
 
     // Add the letters that were entered
-    strcat(upload, "\"4275\":[\"");   // Add the next field ID to the upload string.
-    strcat(upload, letters);            // Add the misc letters that were entered.
-    strcat(upload, "\"],");              // Add the last few brackets.
+    strcat(upload, "\"4275\":[\"");             // Add the next field ID to the upload string.
+    strcat(upload, letters);                    // Add the misc letters that were entered.
+    strcat(upload, "\"],");                     // Add the last few brackets.
 
     // Add the timestamp field
-    memset(value, '\0', 21);                    // Clear the value char array.
-    strcat(upload, "\"4276\":[\"");              // Add the timestamp field.
-    sprintf(value, "%lu", (unsigned long) time(NULL));       // This should put a timestamp into the upload string.
-    strcat(upload, value);                        // Add the misc letters that were entered.
-    strcat(upload, "\"]}}");                        // Add the last few brackets.
+    memset(value, '\0', 21);                                // Clear the value char array.
+    strcat(upload, "\"4276\":[\"");                         // Add the timestamp field.
+    sprintf(value, "%lu", (unsigned long) time(NULL));      // This should put a timestamp into the upload string.
+    strcat(upload, value);                                  // Add the misc letters that were entered.
+    strcat(upload, "\"]}}");                                // Add the last few brackets.
 
     // Debugging:
     //cout<<"The string is: "<<upload<<endl;
@@ -260,56 +228,15 @@ int main(void)
     int timestamp;
     int num = 0;
 
-
     // Get user input.
     cout<<"Please enter a title for the dataset: ";
     cin.getline(title, 41, '\n');
 
-    // Flush cin buffer
-    //cin.ignore();
-
     cout<<"Please enter a bunch of letters (max 40 chars): ";
     cin.getline(letters, 41, '\n');
 
-
-
-    upload_to_rsense_json_test();       // Basic serialization works, so that's good.
+    upload_to_rsense_json_test();
     upload_to_rsense_json_test(title, num, letters, timestamp);
 
-
-/*
-    // THIS IS AN OLD TEST USING MANUAL JSON ENCODING.
-    // JUST FOR AN EXAMPLE.
-
-    char title[41];
-    char letters[41];
-    int timestamp;
-    int num = 0;
-
-    // Get user input.
-    cout<<"Please enter a title for the dataset: ";
-    cin.getline(title, 41, '\n');
-
-    cout<<"Please enter a number: ";
-    cin>>num;
-
-    // Flush cin buffer
-    cin.ignore();
-
-    cout<<"Please enter a bunch of letters (max 40 chars): ";
-    cin.getline(letters, 41, '\n');
-
-    // Get timestamp (unix)
-    timestamp = (int)time(NULL);
-
-    // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout<<"\nUploading "<<num<<" to rSENSE.\n\n";
-
-    // Right here I call a function to upload to rSENSE-dev.
-    // I just pass it the title of the dataset and the number that the user entered.
-    upload_to_rsense(title, num, letters, timestamp);
-
-    // In the future we should tell the user if this upload function was a success. Or if it failed - if it failed then why.
-*/
     return 0;
 }

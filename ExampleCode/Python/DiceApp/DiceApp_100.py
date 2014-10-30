@@ -12,7 +12,7 @@ choice = raw_input("Do you want to upload to iSENSE? (Y/N) -> ")
 # User typed "N" or some other random character. So they didn't want to POST.
 if choice == 'N' or choice == 'n':
     print "\nUSER CHOOSE NOT TO UPLOAD. \n"
-    sys.exit(0)     # Exit this script, the user is done.
+    sys.exit(0)                         # Exit this script, the user is done.
 
 # User wants to upload to iSENSE.
 print "\nUPLOADING TO iSENSE."
@@ -22,7 +22,7 @@ url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/911/jsonDataUpload'
 user_url = "http://rsense-dev.cs.uml.edu/projects/911"
 
 # Random number stuff here.
-random.seed();                # Seed the random function with the system time.
+random.seed();                          # Seed the random function with the system time.
 
 # Define these so the below loop works
 red_dice = []
@@ -36,7 +36,7 @@ for i in range(0, 99):
 
 
 payload = {
-    'title': title,                                             # Note, spent forever trying to figure this out.
+    'title': title,                                 # Note, spent forever trying to figure this out.
     'contribution_key':  "123",                     # But it's contribution_key - not contributor_key
     'contributor_name': "python",
     'data':

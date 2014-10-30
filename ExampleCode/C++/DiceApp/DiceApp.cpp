@@ -1,6 +1,6 @@
-#include <iostream>       // cout/cin
-#include <stdio.h>           // Printf/scanf
-#include <curl/curl.h>     // cURL to make HTTP requests
+#include <iostream>         // cout/cin
+#include <stdio.h>          // Printf/scanf
+#include <curl/curl.h>      // cURL to make HTTP requests
 #include <string.h>         // strings
 #include <cstring>          // strings
 #include <stdlib.h>         // srand, rand
@@ -34,15 +34,15 @@ void upload_to_rsense(char title[], int red_die, int white_die)
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
     strcat(upload, "{\"title\":\"");
-    strcat(upload, title);                        // Add the title.
+    strcat(upload, title);                      // Add the title.
     strcat(upload, data);                       // Add the contributor stuff and the field ID.
 
-    sprintf(value, "%d", red_die);          // Convert the first die into a string
+    sprintf(value, "%d", red_die);              // Convert the first die into a string
     strcat(upload, value);                      // Add the variable entered to the upload data.
 
-    strcat(upload, "], \"4161\":[");          // Add the second field ID
+    strcat(upload, "], \"4161\":[");            // Add the second field ID
 
-    sprintf(value, "%d", white_die);        // Convert the second die into a string
+    sprintf(value, "%d", white_die);            // Convert the second die into a string
     strcat(upload, value);
 
     strcat(upload, "]}}");                      // Add the last few brackets.
@@ -114,7 +114,7 @@ int main()
 
     srand(time(NULL));                      // Seed the random function
 
-       red_die = rand()%6 + 1;          // Generate random numbers between 1 and 6.
+       red_die = rand()%6 + 1;              // Generate random numbers between 1 and 6.
     white_die = rand()%6 + 1;
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)

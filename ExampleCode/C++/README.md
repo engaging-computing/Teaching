@@ -33,9 +33,21 @@ Other  C++ libraries to try:
 2. win socks / Microsoft's REST SDK for C++
 
 
+For some of these programs, I use a JSON library called parson to serialize and parce JSON. 
+You can grab the code for that off the following github repo: https://github.com/kgabis/parson
+
+You can also just git clone the repo using the following command:
+
+```
+git clone https://github.com/kgabis/parson.git
+```
+
+Note that parson is just two files, a .c and a .h that you will need to include when compiling.
+
+
 Currently Working:
 ----------------------------
 
 1. GET with libcurl
 2. POST with libcurl
-3. DiceApp in C++
+3. DiceApp in C++ (2 dice rolls and 200 dice rolls)

@@ -43,63 +43,31 @@ void upload_to_rsense(char title[], int num, char letters[], int timestamp)
     // Holds the value of the int entered above.
     char value[21];
 
-    /*
-            '2685': [5],
-            '2640': [4],
-            '2641': [4],
-    */
-
-/*
-        {
-            "title": "round 2",
-            "contribution_key": "key",
-            "contributor_name": "cURL",
-            "data":
-            {
-                "4274": [21345],
-                "4275":'jdjdhjdew',
-                "4276": [1414509593]
-            }
-        }
-
-
-        {
-            "title": "will this work?",
-            "contribution_key":"key",
-            "contributor_name":"cURL",
-            "data":
-            {
-                "4274": [12345],
-                "4275": 'shjwhjjasw',
-                '4276": "1414510108'
-            }
-        }
-*/
     time_t current_time;
     current_time = time(NULL);
     printf(ctime(&current_time));
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
     strcat(upload, "{\"title\":\"");
-    strcat(upload, title);                // Add the title.
-    strcat(upload, data);               // Add the contributor stuff and the field ID.
+    strcat(upload, title);                              // Add the title.
+    strcat(upload, data);                               // Add the contributor stuff and the field ID.
 
     // Add the numbers.
-    sprintf(value, "%d", num);      // Convert the variable to a string
-    strcat(upload, value);             // Add the variable entered to the upload data.
-    strcat(upload, "],");             // Add the last few brackets.
+    sprintf(value, "%d", num);                          // Convert the variable to a string
+    strcat(upload, value);                              // Add the variable entered to the upload data.
+    strcat(upload, "],");                               // Add the last few brackets.
 
     // Add the letters that were entered
-    strcat(upload, "\"4275\":[\"");   // Add the next field ID to the upload string.
-    strcat(upload, letters);            // Add the misc letters that were entered.
-    strcat(upload, "\"],");              // Add the last few brackets.
+    strcat(upload, "\"4275\":[\"");                     // Add the next field ID to the upload string.
+    strcat(upload, letters);                            // Add the misc letters that were entered.
+    strcat(upload, "\"],");                             // Add the last few brackets.
 
     // Add the timestamp field
-    memset(value, '\0', 21);                    // Clear the value char array.
-    strcat(upload, "\"4276\":[\"");              // Add the timestamp field.
-    sprintf(value, "%lu", (unsigned long) time(NULL));       // This should put a timestamp into the upload string.
-    strcat(upload, value);                        // Add the misc letters that were entered.
-    strcat(upload, "\"]}}");                        // Add the last few brackets.
+    memset(value, '\0', 21);                            // Clear the value char array.
+    strcat(upload, "\"4276\":[\"");                     // Add the timestamp field.
+    sprintf(value, "%lu", (unsigned long) time(NULL));  // This should put a timestamp into the upload string.
+    strcat(upload, value);                              // Add the misc letters that were entered.
+    strcat(upload, "\"]}}");                            // Add the last few brackets.
 
     // Debugging:
     //cout<<"The string is: "<<upload<<endl;
@@ -152,6 +120,7 @@ void upload_to_rsense(char title[], int num, char letters[], int timestamp)
 
     curl_global_cleanup();
 }
+
 
 int main(void)
 {

@@ -1,4 +1,3 @@
-
 URL = 'http://rsense-dev.cs.uml.edu/api/v1/projects/683';
 response = $.ajax({ type: "GET",
                 url: URL,

@@ -1,6 +1,6 @@
-#include <iostream>       // cout/cin
-#include <stdio.h>           // Printf/scanf
-#include <curl/curl.h>     // cURL to make HTTP requests
+#include <iostream>         // cout/cin
+#include <stdio.h>          // Printf/scanf
+#include <curl/curl.h>      // cURL to make HTTP requests
 #include <string.h>         // strings
 #include <cstring>          // strings
 #include <stdlib.h>         // srand, rand
@@ -34,18 +34,18 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
     strcat(upload, "{\"title\":\"");
-    strcat(upload, title);                                // Add the title.
+    strcat(upload, title);                              // Add the title.
     strcat(upload, data);                               // Add the contributor stuff and the field ID.
 
     for(int i = 0; i < 100; i++)
     {
-        sprintf(value, "%d", red_die[i]);           // Convert the first die into a string
+        sprintf(value, "%d", red_die[i]);               // Convert the first die into a string
         cout<<value<<"\t";
         strcat(upload, value);                          // Add the variable entered to the upload data.
 
         if(i != 99)
         {
-            strcat(upload, ",");                            // Add a comma to separate values.
+            strcat(upload, ",");                        // Add a comma to separate values.
         }
 
         memset(value, '\0', 21);                        // Reset the array each time.
@@ -55,19 +55,19 @@ void upload_to_rsense(char title[], int red_die[], int white_die[])
 
     for(int i = 0; i < 100; i++)
     {
-        sprintf(value, "%d", white_die[i]);         // Convert the second die into a string
+        sprintf(value, "%d", white_die[i]);             // Convert the second die into a string
         cout<<value<<"\t";
         strcat(upload, value);                          // Add the variable entered to the upload data.
 
         if(i != 99)
         {
-            strcat(upload, ",");                            // Add a comma to separate values.
+            strcat(upload, ",");                        // Add a comma to separate values.
         }
 
         memset(value, '\0', 21);                        // Reset the array each time.
     }
 
-    strcat(upload, "]}}");                                // Add the last few brackets.
+    strcat(upload, "]}}");                              // Add the last few brackets.
 
     // Debugging. Uncomment if you have issues uploading to rSENSE.
     //cout<<"The string is: "<<upload<<endl;
@@ -136,11 +136,11 @@ int main()
     // Dice roll simulation.
     cout<<"Generating 100 die rolls. Numbers 1 through 6. \n";
 
-    srand(time(NULL));                          // Seed the random function
+    srand(time(NULL));                      // Seed the random function
 
     for(int i = 0; i < 100; i++)
     {
-           red_die[i] = rand()%6 + 1;        // Generate random numbers between 1 and 6.
+           red_die[i] = rand()%6 + 1;       // Generate random numbers between 1 and 6.
         white_die[i] = rand()%6 + 1;
     }
 
