@@ -1,9 +1,9 @@
 CC		= g++
-CFLAGS = -O0 -g -Wall -Wextra -pedantic-errors -fpermissive -w
+CFLAGS = -O0 -g -Wall -Wextra -pedantic-errors  -w
 
 all:
-	#$(CC) -Wall -g POST_curl.cpp -o post.out -lcurl
-	$(CC) $(CFLAGS)  -o post_parson.out POST_curl_parson.cpp parson.c -lcurl
+	$(CC) $(CFLAGS) POST_curl.cpp -o post.out -lcurl
+	#$(CC)   -o post_parson.out POST_curl_parson.cpp parson.c -lcurl
 
 post:
 	$(CC) -Wall -g POST_curl.cpp -o post.out -lcurl
