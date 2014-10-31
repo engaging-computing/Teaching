@@ -1,12 +1,12 @@
 var dice_roll_array = [];
  
-function rollDi(){
+function rollDie() {
 
     dice_roll_array.push(Math.floor(Math.random() * 6) + 1);
     $("#Printout").text("Dice Rolls: " + dice_roll_array.join());
 }
 
-function postDiArray(){
+function postDieArray() {
 
     var currentTime = new Date();
     var timestamp = JSON.stringify(currentTime);
@@ -21,9 +21,9 @@ function postDiArray(){
         }
     }
 
-    if(dice_roll_array[0] == null){
+    if (dice_roll_array[0] == null) {
         alert("There are no dice rolls. Please roll di before posting");
-    }else {
+    } else {
 
         $.post(API_URL, upload);
 
@@ -33,23 +33,22 @@ function postDiArray(){
     }
 }
 
-function post1000DiRolls(){
+function post1000DieRolls() {
     
-    alert("hi");
     var currentTime = new Date();
     var timestamp = JSON.stringify(currentTime);
 
 
     dice_roll_array = [];
 
-    for(var i = 0; i<1000; i++){
-        rollDi();
+    for (var i = 0; i<1000; i++) {
+        rollDie();
     }
 
-    postDiArray();
+    postDieArray();
 }
 
-function clearDiceRolls(){
+function clearDiceRolls() {
 
     dice_roll_array = [];
     $("#Printout").text("Dice Rolls: " + dice_roll_array.join());

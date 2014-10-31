@@ -3,11 +3,11 @@ var field_data_walks = [];
 var calculated_runs = [];
 var actual_runs = [];
 
-function getDataSet(){
+function getDataSet() {
 
-    if(field_data_total_bases[0] != null){
+    if (field_data_total_bases[0] != null) { 
         alert("Please clear before pulling new datasets")
-    }else {
+    } else {
         URL = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
         response = $.ajax({ type: "GET",
                             url: URL,
@@ -16,7 +16,7 @@ function getDataSet(){
                         }).responseText;
 
         arg = JSON.parse(response);
-        for(var i=0;i<30;i++){
+        for (var i=0;i<30;i++) {
             field_data_total_bases.push(arg.data[i][647]) ;
         }
         $("#total_bases").text("Total Bases: " + field_data_total_bases.join());
@@ -30,7 +30,7 @@ function getDataSet(){
 
 
         arg = JSON.parse(response);
-        for(i=0;i<30;i++){
+        for (i=0;i<30;i++) {
             field_data_walks.push(arg.data[i][644]) ;
         }
 
@@ -45,7 +45,7 @@ function getDataSet(){
 
 
         arg = JSON.parse(response);
-        for(i=0;i<30;i++){
+        for (i=0;i<30;i++) {
             actual_runs.push(arg.data[i][638]) ;
         }
 
@@ -53,18 +53,18 @@ function getDataSet(){
     }
 }
 
-function calculateRuns(){
+function calculateRuns() {
 
-    if(calculated_runs[0] != null){
+    if (calculated_runs[0] != null) {
         alert("Please clear before recalculating")
-    }else {
+    } else {
 
-        if(field_data_walks[0] == null){
+        if (field_data_walks[0] == null) {
 
             alert("Please pull datasets before calculating");
-        }else {
+        } else {
 
-            for(var i=0;i<30;i++){
+            for (var i=0;i<30;i++) {
                 calculated_runs.push((Number(field_data_walks[i]) + Number(field_data_total_bases[i])) /4.0);
             }
 
@@ -73,7 +73,7 @@ function calculateRuns(){
     }
 }
 
-function post(){
+function post() {
     var currentTime = new Date();
     var timestamp = JSON.stringify(currentTime);
     var API_URL = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload';
@@ -88,9 +88,9 @@ function post(){
         }
     }
 
-    if(calculated_runs[0] == null){
+    if (calculated_runs[0] == null) {
         alert("There are no calculated runs. Please press Calculate Runs before posting");
-    }else {
+    } else {
 
         $.post(API_URL, upload);
 
@@ -108,7 +108,7 @@ function post(){
     }
 }
 
-function clearData(){
+function clearData() {
 
     calculated_runs = [];
     field_data_total_bases = [];
