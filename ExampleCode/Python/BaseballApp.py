@@ -1,5 +1,7 @@
 import requests, json, sys,time, datetime
 
+print '\n'
+
 timestamp = time.time()
 
 timestamp2 = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
@@ -20,14 +22,15 @@ for i in range(0, 30):
 	total_bases.append(int(r1.json()['data'][i]['647']))	
 	calculated_runs.append((total_walks[i] + total_bases[i])/4.0)
 
-
-print calculated_runs
+print "Walks: " , total_walks
+print "Total Bases: : " , total_bases
+print "Calculated Runs: " , calculated_runs
 
 url2 = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload'
 
 payload = {
-    'title': 'title '+timestamp2,                     # Note, spent forever trying to figure this out.
-    'contribution_key': 'key',    # But it's contribution_key - not contributor_key
+    'title': 'title '+timestamp2,           
+    'contribution_key': 'key',    
     'contributor_name': "Tyler",
     'data':
     {
@@ -35,11 +38,13 @@ payload = {
     }
 }
 
-# This is needed, otherwise I got code 422s and the data wasn't showing up right in the log.
 headers = {'content-type': 'application/json'}
 
 r2 = requests.post(url2, data=json.dumps(payload), headers=headers)
 
-print r2.status_code
+print "Runs have been posted"
+
+print '\n'
+
 
 
