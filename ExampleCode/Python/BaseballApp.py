@@ -31,7 +31,7 @@ url2 = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload'
 payload = {
     'title': 'title '+timestamp2,           
     'contribution_key': 'key',    
-    'contributor_name': "Tyler",
+    'contributor_name': 'Tyler',
     'data':
     {
         '4279': calculated_runs
