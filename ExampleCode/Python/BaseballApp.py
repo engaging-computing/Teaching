@@ -23,7 +23,7 @@ for i in range(0, 30):
 	calculated_runs.append((total_walks[i] + total_bases[i])/4.0)
 
 print "Walks: " , total_walks
-print "Total Bases: : " , total_bases
+print "Total Bases: " , total_bases
 print "Calculated Runs: " , calculated_runs
 
 url2 = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload'
