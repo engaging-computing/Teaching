@@ -1,36 +1,16 @@
-#include <iostream>             // Using C++, but also a C JSON library + libcURL, a C networking/HTTP library
+#include <iostream>               // Using C++, but also a C JSON library + libcURL, a C networking/HTTP library
 #include <stdio.h>
 #include <stdlib.h>
-#include <curl/curl.h>          // cURL to make HTTP requests
-#include <string.h>             // libcurl likes c strings, also parson can format JSON into c strings
+#include <curl/curl.h>             // cURL to make HTTP requests
+#include <string.h>                 // libcurl likes c strings, also parson can format JSON into c strings
 #include <cstring>
-#include <time.h>               // for time stamps
+#include <time.h>                   // for time stamps
 
-#include "parson.h"             // Used for creating/parsing JSON strings.
-
-using namespace std;
-
-/*
-    Below is an example of using cURL on the command line to POST to iSENSE.
-    curl -X POST -H "Content-Type: application/json; charset=UTF-8" \
-    -d '{"title":"Curl Test","contribution_key":"key","contributor_name":"cURL","data":{"3550":[22]}}' \
-    http://rsense-dev.cs.uml.edu/api/v1/projects/821/jsonDataUpload
-*/
-
-/*
-    NOTES about using C++ with iSENSE.
-
-    This example uses cURL, through libcurl.
-
-    Its a bit of a pain, but I found a good example at this site:
-    http://curl.haxx.se/libcurl/c/http-post.html
-
-    Major issue in the beginning - make sure to include headers specifying JSON as the content-type.
-
-    Works under Linux, going to test Windows next.
-
-    Also currently using parson for JSON parsing / serialization.
-*/
+using std::cout;
+using std::cin;
+using std::string;
+using std::endl;
+using std::stringstream;    // for concating an int onto a string.
 
 
 // This function will use the parson JSON library for parsing / serializing
@@ -220,23 +200,40 @@ void upload_to_rsense(char title[], int num, char letters[], int timestamp)
     curl_global_cleanup();
 }
 
-// Main, calls upload function. Uses parson for JSON serialization / parsing.
-int main(void)
+
+// Main, calls upload function. Uses ***something*** for JSON serialization / parsing.
+int main ()
 {
-    char title[41];
-    char letters[41];
-    int timestamp;
+    string title;
+    string letters;
+    time_t timestamp;
     int num = 0;
 
     // Get user input.
-    cout<<"Please enter a title for the dataset: ";
-    cin.getline(title, 41, '\n');
+    cout << "Please enter a title for the dataset: ";       // Gets the title
+    getline(cin, title);
 
-    cout<<"Please enter a bunch of letters (max 40 chars): ";
-    cin.getline(letters, 41, '\n');
+    cout << "Please enter a bunch of letters: ";            // Gets a bunch of letters
+    getline(cin, letters);
 
-    upload_to_rsense_json_test();
-    upload_to_rsense_json_test(title, num, letters, timestamp);
+    cout << "Please enter a number: ";                         // Gets a number to upload to iSENSE
+    cin >> num;
+
+    // Get timestamp (unix)
+    timestamp = time(NULL);
+
+    // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
+    cout << "\nUploading " << " to rSENSE.\n\n";
+    cout << "The title you entered: " << title << endl;
+    cout << "Letters you entered: " << letters << endl;
+    cout << "Number you entered: " << num << endl;
+    cout << "Timestamp: " << timestamp << endl;
+
+    // Right here I call a function to upload to rSENSE-dev.
+    // I just pass it the title of the dataset and the number that the user entered.
+    upload_to_rsense(title, num, letters, timestamp);
+
+    // In the future we should tell the user if this upload function was a success. Or if it failed - if it failed then why.
 
     return 0;
 }

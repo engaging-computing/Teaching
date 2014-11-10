@@ -1,9 +1,10 @@
-#include <iostream>         // std::cout, std::cin
-#include <string>               // std::string, std::to_string;
-#include <curl/curl.h>      // cURL to make HTTP requests
-#include <time.h>           // Timestamps
+#include <iostream>           // std::cout, std::cin
+#include <string>                // std::string, std::to_string;
+#include <curl/curl.h>         // cURL to make HTTP requests
+#include <time.h>               // Timestamps
+#include <sstream>            // stringstreams, converting ints to numbers
 
-// Check if these are needed.
+// Check if these are needed. Might be needed for cURL
 #include <stdio.h>
 #include <string.h>
 #include <cstring>
@@ -11,62 +12,49 @@
 using std::cout;
 using std::cin;
 using std::string;
-using std::to_string;
 using std::endl;
-
-/*
-    Below is an example of using cURL on the command line to POST to iSENSE.
-    curl -X POST -H "Content-Type: application/json; charset=UTF-8" \
-    -d '{"title":"Curl Test","contribution_key":"key","contributor_name":"cURL","data":{"3550":[22]}}' \
-    http://rsense-dev.cs.uml.edu/api/v1/projects/821/jsonDataUpload
-*/
-
-/*
-    NOTES about using C++ with iSENSE.
-
-    This example uses cURL, through libcurl.
-
-    Its a bit of a pain, but I found a good example at this site:
-    http://curl.haxx.se/libcurl/c/http-post.html
-
-    Major issue in the beginnig - make sure to include headers specifying JSON as the content-type.
-
-    Works under Linux, going to test Windows next.
-*/
+using std::stringstream;    // for concating an int onto a string.
 
 
-// Basic upload a char test.
+// Basic upload a test. Uploads a number, a string and a timestamp
 void upload_to_rsense(string title, int num, string letters, time_t timestamp)
 {
     string upload;     // DATA for the project. This will be the entire uploaded string.
 
-    // URL for the project. Change "929" for a different project.
+    //  URL for the project. Change "929" for a different project.
     string url = "http://rsense-dev.cs.uml.edu/api/v1/projects/929/jsonDataUpload";
 
-    // Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make sure to change that if you change the project ID in the URL.
+    /*
+        Part of the stuff needed to upload. "3550" is the field ID for a number on rSENSE, so make
+        sure to change that if you change the project ID in the URL.
+        You may also need to change the following to your own project:
+        contribution_key = the key to your iSENSE project
+        contributor_name = you can leave this or change it to something relevant to your project
+        for the data part, the field ID comes first and should be changed for your project's fields
+    */
     string data = "\",\"contribution_key\":\"123\",\"contributor_name\":\"cURL\",\"data\":{\"4274\":[";
 
     // This part combines everything entered above into one string that can be uploaded to rSENSE.
-    upload = string("{\"title\":\"") + title + data;                   // JSON/Title/Data string
+    upload += string("{\"title\":\"") + title + data;                   // JSON/Title/Data string
 
     // Add the number and the bracket/comma to the upload string.
-    sprintf(upload.c_str(), "%d", num);
-
-    upload = string("],");
+    stringstream num_to_string;                                // First part converts a number (int in this case) to a string
+    num_to_string << num;
+    upload += num_to_string.str() + string("],");      // This part adds both the number and the closing bracket to upload string
 
     // Add the letters that were entered (+ the field ID / JSON stuff)
-    upload = string("\"4275\":[\"") + letters + string("\"],");
+    upload += string("\"4275\":[\"") + letters + string("\"],");
 
     // Add the timestamp field ID, timestamp, and JSON stuff.
-    upload = string( "\"4276\":[\"");
-    sprintf(upload, "%d", timestamp);
-    upload =  string( "\"]}}");
+    num_to_string.clear();                         // Clear the stringstream object, and add the timestamp to the upload string
+    num_to_string << timestamp;
+    upload += string( "\"4276\":[\"") + num_to_string.str() + string( "\"]}}");
 
     // Debugging:
     cout << "The string is: " << upload << endl;
 
-    // TESTING
-/*
+    // TESTING - hopefully this part works!
+
     // CURL object and response code.
     CURL *curl;
     CURLcode res;
@@ -85,10 +73,10 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
     if(curl)
     {
         // Set the URL that we will be using for our POST.
-        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
         // POST data. Upload will be the char array with all the data.
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, upload);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, upload.c_str());
 
         // JSON Headers
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -116,7 +104,6 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
     }
 
     curl_global_cleanup();
-*/
 }
 
 
@@ -128,24 +115,24 @@ int main ()
     int num = 0;
 
     // Get user input.
-    cout << "Please enter a title for the dataset: ";
-    cin >> title;
+    cout << "Please enter a title for the dataset: ";       // Gets the title
+    getline(cin, title);
 
-    cout << "Please enter a number: ";
+    cout << "Please enter a bunch of letters: ";            // Gets a bunch of letters
+    getline(cin, letters);
+
+    cout << "Please enter a number: ";                        // Gets a number to upload to iSENSE
     cin >> num;
-
-    cout << "Please enter a bunch of letters: ";
-    cin >> letters;
 
     // Get timestamp (unix)
     timestamp = time(NULL);
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
     cout << "\nUploading " << " to rSENSE.\n\n";
-    cout << title << endl;
-    cout << letters << endl;
-    cout << num << endl;
-    cout << timestamp << endl;
+    cout << "The title you entered: " << title << endl;
+    cout << "Letters you entered: " << letters << endl;
+    cout << "Number you entered: " << num << endl;
+    cout << "Timestamp: " << timestamp << endl;
 
     // Right here I call a function to upload to rSENSE-dev.
     // I just pass it the title of the dataset and the number that the user entered.
