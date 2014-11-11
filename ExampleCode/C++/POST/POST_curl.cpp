@@ -1,8 +1,8 @@
-#include <iostream>           // std::cout, std::cin
-#include <string>                // std::string, std::to_string;
-#include <curl/curl.h>         // cURL to make HTTP requests
+#include <iostream>             // std::cout, std::cin
+#include <string>               // std::string, std::to_string;
+#include <curl/curl.h>          // cURL to make HTTP requests
 #include <time.h>               // Timestamps
-#include <sstream>            // stringstreams, converting ints to numbers
+#include <sstream>              // stringstreams, converting ints to numbers
 
 // Check if these are needed. Might be needed for cURL
 #include <stdio.h>
@@ -13,7 +13,7 @@ using std::cout;
 using std::cin;
 using std::string;
 using std::endl;
-using std::stringstream;    // for concating an int onto a string.
+using std::stringstream;        // for concating an int onto a string.
 
 
 // Basic upload a test. Uploads a number, a string and a timestamp
@@ -121,7 +121,7 @@ int main ()
     cout << "Please enter a bunch of letters: ";            // Gets a bunch of letters
     getline(cin, letters);
 
-    cout << "Please enter a number: ";                        // Gets a number to upload to iSENSE
+    cout << "Please enter a number: ";                      // Gets a number to upload to iSENSE
     cin >> num;
 
     // Get timestamp (unix)
@@ -137,8 +137,6 @@ int main ()
     // Right here I call a function to upload to rSENSE-dev.
     // I just pass it the title of the dataset and the number that the user entered.
     upload_to_rsense(title, num, letters, timestamp);
-
-    // In the future we should tell the user if this upload function was a success. Or if it failed - if it failed then why.
 
     return 0;
 }
