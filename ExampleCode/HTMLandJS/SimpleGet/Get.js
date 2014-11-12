@@ -1,6 +1,6 @@
 field_data_total_bases = [];
 
-function GET(){
+function get(){
 
     URL = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
     response = $.ajax({ type: "GET",
