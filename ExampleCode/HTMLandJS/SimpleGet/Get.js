@@ -1,4 +1,4 @@
-field_data_total_bases = [];
+totalBases = [];
 
 function get(){
 
@@ -12,8 +12,8 @@ function get(){
     arg = JSON.parse(response);
 
     for (var i=0;i<30;i++) {
-        field_data_total_bases.push(arg.data[i][647]) ;
+        totalBases.push(arg.data[i][647]) ;
     }
 
-    console.log(field_data_total_bases);
+    console.log(totalBases);
 }
