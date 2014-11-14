@@ -4,11 +4,6 @@
 #include <time.h>                 // Timestamps
 #include <sstream>              // stringstreams, converting ints to numbers
 
-// Check if these are needed. Might be needed for cURL
-// #include <stdio.h>
-// #include <string.h>
-// #include <cstring>
-
 using std::cout;
 using std::cin;
 using std::string;
