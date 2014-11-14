@@ -116,8 +116,12 @@ int main ()
 
     cout << upload;
 
+<<<<<<< Updated upstream
     // Otherwise upload to iSENSE
     //upload_to_rsense(url, upload);
 
+=======
+    // In the future we should tell the user if this upload function was a success. Or if it failed - if it failed then why.
+>>>>>>> Stashed changes
     return 0;
 }

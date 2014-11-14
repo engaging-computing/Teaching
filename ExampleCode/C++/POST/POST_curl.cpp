@@ -1,13 +1,13 @@
 #include <iostream>             // std::cout, std::cin
-#include <string>               // std::string, std::to_string;
-#include <curl/curl.h>          // cURL to make HTTP requests
-#include <time.h>               // Timestamps
+#include <string>                  // std::string, std::to_string;
+#include <curl/curl.h>           // cURL to make HTTP requests
+#include <time.h>                 // Timestamps
 #include <sstream>              // stringstreams, converting ints to numbers
 
 // Check if these are needed. Might be needed for cURL
-#include <stdio.h>
-#include <string.h>
-#include <cstring>
+// #include <stdio.h>
+// #include <string.h>
+// #include <cstring>
 
 using std::cout;
 using std::cin;
