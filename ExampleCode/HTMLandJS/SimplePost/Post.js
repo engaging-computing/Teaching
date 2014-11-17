@@ -1,4 +1,4 @@
-function post(){
+function post() {
     
     var url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload';
     var upload = {
@@ -12,5 +12,5 @@ function post(){
         }
     }
     $.post(url, upload);
-    alert("Post Successful")
+    alert("Post Successful");
 }
