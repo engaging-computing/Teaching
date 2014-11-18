@@ -28,17 +28,13 @@ function postDieArray() {
         $.post(apiUrl, upload);
 
         diceRollArray = [];
-        $("#Printout").text("Dice Rolls: " + diceRollArray.join());
+        $("#Printout").text("Dice Rolls: " + diceRollArray);
         alert("Rolls have been Posted");
     }
 }
 
 function post1000DieRolls() {
     
-    var currentTime = new Date();
-    var timestamp = JSON.stringify(currentTime);
-
-
     diceRollArray = [];
 
     for (var i = 0; i<1000; i++) {
@@ -51,5 +47,5 @@ function post1000DieRolls() {
 function clearDiceRolls() {
 
     diceRollArray = [];
-    $("#Printout").text("Dice Rolls: " + diceRollArray.join());
+    $("#Printout").text("Dice Rolls: " + diceRollArray);
 }
