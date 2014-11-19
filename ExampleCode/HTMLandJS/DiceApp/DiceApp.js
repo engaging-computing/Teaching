@@ -1,45 +1,41 @@
-var dice_roll_array = [];
+var diceRollArray = [];
  
 function rollDie() {
 
-    dice_roll_array.push(Math.floor(Math.random() * 6) + 1);
-    $("#Printout").text("Dice Rolls: " + dice_roll_array.join());
+    diceRollArray.push(Math.floor(Math.random() * 6) + 1);
+    $("#Printout").text("Dice Rolls: " + diceRollArray.join());
 }
 
 function postDieArray() {
 
     var currentTime = new Date();
     var timestamp = JSON.stringify(currentTime);
-    var API_URL = 'http://rsense-dev.cs.uml.edu/api/v1/projects/927/jsonDataUpload';
+    var apiUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/927/jsonDataUpload';
     var upload = {
         'title': 'Test' + timestamp,
         'contribution_key': 'Key',
         'contributor_name': 'Tyler',
         'data':
         {
-            '4251': dice_roll_array
+            '4251': diceRollArray
         }
     }
 
-    if (dice_roll_array[0] == null) {
+    if (diceRollArray[0] == null) {
         alert("There are no dice rolls. Please roll di before posting");
     } else {
 
-        $.post(API_URL, upload);
+        $.post(apiUrl, upload);
 
-        dice_roll_array = [];
-        $("#Printout").text("Dice Rolls: " + dice_roll_array.join());
+        diceRollArray = [];
+        $("#Printout").text("Dice Rolls: " + diceRollArray);
         alert("Rolls have been Posted");
     }
 }
 
 function post1000DieRolls() {
     
-    var currentTime = new Date();
-    var timestamp = JSON.stringify(currentTime);
-
-
-    dice_roll_array = [];
+    diceRollArray = [];
 
     for (var i = 0; i<1000; i++) {
         rollDie();
@@ -50,6 +46,6 @@ function post1000DieRolls() {
 
 function clearDiceRolls() {
 
-    dice_roll_array = [];
-    $("#Printout").text("Dice Rolls: " + dice_roll_array.join());
+    diceRollArray = [];
+    $("#Printout").text("Dice Rolls: " + diceRollArray);
 }
