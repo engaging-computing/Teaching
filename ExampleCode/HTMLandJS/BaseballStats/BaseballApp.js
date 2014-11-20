@@ -9,6 +9,7 @@ function getDataSet() {
         alert("Please clear before pulling new datasets")
     } else {
 
+
         URL = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
         response = $.ajax({ type: "GET",
                             url: URL,
@@ -71,15 +72,7 @@ function post() {
 
         $.post(API_URL, upload);
 
-        calculatedRuns = [];
-        fieldDataTotalBases = [];
-        fieldDataWalks = [];
-        actualRuns = [];
-
-        $("#totalBases").text("Total Bases: " + fieldDataTotalBases.join());
-        $("#walks").text("Walks: " + fieldDataWalks.join());
-        $("#actualRuns").text("Actual Runs: " + actualRuns.join());
-        $("#calculatedRuns").text("Calculated Runs: " + calculatedRuns.join());
+        clearData();
 
         alert("Runs have been Posted");
     }
