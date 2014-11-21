@@ -85,8 +85,8 @@ function clearData() {
     fieldDataWalks = [];
     actualRuns = [];
 
-    $("#totalBases").text("Total Bases: " + fieldDataTotalBases.join());
-    $("#walks").text("Walks: " + fieldDataWalks.join());
-    $("#actualRuns").text("Actual Runs: " + actualRuns.join());
-    $("#calculatedRuns").text("Calculated Runs: " + calculatedRuns.join());
+    $("#totalBases").text("Total Bases: " + fieldDataTotalBases);
+    $("#walks").text("Walks: " + fieldDataWalks);
+    $("#actualRuns").text("Actual Runs: " + actualRuns);
+    $("#calculatedRuns").text("Calculated Runs: " + calculatedRuns);
 }
