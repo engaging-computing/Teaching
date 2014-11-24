@@ -8,7 +8,6 @@ function getDataSet() {
     if (fieldDataTotalBases[0] != null) { 
         alert("Please clear before pulling new datasets");
         return;
-
     }
 
     URL = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
@@ -47,8 +46,7 @@ function calculateRuns() {
         calculatedRuns.push((Number(fieldDataWalks[i]) + Number(fieldDataTotalBases[i])) /4.0);
     }
 
-    $("#calculatedRuns").text("Calculated Runs: " + calculatedRuns.join());
-      
+    $("#calculatedRuns").text("Calculated Runs: " + calculatedRuns.join());    
 }
 
 function post() {
