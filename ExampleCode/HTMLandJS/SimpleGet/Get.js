@@ -1,18 +1,19 @@
-totalBases = [];
+"use strict";
+var totalBases = [];
 
 function get(){
 
-    URL = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
-    response = $.ajax({ type: "GET",
-                        url: URL,
+    var url = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190?recur=true.json';
+    var response = $.ajax({ type: "GET",
+                        url: url,
                         async: false,
                         dataType: "JSON"
                     }).responseText;
 
-    arg = JSON.parse(response);
+    var parsedResponse = JSON.parse(response);
 
     for (var i=0;i<30;i++) {
-        totalBases.push(arg.data[i][647]) ;
+        totalBases.push(parsedResponse.data[i][647]) ;
     }
 
     console.log(totalBases);
