@@ -1,6 +1,6 @@
 function post() {
     
-    var url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload';
+    var apiUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload';
     var upload = {
 
         'title': 'YOUR NAME HERE',
@@ -8,9 +8,9 @@ function post() {
         'contributor_name':'YOUR NAME HERE',
         'data':
         {
-            '4279': [5]
+            '4279': [5,2,9,10,222]
         }
     }
-    $.post(url, upload);
+    $.post(apiUrl, upload);
     alert("Post Successful");
 }
