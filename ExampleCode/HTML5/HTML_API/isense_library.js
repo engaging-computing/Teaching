@@ -120,7 +120,7 @@ function GET_Projects_ByProjectID()
 
     /*  If the response text ends up being undefined, we weren't able to find
         anything about the project.         */
-    if(response === undefined)
+    if(response == undefined)
     {
         rev.innerHTML = "That project ID could not be found!";
     }
@@ -169,7 +169,7 @@ function GET_Fields_ByFieldID()
 
     /*  If the response text ends up being undefined, we weren't able to find
         anything about the field. IE it doesn't exist.          */
-    if(response === undefined)
+    if(response == undefined)
     {
         rev.innerHTML = "That field ID could not be found!";
     }

@@ -1,7 +1,7 @@
 #include <iostream>             // std::cout, std::cin
 #include <string>                  // std::string, std::to_string;
 #include <curl/curl.h>           // cURL to make HTTP requests
-#include <time.h>                 // Timestamps
+#include <time.h>                // Timestamps
 #include <sstream>              // stringstreams, converting ints to numbers
 
 using std::cout;
@@ -11,7 +11,7 @@ using std::endl;
 using std::to_string;               // converting int to string
 
 // Basic upload a test. Uploads a number, a string and a timestamp
-void upload_to_rsense(string title, int num, string letters, time_t timestamp)
+void upload_to_rsense(string title, int num, string text, time_t timestamp)
 {
     string upload;     // DATA for the project. This will be the entire uploaded string.
 
@@ -34,8 +34,8 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
     // Add the number and the bracket/comma to the upload string.
     upload += to_string(num) + string("],");
 
-    // Add the letters that were entered (+ the field ID / JSON stuff)
-    upload += string("\"4275\":[\"") + letters + string("\"],");
+    // Add the text that was entered (+ the field ID / JSON stuff)
+    upload += string("\"4275\":[\"") + text + string("\"],");
 
     // Add the timestamp field ID, timestamp, and JSON stuff.
     upload += string( "\"4276\":[\"") + to_string(timestamp) + string( "\"]}}");
@@ -60,6 +60,7 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
 
     // get a curl handle
     curl = curl_easy_init();
+
     if(curl)
     {
         // Set the URL that we will be using for our POST.
@@ -90,9 +91,15 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
             curl_easy_strerror(res));
         }
 
-        curl_easy_cleanup(curl);                // always cleanup
+        // Make sure to cleanup
+        curl_easy_cleanup(curl);
+    }
+    else
+    {
+        cout << "Failed to get a curl handle!\n";
     }
 
+    // Also need to do a global cleanup
     curl_global_cleanup();
 }
 
@@ -100,33 +107,49 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
 int main ()
 {
     string title;
-    string letters;
-    time_t timestamp;
     int num = 0;
+    string text;
+    time_t timestamp;
+    char ans;
 
-    // Get user input.
-    cout << "Please enter a title for the dataset: ";       // Gets the title
+    // Get user input. User sets title, enters text/number.
+    cout << "Please enter a title for the dataset: ";
     getline(cin, title);
 
-    cout << "Please enter a bunch of letters: ";            // Gets a bunch of letters
-    getline(cin, letters);
+    // Get some text to upload to iSENSE
+    cout << "Please enter some text to be submitted to iSENSE: ";
+    getline(cin, text);
 
-    cout << "Please enter a number: ";                      // Gets a number to upload to iSENSE
+    // Get a number to upload as well
+    cout << "Please enter a number to be submitted as well: ";
     cin >> num;
 
     // Get timestamp (unix)
     timestamp = time(NULL);
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout << "\nUploading " << " to rSENSE.\n\n";
+    cout << "\nUploading the following to iSENSE: \n";
     cout << "The title you entered: " << title << endl;
-    cout << "Letters you entered: " << letters << endl;
+    cout << "Text you entered: " << text << endl;
     cout << "Number you entered: " << num << endl;
-    cout << "Timestamp: " << timestamp << endl;
+    cout << "Timestamp: " << timestamp << "\n\n";
 
-    // Right here I call a function to upload to rSENSE-dev.
-    // I just pass it the title of the dataset and the number that the user entered.
-    upload_to_rsense(title, num, letters, timestamp);
+    // Clear the cin buffer
+    cin.ignore(100, '\n');
+
+    cout << "Would you like to upload this? (y/n)\n";
+    cout << "Enter your selection here: ";
+    cin >> ans;
+
+    if(ans == 'y' || ans == 'Y')
+    {
+        // Call the upload function if they want to upload.
+        upload_to_rsense(title, num, text, timestamp);
+    }
+    else
+    {
+        cout << "\nQuitting...\n";
+    }
 
     return 0;
 }
