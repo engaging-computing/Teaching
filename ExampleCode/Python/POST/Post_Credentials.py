@@ -27,7 +27,7 @@ while r.status_code != 200:
     r = requests.get("http://rsense-dev.cs.uml.edu/api/v1/users/myInfo?email="+email+'&password='+password)
 
 # User typed "N" or some other random character. So they didn't want to POST.
-if choice == 'N':
+if choice == 'N' or choice == 'n':
     print "\nUSER CHOOSE NOT TO UPLOAD. \n"
 
 # Yes branch, tries to POST to iSENSE

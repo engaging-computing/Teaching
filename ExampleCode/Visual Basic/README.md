@@ -1,3 +1,6 @@
+Visual Basic
+============
+
 This folder will contain the Visual Basic Example Code
 
 At the moment, there only exists a "Hello, World!" program.
