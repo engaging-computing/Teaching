@@ -1,4 +1,4 @@
 function get(){
 
-	console.log(getDataset(106,"Total Bases"));
+	console.log(isense.getDatasetFieldData(106,"MLB Team Statistics 2013","Hits"));
 }

@@ -1,51 +1,82 @@
-var totalBases = [];
+window.isense = {};
 
-function getDataset(projectID,fieldName){
+var isense = {
 
-    var urlProject = 'http://rsense-dev.cs.uml.edu/api/v1/projects/' + projectID;
-    var responseProject = $.ajax({ type: "GET",
-                        url: urlProject,
-                        async: false,
-                        dataType: "JSON"
-                    }).responseText;
+    projectGetRequest: function(projectID){
 
-    var parsedResponseProject = JSON.parse(responseProject);
+        var urlProject = 'http://rsense-dev.cs.uml.edu/api/v1/projects/'+projectID+'?recur=true';
+        var responseProject = $.ajax({ type: "GET",
+                            url: urlProject,
+                            async: false,
+                            dataType: "JSON"
+                        }).responseText;
 
-    for(var i = 0; i < parsedResponseProject.fieldCount; i++) {
+        var parsedResponseProject = JSON.parse(responseProject); 
 
+        return parsedResponseProject;  
+    },
 
-        if(parsedResponseProject.fields[i].name == fieldName) {
+    getDatasetLocation: function(datasetName,parsedResponseProject){
 
-            alert("HEYY")
-            fieldID = parsedResponseProject.fields[i].id;
+        for(var j = 0; j < parsedResponseProject.dataSetCount; j++) { 
 
-            var urlDataset = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190/?recur=true.json'; // NEED A WAY TO GET THIS ID 1190 FROM PROJECT ID
-            var responseDataset = $.ajax({ type: "GET",
-                                url: urlDataset,
-                                async: false,
-                                dataType: "JSON"
-                            }).responseText;
+            if(parsedResponseProject.dataSets[j].name == datasetName) {
 
-
-
-
-            var parsedResponseDataset = JSON.parse(responseDataset);
-
-
-            alert(parsedResponseDataset)
-
-            var datasetArray = [];
-
-            for (var i=0;i<30;i++) {
-
-                //alert(parsedResponseDataset.data[i][fieldID]);
-
-                datasetArray.push(parsedResponseDataset.data[i][fieldID]);
+                var datasetLocation = j;
+                var datasetID = parsedResponseProject.dataSets[j].id;
             }
-
-
-            return datasetArray;
         }
-    }
 
-}
+        if(datasetID == null){
+            return "Dataset Not Found"
+        }
+        return datasetLocation;
+    },
+
+    getFieldID: function(fieldName,parsedResponseProject){
+
+        for(var i = 0; i < parsedResponseProject.fieldCount; i++) {    // Parsing through fields looking for field id
+
+            if(parsedResponseProject.fields[i].name == fieldName) {     // If field names match then this is the id
+
+                var fieldID = parsedResponseProject.fields[i].id;       // This is the field ID
+            }
+        }
+
+        if(fieldID == null){
+            return "Field Not Found"
+        }
+        return fieldID;
+    },
+
+    getDatasetFieldData: function(projectID,datasetName,fieldName){
+
+        var values = [];
+
+        var parsedResponseProject = isense.projectGetRequest(projectID);
+
+        var datasetLocation = isense.getDatasetLocation(datasetName,parsedResponseProject);
+
+        var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
+
+        for(var k = 0; k < parsedResponseProject.dataSets[datasetLocation].datapointCount; k++) {
+
+            values.push(parsedResponseProject.dataSets[datasetLocation].data[k][fieldID])   
+        }
+
+        return values;
+    },
+
+    postDataset: function(projectID,contributorKey){
+
+
+
+
+
+
+        
+    }
+};
+
+
+
