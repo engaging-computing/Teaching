@@ -67,14 +67,36 @@ var isense = {
         return values;
     },
 
-    postDataset: function(projectID,contributorKey){
+    postDataset: function(projectID,contributorKey,fieldName,title,contributorName,data){
+
+        var currentTime = new Date();
+        var timestamp = JSON.stringify(currentTime);
 
 
+        parsedResponseProject = isense.projectGetRequest(projectID);
 
+        fieldID = isense.getFieldID(fieldName,parsedResponseProject);
 
+        fieldIDString = fieldID.toString();
 
+        dataForPost = {};
 
-        
+        dataForPost[fieldIDString] = data;
+
+        console.log(dataForPost)
+
+        alert(fieldIDString)
+
+        var apiUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/'+projectID+'/jsonDataUpload';
+        var upload = {
+
+            'title': title + ' ' + timestamp,
+            'contribution_key': contributorKey,
+            'contributor_name': contributorName,
+            'data': dataForPost
+        }
+        $.post(apiUrl, upload);
+        alert("Post Successful");
     }
 };
 
