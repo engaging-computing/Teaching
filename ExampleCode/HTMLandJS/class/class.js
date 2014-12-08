@@ -1,3 +1,4 @@
+"use strinct";
 window.isense = {};
 
 var isense = {
@@ -27,7 +28,7 @@ var isense = {
             }
         }
 
-        if(datasetID == null){
+        if(datasetID == null) {
             return "Dataset Not Found"
         }
         return datasetLocation;
@@ -43,7 +44,7 @@ var isense = {
             }
         }
 
-        if(fieldID == null){
+        if(fieldID == null) {
             return "Field Not Found"
         }
         return fieldID;
@@ -72,7 +73,6 @@ var isense = {
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);
 
-
         parsedResponseProject = isense.projectGetRequest(projectID);
 
         fieldID = isense.getFieldID(fieldName,parsedResponseProject);
@@ -82,10 +82,6 @@ var isense = {
         dataForPost = {};
 
         dataForPost[fieldIDString] = data;
-
-        console.log(dataForPost)
-
-        alert(fieldIDString)
 
         var apiUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/'+projectID+'/jsonDataUpload';
         var upload = {
