@@ -8,13 +8,11 @@ function get(){
                         url: url,
                         async: false,
                         dataType: "JSON"
-                    }).responseText;
+    }).responseText;
 
     var parsedResponse = JSON.parse(response);
 
     for (var i=0;i<30;i++) {
         totalBases.push(parsedResponse.data[i][647]) ;
     }
-
-    console.log(totalBases);
 }
