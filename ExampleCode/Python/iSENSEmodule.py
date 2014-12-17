@@ -8,40 +8,31 @@ def projectGetRequest(projectID):
     data = requests.get(urlProject)
 
     return data
+
 def getDatasetLocation(datasetName,parsedResponseProject):
 
-    j = 0
+    for i in range(0,parsedResponseProject.json()['dataSetCount']):
 
-
-    while j < parsedResponseProject.json()['dataSetCount']:
-
-
-        if parsedResponseProject.json()['dataSets'][j]['name'] == datasetName:
-            print 'heyyyyyyyyyyyyyyy'
-            datasetLocation = j
-            datasetID = parsedResponseProject.json()['dataSets'][j]['id']
+        if parsedResponseProject.json()['dataSets'][i]['name'] == datasetName:
+            datasetLocation = i
+            datasetID = parsedResponseProject.json()['dataSets'][i]['id']
             return datasetLocation
-        j+=1
 
     return 'Dataset not found'
 
 def getFieldID(fieldName,parsedResponseProject):
 
-    i = 0
+    for i in range(0,parsedResponseProject.json()['fieldCount']):
 
-    while i < parsedResponseProject.json()['fieldCount']:
-
-        if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
+          if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
             fieldID = parsedResponseProject.json()['fields'][i]['id']
             return fieldID;
-        i += 1
-        
-    return "Field Not Found"
-    
+   
+    return "Field Not Found"      
+  
 def getDatasetFieldData(projectID,datasetName,fieldName):
 
     values = []
-    k = 0
 
     parsedResponseProject = projectGetRequest(projectID)
 
@@ -51,20 +42,16 @@ def getDatasetFieldData(projectID,datasetName,fieldName):
 
     fieldID = str(fieldID)
 
-    while k < parsedResponseProject.json()['dataSets'][datasetLocation]['datapointCount']:
-
-        values.append(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][k][fieldID])  
-        k += 1 
-    
+    for i in range(0,parsedResponseProject.json()['dataSets'][datasetLocation]['datapointCount']):
+        values.append(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][i][fieldID])         
 
     return values
 
-def postDataset(projectID,datasetName,fieldName,contributionKey,contributorName,fieldData):
+def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,fieldData):
     
     parsedResponseProject = projectGetRequest(projectID)
     fieldID = getFieldID(fieldName,parsedResponseProject)
-    url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload'
-
+    url = baseUrl+projectID+'/jsonDataUpload'
 
     payload = {
         'title': datasetName,                                 
@@ -78,8 +65,3 @@ def postDataset(projectID,datasetName,fieldName,contributionKey,contributorName,
     headers = {'content-type': 'application/json'}
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
-
-
-
-
-
