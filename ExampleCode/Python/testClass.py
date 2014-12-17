@@ -1,11 +1,8 @@
-
-
 import iSENSEmodule
 
-"""data = iSENSEmodule.projectGetRequest('106')
-
-print iSENSEmodule.getDatasetLocation('MLB Team Statistics 2013',data)
-
-print iSENSEmodule.getFieldID('Runs',data)"""
+data = [5,6,7]
 
 print iSENSEmodule.getDatasetFieldData('106','MLB Team Statistics 2013','Runs')
+
+
+iSENSEmodule.postDataset('106','TESTTESTTEST','Runs','Key','TYLER',data)

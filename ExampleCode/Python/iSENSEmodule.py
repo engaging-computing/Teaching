@@ -1,4 +1,4 @@
-import requests
+import requests,json
 
 baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
 
@@ -59,6 +59,25 @@ def getDatasetFieldData(projectID,datasetName,fieldName):
 
     return values
 
+def postDataset(projectID,datasetName,fieldName,contributionKey,contributorName,fieldData):
+    
+    parsedResponseProject = projectGetRequest(projectID)
+    fieldID = getFieldID(fieldName,parsedResponseProject)
+    url = 'http://rsense-dev.cs.uml.edu/api/v1/projects/106/jsonDataUpload'
+
+
+    payload = {
+        'title': datasetName,                                 
+        'contribution_key':  contributionKey,                    
+        'contributor_name': contributorName,
+        'data':
+        {
+            fieldID: fieldData
+        }
+    }
+    headers = {'content-type': 'application/json'}
+
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
 
 
 
