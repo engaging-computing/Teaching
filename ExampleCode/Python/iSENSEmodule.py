@@ -3,6 +3,7 @@ import requests,json
 baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
 
 def projectGetRequest(projectID):
+    
     urlProject = baseUrl+projectID+'?recur=true';
 
     data = requests.get(urlProject)
