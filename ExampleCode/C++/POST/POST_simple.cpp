@@ -1,14 +1,14 @@
-#include <curl/curl.h>        	// cURL to make HTTP requests
-#include <iostream>             // std::cout, std::cin
-#include <sstream>		          // stringstreams, converting ints to numbers
-#include <string>             	// std::string, std::to_string;
-#include <time.h>          	    // Timestamps
+#include <curl/curl.h>        	    // cURL to make HTTP requests
+#include <iostream>                 // std::cout, std::cin
+#include <sstream>                  // stringstreams, converting ints to numbers
+#include <string>             	    // std::string, std::to_string;
+#include <time.h>          	        // Timestamps
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
-using std::to_string;        	  // for converting an int into a string.
+using std::to_string;        	      // for converting an int into a string.
 
 /*
     This is a POST request which is hard coded to one project - project 929
@@ -75,7 +75,8 @@ void upload_to_rsense(string title, int num, string letters, time_t timestamp)
         // JSON Headers
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
-        // Verbose debug output - turn this on if you are having problems. It will spit out a ton of information.
+        // Verbose debug output - turn this on if you are having problems.
+        // It will spit out a ton of information.
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
         cout << "\nrSENSE says: \n\n";
