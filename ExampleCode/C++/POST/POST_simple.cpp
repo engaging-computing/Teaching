@@ -2,7 +2,7 @@
 #include <iostream>                 // std::cout, std::cin
 #include <sstream>                  // stringstreams, converting ints to numbers
 #include <string>             	    // std::string, std::to_string;
-#include <time.h>          	        // Timestamps
+#include <time.h>                   // Timestamps
 
 using std::cin;
 using std::cout;
