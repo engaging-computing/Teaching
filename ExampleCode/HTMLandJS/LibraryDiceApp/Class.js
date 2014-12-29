@@ -1,4 +1,4 @@
-"use strinct";
+"use strict";
 window.isense = {};
 var baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
 
@@ -74,13 +74,13 @@ var isense = {
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);
 
-        parsedResponseProject = isense.projectGetRequest(projectID);
+        var parsedResponseProject = isense.projectGetRequest(projectID);
 
-        fieldID = isense.getFieldID(fieldName,parsedResponseProject);
+        var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
 
-        fieldIDString = fieldID.toString();
+        var fieldIDString = fieldID.toString();
 
-        dataForPost = {};
+        var dataForPost = {};
 
         dataForPost[fieldIDString] = data;
 
