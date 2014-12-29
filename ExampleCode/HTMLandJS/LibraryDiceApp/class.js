@@ -96,6 +96,3 @@ var isense = {
         alert("Post Successful");
     }
 };
-
-
-
