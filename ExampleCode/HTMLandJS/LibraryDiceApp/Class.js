@@ -30,6 +30,7 @@ var isense = {
         }
 
         if (datasetID == null) {
+
             return "Dataset Not Found"
         }
         return datasetLocation;
@@ -46,6 +47,7 @@ var isense = {
         }
 
         if (fieldID == null) {
+
             return "Field Not Found"
         }
         return fieldID;
@@ -54,11 +56,8 @@ var isense = {
     getDatasetFieldData: function(projectID,datasetName,fieldName) {
 
         var values = [];
-
         var parsedResponseProject = isense.projectGetRequest(projectID);
-
         var datasetLocation = isense.getDatasetLocation(datasetName,parsedResponseProject);
-
         var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
 
         for (var k = 0; k < parsedResponseProject.dataSets[datasetLocation].datapointCount; k++) {
@@ -73,13 +72,9 @@ var isense = {
 
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);
-
         var parsedResponseProject = isense.projectGetRequest(projectID);
-
         var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
-
         var fieldIDString = fieldID.toString();
-
         var dataForPost = {};
 
         dataForPost[fieldIDString] = data;
@@ -93,6 +88,7 @@ var isense = {
             'data': dataForPost
         }
         $.post(apiUrl, upload);
+
         alert("Post Successful");
     }
 };
