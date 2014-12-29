@@ -8,10 +8,10 @@ function rollDie() {
 
 function postDieArray() {
 
-	isense.postDataset(927,'Key','Dice Roll','TESTTESTTEST','Tyler',diceRollArray);
+    isense.postDataset(927,'Key','Dice Roll','TESTTESTTEST','Tyler',diceRollArray);
 
     diceRollArray = [];
-    $("#Printout").text("Dice Rolls: " + diceRollArray.join());	
+    $("#Printout").text("Dice Rolls: " + diceRollArray.join()); 
 }
 
 function post1000DieRolls() {
