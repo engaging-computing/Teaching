@@ -123,7 +123,7 @@ int main ()
     timestamp = time(NULL);
 
     // Let the user know we're uploading. (Maybe add an option to confirm here in the future.)
-    cout << "\nUploading " << " to rSENSE.\n\n";
+    cout << "\nUploading to rSENSE.\n\n";
     cout << "The title you entered: " << title << endl;
     cout << "Letters you entered: " << letters << endl;
     cout << "Number you entered: " << num << endl;

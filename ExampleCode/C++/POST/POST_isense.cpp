@@ -18,7 +18,7 @@ int main ()
     iSENSE test;
 
     // Get user input
-    string title, ID, key, letters, num;
+    string title, ID, key, letters, num, timestamp;
 
     // Get user input.
     cout << "Please set the project ID for this dataset: ";     // Sets project ID
@@ -29,6 +29,11 @@ int main ()
 
     cout << "Please enter a title for the dataset: ";       // Gets the title
     getline(cin, title);
+
+    /*  Add a timestamp to the title to avoid duplicates
+        and to make it clear when the dataset was uploaded.   */
+    timestamp = test.generate_timestamp();
+    title = title + " "  + timestamp;
 
     // Add project info / dataset info to the object
     test.set_project_ID(ID);
@@ -46,24 +51,24 @@ int main ()
     test.push_back("Latitude", "42.654761");
     test.push_back("Longitude", "-71.326674");
 
-    // Let's add a timestamp, but we're lazy so we'll use the function that the class provides for us.
-    string timestamp = test.generate_timestamp();
+    // Let's add a timestamp using the provided generate_timestamp() method provided by the iSENSE class.
+    test.generate_timestamp();
     test.push_back("Timestamp", timestamp);
 
     // Example of pushing numbers back into the object.
     for(int i = 0; i < 10; i++)
     {
-        // Make sure to use "to_string" to convert an int/double/float/etc to a string!
+        // Make sure to use "to_string" to convert an int/double/float/etc to a string.
         test.push_back("Number", to_string(i));
     }
 
-    // Try grabbing fields. Hope this works!
+    // Try grabbing fields. Error checking occurs below.
     test.get_project_fields();
 
     // Try formatting the upload data string without uploading yet.
     test.format_upload_string();
 
-    // Test to see if it worked.
+    // Check the fields for errors (manually compare against iSENSE)
     test.debug();
 
     char ans;
@@ -71,9 +76,9 @@ int main ()
     do{
       cout << "Does the data look alright to you? (enter y/n) -> ";
       cin >> ans;
-    }while(ans != 'y' && ans != 'n');
+    }while(ans != 'y' && ans != 'Y' && ans != 'n' && ans != 'N');
 
-    if(ans == 'n')
+    if(ans == 'n' || ans == 'N')
     {
       cout << "\nUser chose not to upload. Quitting instead.\n";
       return 0;
