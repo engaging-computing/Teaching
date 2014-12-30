@@ -87,5 +87,52 @@ var isense = {
         }
         $.post(apiUrl, upload);
         alert("Post Successful");
+    },
+
+    postMultipleDataset: function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
+
+        var currentTime = new Date();
+        var timestamp = JSON.stringify(currentTime);
+        var parsedResponseProject = isense.projectGetRequest(projectID);
+
+        var fieldID = [];
+
+        for (var i = fieldNameArray.length - 1; i >= 0; i--) {
+
+            fieldID[i] = isense.getFieldID(fieldNameArray[i],parsedResponseProject);
+        };
+
+        console.log(fieldID);
+
+        var fieldIDStringArray = [];
+
+        for (var i = 0 ; i <= fieldID.length - 1; i++) {
+
+            fieldIDStringArray.push(fieldID[i].toString());
+        };
+
+        console.log(fieldIDStringArray);
+
+        var dataForPost = {};
+        for (var i = fieldIDStringArray.length - 1; i >= 0; i--) {
+
+            dataForPost[fieldIDStringArray[i]] = ArrayofDataArrays[i];
+        };
+
+        console.log(dataForPost['645']);
+
+        var apiUrl = baseUrl+projectID+'/jsonDataUpload';
+        var upload = {
+
+            'title': title + ' ' + timestamp,
+            'contribution_key': contributorKey,
+            'contributor_name': contributorName,
+            'data': {
+                        '644': [5,4],
+                        '645': [1,2,4,8,4,2,2,5,5,6]
+                    }
+        }
+        $.post(apiUrl, upload);
+        alert("Post Successful");
     }
 };
