@@ -23,8 +23,11 @@ Building Libcurl from source
 (Hard to find in the 2013 Express version, easier using the Professional version)
 4. From there, cd to where you unzipped the source file. Ex: Downloads\curl-7.39.0
 5. Now cd to winbuild. Ex: Downloads\curl-7.39.0\winbuild 
-Run the following command: 
+6. Run the following command:
+
+``` 
 nmake /f Makefile.vc mode=static VC=12 DEBUG=yes
+```
 
 This will create a build in the "builds" folder that will work in Visual Studios 2013.
 There will probably be 3 different folders in the builds folder. You will want to navigate
