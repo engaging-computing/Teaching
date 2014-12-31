@@ -20,7 +20,7 @@ POST_simple.cpp:1:65: fatal error: curl/curl.h: No such file or directory
 ```
 
 To compile in Windows, you will need to use Visual Studios Express 2013 (Professional version will work as well).
-See the "Visual Studios Setup.txt" file for more information. At some point I will add an example project as well.
+See the "Windows" directory for more information. An example project will be created in the future.
 
 See this site for help:
 [curl website](http://curl.haxx.se/docs/httpscripting.html)
