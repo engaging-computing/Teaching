@@ -40,7 +40,7 @@ Note: To add some of these items, you need to click on the box to the right of t
 which will display an arrow to on the right side, and then click on "edit". 
 Make sure to click Apply and then OK.
 
-I recommend creating a "source" directory in your project folder. This wil keep everything organized.
+I recommend creating a "source" directory in your project folder. This will keep everything organized.
 You can then put the "include" and "lib" folders into the "source" directory and you can also add the
 iSENSE class, as well as your main.
 

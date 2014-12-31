@@ -38,7 +38,7 @@ g++ GET_basic_curl.cpp -lcurl
 ```
 
 
-For some of these programs, I use a JSON library called picojson to serialize and parce JSON. 
+For some of these programs, I use a JSON library called picojson to serialize and parse JSON. 
 You can grab the code for that off the following github repo: https://github.com/kazuho/picojson
 
 The one header file you need can be found at: https://raw.githubusercontent.com/kazuho/picojson/master/picojson.h
