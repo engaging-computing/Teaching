@@ -3,8 +3,9 @@ Windows Setup
 These folders in this directory are required for use in a Visual Studios Project.
 See the below steps on how to build curl, and create a Visual Studios Project that uses the iSENSE C++ class.
 
-How to set up curl in Visual Studios 2013 Express/Professional. Steps required:
-1. Build from source for Windows
+Steps required:
+===============
+1. Build libcurl from source for Windows
 2. Add libcurl to a Visual Studios Project
 3. Add the API files to the same project
 4. Add your main as well.
