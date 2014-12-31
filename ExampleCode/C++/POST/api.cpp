@@ -87,7 +87,11 @@ string iSENSE::generate_timestamp(void)
 	time_t time_stamp;
 	time(&time_stamp);
 	char buffer[sizeof "2011-10-08T07:07:09Z"];
-	strftime(buffer, sizeof buffer, "%FT%TZ", gmtime(&time_stamp));
+
+	// This originally did not compile in Visual Studios. 
+	// Note that "%F" and "%T" are not supported by Microsoft.
+	strftime(buffer, sizeof buffer, "%Y-%m-%dT%H:%M:%SZ", gmtime(&time_stamp));
+
 	string cplusplus_timestamp(buffer);
 
 	// This function only returns the timestamp, it doesn't add it to the vector!
