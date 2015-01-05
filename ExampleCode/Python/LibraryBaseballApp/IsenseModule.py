@@ -25,8 +25,10 @@ def getFieldID(fieldName,parsedResponseProject):
 
     for i in range(0,parsedResponseProject.json()['fieldCount']):
 
-          if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
+        if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
+
             fieldID = parsedResponseProject.json()['fields'][i]['id']
+            fieldID = str(fieldID)
             return fieldID;
    
     return "Field Not Found"      
@@ -41,10 +43,8 @@ def getDatasetFieldData(projectID,datasetName,fieldName):
 
     fieldID = getFieldID(fieldName,parsedResponseProject)
 
-    fieldID = str(fieldID)
-
     for i in range(0,parsedResponseProject.json()['dataSets'][datasetLocation]['datapointCount']):
-        values.append(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][i][fieldID])  
+        values.append(int(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][i][fieldID]))  
 
     return values
 
@@ -69,5 +69,7 @@ def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,
     headers = {'content-type': 'application/json'}
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+    print '\n'
 
     print "Post Complete"
