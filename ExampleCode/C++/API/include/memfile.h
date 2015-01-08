@@ -2,11 +2,11 @@
 #define memfile_h
 
 /*
-    This is from the picojson example page
-    I use it to save the JSON from iSENSE to memory (temporary)
-    See the following URL for an example:
-    https://github.com/kazuho/picojson/blob/master/examples/github-issues.cc
-*/
+ *    This is from the picojson example page
+ *    I use it to save the JSON from iSENSE to memory (temporary)
+ *    See the following URL for an example:
+ *    https://github.com/kazuho/picojson/blob/master/examples/github-issues.cc
+ */
 
 typedef struct {
   char* data;       // response data from server

@@ -14,30 +14,25 @@ using namespace picojson;
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
 int main ()
 {
-	// Example of using the iSENSE class
-	iSENSE test;
+  // Example of using the iSENSE class
+  iSENSE test;
 
-	string search_term;
+  string search_term;
 
-	// This class just does a GET for a search term.
-	cout << "Please enter a search term: ";
-	getline(cin, search_term);
+  // This class just does a GET for a search term.
+  cout << "Please enter a search term: ";
+  getline(cin, search_term);
 
-	// The get_projects_search function returns a vector of strings of project titles
-	// Whatever search term you put in is searched on iSENSE and then the top 10 results are saved
-	// to the vector.
-	vector<string> project_titles = test.get_projects_search(search_term);
+  // The get_projects_search function returns a vector of strings of project titles
+  // Whatever search term you put in is searched on iSENSE and then the top 10 results are saved
+  // to the vector.
+  vector<string> project_titles = test.get_projects_search(search_term);
 
-	if(project_titles.empty() != true)
-	{
-		cout << "\nPrinting out a list of projects with that search term.\n";
-	}
+  // Print out all the titles in the vector.
+  for(vector<string>::iterator it = project_titles.begin(); it != project_titles.end(); it++)
+  {
+    cout << "Name: " << *it << endl;
+  }
 
-	// Print out all the titles in the vector.
-	for(vector<string>::iterator it = project_titles.begin(); it != project_titles.end(); it++)
-	{
-		cout << "Name: " << *it << endl;
-	}
-
-	return 0;
+  return 0;
 }
