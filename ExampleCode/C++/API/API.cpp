@@ -99,18 +99,19 @@ void iSENSE::set_password(string proj_password)
 // that users may grab and then send off to the push_back function.
 string iSENSE::generate_timestamp(void)
 {
-  // Generates a ISO 8601 timestamp
+  // Generates an ISO 8601 timestamp
   time_t time_stamp;
   time(&time_stamp);
   char buffer[sizeof "2011-10-08T07:07:09Z"];
 
-  // This originally did not compile in Visual Studios.
-  // Note that "%F" and "%T" are not supported by Microsoft.
+  // Generates the timestamp, stores it in buffer.
+  // Timestamp is in the form of Year - Month - Day -- Hour - Minute - Seconds
   strftime(buffer, sizeof buffer, "%Y-%m-%dT%H:%M:%SZ", gmtime(&time_stamp));
 
+  // Converts char array (buffer) to C++ string
   string cplusplus_timestamp(buffer);
 
-  // This function only returns the timestamp, it doesn't add it to the vector!
+  // This function only returns the timestamp, it doesn't add it to the vector.
   return cplusplus_timestamp;
 }
 
@@ -194,7 +195,7 @@ vector<string> iSENSE::get_projects_search(string search_term)
     if(errors.empty() != true)
     {
       cout << "\nError parsing JSON file!\n";
-      cout << "Error was: " << errors;
+      cout << "Error was: " << errors << endl;
 
       // Clean up cURL and close the memfile
       curl_easy_cleanup(curl);
@@ -258,7 +259,7 @@ bool iSENSE::get_check_user()
   {
     cout << "Please set an email & password for this project.\n";
   }
-  else if(email.empty() == true || password.empty() == true)
+  else if(email.empty() || password.empty())
   {
     cout << "Please set an email & password for this project.\n";
   }
@@ -294,9 +295,9 @@ bool iSENSE::get_check_user()
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
     /*
-     *                The iSENSE API gives us two response codes to check against:
-     *                Success: 200 OK
-     *                Failure: 401 Unauthorized
+     *      The iSENSE API gives us two response codes to check against:
+     *      Success: 200 OK
+     *      Failure: 401 Unauthorized
      */
 
     if(http_code == 200)
@@ -308,18 +309,20 @@ bool iSENSE::get_check_user()
       // Return success.
       return true;
     }
-    else {
-      cout << "\nThe email and/or password you entered was **not** valid.\n";
-      cout << "Please try entering the email / password again.\n";
+    cout << "\nThe email and/or password you entered was **not** valid.\n";
+    cout << "Please try entering the email / password again.\n";
 
-      // Clean up cURL
-      curl_easy_cleanup(curl);
-      curl_global_cleanup();
+    // Clean up cURL
+    curl_easy_cleanup(curl);
+    curl_global_cleanup();
 
-      // Return failure.
-      return false;
-    }
+    // Return failure.
+    return false;
   }
+
+  // If curl fails, return false.
+  cout << "\ncURL failed.\n";
+  return false;
 }
 
 
@@ -327,7 +330,7 @@ bool iSENSE::get_check_user()
 bool iSENSE::get_project_fields()
 {
   // Detect errors. We need a valid project ID before we try and perform a GET request.
-  if(project_ID == "empty" || project_ID.empty() == true)
+  if(project_ID == "empty" || project_ID.empty())
   {
     cout << "Error - project ID not set!\n";
     return false;
@@ -420,33 +423,33 @@ bool iSENSE::post_json_key()
 
   // Check that the project ID is set properly.
   // When the ID is set, the fields are also pulled down as well.
-  if(project_ID == "empty" || project_ID.empty() == true)
+  if(project_ID == "empty" || project_ID.empty())
   {
     cout << "\nError - please set a project ID!\n";
     return false;
   }
 
   // Check that a title and contributor key has been set.
-  if(title == "title" || title.empty() == true)
+  if(title == "title" || title.empty())
   {
     cout << "\nError - please set a project title!\n";
     return false;
   }
 
-  if(contributor_key == "key" || contributor_key.empty() == true)
+  if(contributor_key == "key" || contributor_key.empty())
   {
     cout << "\nErrror - please set a contributor key!\n";
     return false;
   }
 
   // If a label wasn't set, automatically set it to "cURL"
-  if(contributor_label == "label" || contributor_label.empty() == true)
+  if(contributor_label == "label" || contributor_label.empty())
   {
     contributor_label = "cURL";
   }
 
   // Make sure the map actually has stuff pushed to it.
-  if(map_data.empty() == true)
+  if(map_data.empty())
   {
     cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
     return false;
@@ -467,7 +470,7 @@ bool iSENSE::post_json_key()
    *    4. We also get the HTTP status code so we know if iSENSE handled the request or not. */
 
   // CURL object and response code.
-  CURL *curl = curl_easy_init();;         // cURL object
+  CURL *curl = curl_easy_init();          // cURL object
   CURLcode curl_code;                     // cURL status code
   long http_code;                         // HTTP status code
 
@@ -548,10 +551,8 @@ bool iSENSE::post_json_key()
       cout << "debugging your program.\n";
       return false;
     }
-    else {
-      cout << "\n\nPOST request failed for some unknown reason.\n";
-      return false;
-    }
+
+    cout << "\n\nPOST request failed for some unknown reason.\n";
 
     // For cURL return codes, see the following page:
     // http://curl.haxx.se/libcurl/c/libcurl-errors.html
@@ -561,11 +562,19 @@ bool iSENSE::post_json_key()
     if(curl_code != CURLE_OK)
     {
       fprintf(stderr, "\ncurl_easy_perform() failed: %s\n",
-              curl_easy_strerror(curl_code));
+      curl_easy_strerror(curl_code));
     }
+
+    curl_easy_cleanup(curl);                // always cleanup
+    curl_global_cleanup();
+
+    return false;
   }
-  curl_easy_cleanup(curl);                // always cleanup
-  curl_global_cleanup();
+
+  cout << "cURL failed for some reason. Make sure you have all the required files \n";
+  cout << "and have set up your project / directory correctly.\n";
+
+  return false;
 }
 
 
@@ -579,39 +588,39 @@ bool iSENSE::post_json_email()
 
   // Check that the project ID is set properly.
   // When the ID is set, the fields are also pulled down as well.
-  if(project_ID == "empty" || project_ID.empty() == true)
+  if(project_ID == "empty" || project_ID.empty())
   {
     cout << "\nError - please set a project ID!\n";
     return false;
   }
 
   // Check that a title and contributor key has been set.
-  if(title == "title" || title.empty() == true)
+  if(title == "title" || title.empty())
   {
     cout << "\nError - please set a project title!\n";
     return false;
   }
 
-  if(email == "email" || email.empty() == true)
+  if(email == "email" || email.empty())
   {
     cout << "\nErrror - please set an email address!\n";
     return false;
   }
 
-  if(password == "password" || password.empty() == true)
+  if(password == "password" || password.empty())
   {
     cout << "\nErrror - please set a password!\n";
     return false;
   }
 
   // If a label wasn't set, automatically set it to "cURL"
-  if(contributor_label == "label" || contributor_label.empty() == true)
+  if(contributor_label == "label" || contributor_label.empty())
   {
     contributor_label = "cURL";
   }
 
   // Make sure the map actually has stuff pushed to it.
-  if(map_data.empty() == true)
+  if(map_data.empty())
   {
     cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
     return false;
@@ -631,9 +640,9 @@ bool iSENSE::post_json_email()
    *    also check the curl verbose debug to see why something failed.       */
 
   // CURL object and response code.
-  CURL *curl = curl_easy_init();;         // cURL object
-  CURLcode curl_code;                                 // cURL status code
-  long http_code;                                         // HTTP status code
+  CURL *curl = curl_easy_init();          // cURL object
+  CURLcode curl_code;                     // cURL status code
+  long http_code;                         // HTTP status code
 
   // In windows, this will init the winsock stuff
   curl_code = curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -690,6 +699,10 @@ bool iSENSE::post_json_email()
     {
       cout << "\n\nPOST request successfully sent off to iSENSE!\n";
       cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
       return true;
     }
     else if(http_code == 401)
@@ -697,6 +710,10 @@ bool iSENSE::post_json_email()
       cout << "\nPOST request **failed**\n";
       cout << "Try checking to make sure your contributor key is valid\n";
       cout << "for the project you are trying to contribute to.\n";
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
       return false;
     }
     else if(http_code == 422)
@@ -710,12 +727,14 @@ bool iSENSE::post_json_email()
       cout << "object_name.debug()\n";
       cout << "This will output a ton of data to the console and may help you in\n";
       cout << "debugging your program.\n";
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
       return false;
     }
-    else {
-      cout << "\n\nPOST request failed for some unknown reason. :/\n";
-      return false;
-    }
+
+    cout << "\n\nPOST request failed for some unknown reason.\n";
 
     // For cURL return codes, see the following page:
     // http://curl.haxx.se/libcurl/c/libcurl-errors.html
@@ -725,11 +744,17 @@ bool iSENSE::post_json_email()
     if(curl_code != CURLE_OK)
     {
       fprintf(stderr, "\ncurl_easy_perform() failed: %s\n",
-              curl_easy_strerror(curl_code));
+      curl_easy_strerror(curl_code));
     }
+
+    curl_easy_cleanup(curl);                // always cleanup
+    curl_global_cleanup();
   }
-  curl_easy_cleanup(curl);                // always cleanup
-  curl_global_cleanup();
+
+  cout << "cURL failed for some reason. Make sure you have all the required files \n";
+  cout << "and have set up your project / directory correctly.\n";
+
+  return false;
 }
 
 
