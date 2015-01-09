@@ -80,17 +80,24 @@ void iSENSE::set_contributor_key(string proj_key)
 }
 
 
-// Sets the email address to be used to upload data
-void iSENSE::set_email(string proj_email)
+// Sets both email & password at once. Checks for valid email / password.
+bool iSENSE::set_email_password(string proj_email, string proj_password)
 {
   email = proj_email;
-}
-
-
-// Sets the password to be used
-void iSENSE::set_password(string proj_password)
-{
   password = proj_password;
+
+  if(get_check_user())
+  {
+    cout << "\nEmail and password are valid.\n";
+    return true;
+  }
+
+  cout << "\nEmail and password are **not** valid.\n";
+  cout << "Try entering your password again.\n";
+  cout << "You also need to have created an account on iSENSE / rSENSE.\n";
+  cout << "You can do so here: http://rsense-dev.cs.uml.edu/users/new \n\n";
+
+  return false;
 }
 
 
@@ -309,8 +316,6 @@ bool iSENSE::get_check_user()
       // Return success.
       return true;
     }
-    cout << "\nThe email and/or password you entered was **not** valid.\n";
-    cout << "Please try entering the email / password again.\n";
 
     // Clean up cURL
     curl_easy_cleanup(curl);

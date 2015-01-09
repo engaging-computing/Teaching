@@ -59,12 +59,15 @@ public:
   void set_project_all(string proj_ID, string proj_title,
                        string label, string contr_key);
 
-  void set_project_ID(string proj_ID);                // This function should set up all the fields
-  void set_project_title(string proj_title);          // The user should also set the project title
-  void set_project_label(string proj_label);          // This one is optional, by default the label will be "cURL"
-  void set_contributor_key(string proj_key);          // User needs to set the contributor key they will be using
-  void set_email(string proj_email);                  // Sets the email address to be used to upload data
-  void set_password(string proj_password);            // Sets the password to be used
+  void set_project_ID(string proj_ID);          // This function should set up all the fields
+  void set_project_title(string proj_title);    // The user should also set the project title
+  void set_project_label(string proj_label);    // This one is optional, by default the label will be "cURL"
+  void set_contributor_key(string proj_key);    // User needs to set the contributor key they will be using
+
+  // This function should be used for setting the email / password for a project.
+  // It will return true if the email / password are valid, or false if they are not.
+  bool set_email_password(string proj_email, string proj_password);
+
 
   /*  This function will push data back to the map.
    *        User must give the pushback function the following:
