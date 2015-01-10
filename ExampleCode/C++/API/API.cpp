@@ -123,11 +123,56 @@ string iSENSE::generate_timestamp(void)
 }
 
 
-// Add data to the map, which keeps track of the data to be uploaded.
+// Resets the object and clears the map.
+void iSENSE::clear_data(void)
+{
+  // Set these to default values
+  upload_URL = "URL";
+  get_URL = "URL";
+  get_UserURL = "URL";
+  title = "title";
+  project_ID = "empty";
+  contributor_key = "key";
+  contributor_label = "label";
+  email = "email";
+  password = "password";
+
+  // Clear the map_data
+  map_data.clear();
+
+  // Clear the picojson objects
+  /* object upload_data, fields_data;
+   * value get_data, fields;
+   * array fields_array;
+   */
+
+  upload_data.clear();
+  fields_data.clear();
+
+  /*get_data.array.clear();
+  get_data.object.clear();
+
+  fields.array.clear();
+  fields.object.clear();
+*/
+  fields_array.clear();
+}
+
+
+// Adds a piece data to the map, which keeps track of the data to be uploaded.
 void iSENSE::push_back(string field_name, string data)
 {
   // Add the piece of data to the back of the vector with the given field name.
   map_data[field_name].push_back(data);
+}
+
+
+// Add a field name / vector of strings (data) to the map.
+void iSENSE::push_vector(string field_name, vector<string> data)
+{
+  // This will store a copy of the vector<string> in the map.
+  // If you decide to add more data, you will need to use the push_back function.
+  map_data[field_name] = data;
 }
 
 
