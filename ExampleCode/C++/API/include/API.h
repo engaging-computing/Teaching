@@ -20,6 +20,14 @@
 
 /*
  *    To do list:
+ *
+ *    1. Amending / editing datasets
+ *    2. Pulling data off of iSENSE, then amending to that via push_back.
+ *    3. Media objects
+ *    4. Test file that should also work as an example of all the various API methods
+ *    5. Dice roll app to serve as another example.
+ *
+ *
  *    1. Make a dice roll app
  *    2. Try other GET/POST API functions, such as amending/editing datasets.
  *    3. Try media objects.

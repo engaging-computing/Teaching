@@ -101,6 +101,5 @@ int main ()
   cout << "\nUploading to rSENSE.\n";
   test.post_json_email();
 
-  // In the future we should tell the user if this upload function was a success. Or if it failed then why.
   return 0;
 }

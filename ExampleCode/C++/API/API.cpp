@@ -140,21 +140,22 @@ void iSENSE::clear_data(void)
   // Clear the map_data
   map_data.clear();
 
-  // Clear the picojson objects
-  /* object upload_data, fields_data;
+  /* Clear the picojson objects:
+   * object upload_data, fields_data;
    * value get_data, fields;
    * array fields_array;
    */
 
+  // Under the hood picojson::objects are STL maps and picojson::arrays are STL vectors.
   upload_data.clear();
   fields_data.clear();
 
-  /*get_data.array.clear();
-  get_data.object.clear();
+  // Uses picojson's = operator to clear the get_data object and the fields object.
+  value new_object;
+  get_data = new_object;
+  fields = new_object;
 
-  fields.array.clear();
-  fields.object.clear();
-*/
+  // Clear the field array (STL vector)
   fields_array.clear();
 }
 
@@ -173,6 +174,8 @@ void iSENSE::push_vector(string field_name, vector<string> data)
   // This will store a copy of the vector<string> in the map.
   // If you decide to add more data, you will need to use the push_back function.
   map_data[field_name] = data;
+
+  // This doesn't currently work. Should double check it.
 }
 
 
@@ -310,10 +313,12 @@ bool iSENSE::get_check_user()
   if(email == "email" || password == "password")
   {
     cout << "Please set an email & password for this project.\n";
+    return false;
   }
   else if(email.empty() || password.empty())
   {
     cout << "Please set an email & password for this project.\n";
+    return false;
   }
 
   // If we get here, an email and password have been set, so do a GET using
@@ -898,10 +903,13 @@ void iSENSE::debug()
   cout << "Upload URL: " << upload_URL << endl;
   cout << "GET URL: " << get_URL << endl;
   cout << "GET User URL: " << get_UserURL << "\n\n";
-  cout << "Upload string: \n" << value(upload_data).serialize() << "\n\n";
-  cout << "GET Data: \n" << get_data.serialize() << "\n\n";
-  cout << "GET Field Data: \n" << fields.serialize() << "\n\n";
-  cout << "Map data: \n";
+  cout << "Upload string (picojson object): \n" << value(upload_data).serialize() << "\n\n";
+  cout << "Upload Fields Data (picojson object) \n" << value(fields_data).serialize() << "\n\n";
+  cout << "GET Data (picojson value): \n" << get_data.serialize() << "\n\n";
+  cout << "GET Field Data (picojson value): \n" << fields.serialize() << "\n\n";
+  cout << "GET Fields array (picojson array): \n" << value(fields_array).serialize() << "\n\n";
+
+  cout << "Map data: \n\n";
 
   // These for loops will dump all the data in the map.
   // Good for debugging.
@@ -916,7 +924,7 @@ void iSENSE::debug()
               cout << *vect << " ";
             }
 
-            cout << "\n";
+        cout << "\n";
       }
 }
 
