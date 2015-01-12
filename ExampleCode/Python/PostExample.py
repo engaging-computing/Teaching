@@ -1,7 +1,7 @@
 import IsenseModule
 
-data = [5,6,7]
+data = IsenseModule.getDatasetFieldData('106','MLB Team Statistics 2013','Runs')
 
-print IsenseModule.getDatasetFieldData('106','MLB Team Statistics 2013','Runs')
+print data
 
-IsenseModule.postDataset('106','Key','Runs','TESTTESTTEST','TYLER',data)
+IsenseModule.postDataset('106','Key','Calculated Runs','TEST','TYLER',data)
