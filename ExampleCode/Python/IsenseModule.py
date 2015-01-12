@@ -70,6 +70,4 @@ def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
 
-    print '\n'
-
-    print "Post Complete"
+    print " \n Post Complete"
