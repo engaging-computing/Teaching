@@ -1,4 +1,4 @@
-import requests,json
+import requests,json,time,datetime
 
 baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
 
@@ -25,8 +25,10 @@ def getFieldID(fieldName,parsedResponseProject):
 
     for i in range(0,parsedResponseProject.json()['fieldCount']):
 
-          if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
+        if parsedResponseProject.json()['fields'][i]['name'] == fieldName:
+
             fieldID = parsedResponseProject.json()['fields'][i]['id']
+            fieldID = str(fieldID)
             return fieldID;
    
     return "Field Not Found"      
@@ -41,21 +43,22 @@ def getDatasetFieldData(projectID,datasetName,fieldName):
 
     fieldID = getFieldID(fieldName,parsedResponseProject)
 
-    fieldID = str(fieldID)
-
     for i in range(0,parsedResponseProject.json()['dataSets'][datasetLocation]['datapointCount']):
-        values.append(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][i][fieldID])         
+        values.append(int(parsedResponseProject.json()['dataSets'][datasetLocation]['data'][i][fieldID]))  
 
     return values
 
 def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,fieldData):
     
+    timestamp = time.time()
+    timestamp_reformatted = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
     parsedResponseProject = projectGetRequest(projectID)
     fieldID = getFieldID(fieldName,parsedResponseProject)
     url = baseUrl+projectID+'/jsonDataUpload'
 
     payload = {
-        'title': datasetName,                                 
+        'title': datasetName + ' ' + timestamp_reformatted,                                 
         'contribution_key':  contributionKey,                    
         'contributor_name': contributorName,
         'data':
@@ -66,3 +69,5 @@ def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,
     headers = {'content-type': 'application/json'}
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+    print "\nPost Complete"
