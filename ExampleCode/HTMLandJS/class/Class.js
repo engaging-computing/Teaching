@@ -1,6 +1,6 @@
 "use strict";
 window.isense = {};
-var baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
+var baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/';
 
 var isense = {
 
@@ -14,7 +14,7 @@ var isense = {
 
     projectGetRequest : function() {
 
-        var urlProject = baseUrl+this.projectID+'?recur=true';
+        var urlProject = baseUrl+ 'projects/' + this.projectID+'?recur=true';
         var responseProject = $.ajax({ type: "GET",
                             url: urlProject,
                             async: false,
@@ -58,6 +58,9 @@ var isense = {
 
             return "Field Not Found"
         }
+
+        fieldID = fieldID.toString();
+
         return fieldID;
     },
 
@@ -85,7 +88,8 @@ var isense = {
         var fieldIDString = fieldID.toString();
         var dataForPost = {};
         dataForPost[fieldIDString] = data;
-        var apiUrl = baseUrl+this.projectID+'/jsonDataUpload';
+        var apiUrl = baseUrl+ 'projects/' + this.projectID+'/jsonDataUpload';
+
         var upload = {
 
             'title': title + ' ' + timestamp,
@@ -95,5 +99,44 @@ var isense = {
         }
         $.post(apiUrl, upload);
         alert("Post Successful");
+    },
+
+    postDatasetHorizontal : function(fields,title,data) {
+
+        var currentTime = new Date();
+        var timestamp = JSON.stringify(currentTime);
+        var parsedResponseProject = isense.projectGetRequest(this.projectID);
+        var dataForPost = {};
+        var fieldID = []
+
+        for (var i = 0; i < fields.length; i++) {
+
+            fieldID[i] = isense.getFieldID(fields[i],parsedResponseProject);
+            dataForPost[fieldID[i]] = data[i];
+        };
+
+        var apiUrl = baseUrl+ 'projects/' + this.projectID+'/jsonDataUpload';
+        var upload = {
+
+            'title': title + ' ' + timestamp,
+            'contribution_key': this.contributorKey,
+            'contributor_name': this.contributorName,
+            'data': dataForPost
+        }
+        $.post(apiUrl, upload);
+        alert("Post Successful");
+    },
+
+    appendToDataset : function(datasetName,fields,data) {
+
+        var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
+        var upload = {
+
+            'contribution_key': 'Key',
+            'title': 'titletylertitletyler',
+            'id': 7638,
+            'data': {'638':[4564]}
+        }
+        $.post(apiUrl, upload);
     }
 };
