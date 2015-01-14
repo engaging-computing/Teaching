@@ -37,6 +37,14 @@
  *    Test in x86 if possible (VM?) and Windows 7. Also Mac OS.
  */
 
+/* Notes:
+ * Most of the API calls expect that you have already set an email & password OR a contributor
+ * key, as well as a project ID and a project title.
+ * You can set these by either calling the default constructor with parameters,
+ * or by calling the set_ method.
+ *
+ */
+
 // To avoid poluting the namespace, and also to avoid typing std:: everywhere.
 using std::cin;
 using std::cout;
@@ -73,6 +81,12 @@ public:
   void set_project_label(string proj_label);    // Optional, by default the label will be "cURL"
   void set_contributor_key(string proj_key);    // User needs to set the contributor key
 
+  /*  In the future this function will only be called by the post_append functions.
+   *  Users will only need to make sure that they have set a title for the current dataset.
+   *  The post_append functions will call get_datasetID_byTitle();
+   */
+  void set_dataset_ID(string proj_dataset_ID);  // Need to set the dataset ID for appending.
+
   // This function should be used for setting the email / password for a project.
   // It will return true if the email / password are valid, or false if they are not.
   bool set_email_password(string proj_email, string proj_password);
@@ -103,7 +117,7 @@ public:
   string generate_timestamp(void);
 
   // This formats the upload string
-  void format_upload_string(bool key);
+  void format_upload_string(int key);
 
   // This formats one FIELD ID : DATA pair
   void format_data(vector<string> *vect, array::iterator it, string field_ID);
@@ -111,8 +125,9 @@ public:
   /*  iSENSE API functions
    *        Note: methods which return bool return true for success and false for failure.
    *        They also output the reasons for failure to the screen.   */
-  bool get_check_user();           // Checks to see if a username / password is valid
-  bool get_project_fields();       // Pulls the fields and puts them into the fields object & array
+  bool get_check_user();          // Checks to see if a username / password is valid
+  bool get_project_fields();      // Pulls the fields and puts them into the fields object & array
+  bool get_datasetID_byTitle();   // Append function will call this function if a title has been set.
 
   // Search for projects with the search term
   vector<string> get_projects_search(string search_term);
@@ -120,11 +135,18 @@ public:
   bool post_json_email();          // Post using a email / password
   bool post_json_key();            // Post using contributor key
 
+  // Will need a way to get dataset ID from dataset title.
+  // Then this function will need
+  bool get_edit_key();             // Edit a dataset with a dataset ID & contributor key
+  bool post_append_key();          // Amend a dataset with a contributor key
+
+
   /*  Future functions to be implemented at a later date.
-   *  void post_append_key();              // Amend a dataset with a contributor key
+   *
    *  void post_append_email();            // Amend a dataset with a email / password
-   *  void post_edit_key();                // Edit a dataset with a dataset ID & contributor key
-   *  void post_edit_user();               // Edit a dataset with a dataset ID & email / password
+   *
+   *  void get_edit_user();               // Edit a dataset with a dataset ID & email / password
+   *
    *  void post_fields_email();            // Post fields  by email / password
    *  void post_projects_email();          // Post a project by email / password
    *
@@ -170,6 +192,7 @@ private:
   string get_UserURL;               // URL to test credentials
   string title;                     // title for the dataset
   string project_ID;                // project ID of the project
+  string dataset_ID;                // dataset ID for the dataset you want to append.
   string contributor_label;         // Label for the contributor key. by default this is "cURL"
   string contributor_key;           // contributor key for the project
   string email;                     // Email to be used to upload the data

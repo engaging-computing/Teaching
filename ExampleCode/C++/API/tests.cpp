@@ -34,51 +34,62 @@ int main ()
   // First test: uploading a blank dataset.
   iSENSE test;
 
-//   // Debug info
-//   cout << "This should be **empty** \n\n";
-//   test.debug();
-//
-//   // These should all fail.
-//   test.get_check_user();
-//   test.get_project_fields();
-//   test.post_json_email();
-//   test.post_json_key();
-//
-//   // Debug info
-//   cout << "This should still be **empty** \n\n";
-//   test.debug();
-//
-//   // Add non-valid data to the object.
-//   test.set_project_all("9999", "not-valid", "label", "999");
-//
-//   // Try uploading. This will fail.
-//   test.post_json_key();
-//
-//   // Debug info
-//   cout << "This obviously failed. \n\n";
-//   test.debug();
-//
-//   // Now add valid data.
-//   test.set_project_all("929", "valid", "Jason", "123");
-//   test.push_back("Text", "this is some text");
-//
-//   // Try uploading. This will work.
-//   test.post_json_key();
-//
-//   // Debug info
-//   cout << "This should have worked. If not, see why. \n\n";
-//   test.debug();
+  // Debug info
+  cout << "This should be **empty** \n\n";
+  test.debug();
+
+  // These should all fail.
+  test.get_check_user();
+  test.get_project_fields();
+  test.post_json_email();
+  test.post_json_key();
+
+  // Debug info
+  cout << "This should still be **empty** \n\n";
+  test.debug();
+
+  // Add non-valid data to the object.
+  test.set_project_all("9999", "not-valid", "label", "999");
+
+  // Try uploading. This will fail.
+  test.post_json_key();
+
+  // Debug info
+  cout << "This obviously failed. \n\n";
+  test.debug();
+
+  // Make sure the title is unique.
+  string timestamp = test.generate_timestamp();
+  string title = "valid" + timestamp;
+
+  // Now add valid data.
+  test.set_project_all("929", title, "Jason", "123");
+  test.push_back("Text", "this is some text");
+
+  // Try uploading. This will work.
+  test.post_json_key();
+
+  // Debug info
+  cout << "This should have worked. If not, see why. \n\n";
+  test.debug();
 
   // Should also test pushing back a vector.
   test.set_project_all("929", "valid", "Jason", "123");
 
   vector<string> vect_test;
 
-  vect_test.push_back("string");
+  vect_test.push_back("string.");
   vect_test.push_back("another string.");
   vect_test.push_back("one more string.");
 
-  test.push_vector("text", vect_test);
+  test.push_vector("Text", vect_test);
+
+  // Try pushing back another string.
+  test.push_back("Text", "final string.");
+
+  // Push back to two other fields as well.
+  test.push_back("Number", "12345");
+  test.push_back("Timestamp","2011-10-08T07:07:09Z");
 
   // Try uploading. This will work.
   test.post_json_key();
@@ -93,6 +104,8 @@ int main ()
   // Debug
   cout << "\n\nData should be reset. Testing. \n\n";
   test.debug();
+
+  // Here we should test the edit / append function.
 
   return 0;
 }
