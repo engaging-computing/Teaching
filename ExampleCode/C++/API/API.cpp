@@ -612,29 +612,30 @@ bool iSENSE::post_json_key()
     if(http_code == 200)
     {
       cout << "\n\nPOST request successfully sent off to iSENSE!\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return true;
     }
     else if(http_code == 401)
     {
       cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Try checking to make sure your contributor key is valid\n";
       cout << "for the project you are trying to contribute to.\n";
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return false;
     }
     else if(http_code == 422)
     {
       cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Something went wrong with iSENSE.\n";
       cout << "Try formatting your data differently,\n";
       cout << "using an email & password instead of a contributor key,\n";
@@ -647,7 +648,6 @@ bool iSENSE::post_json_key()
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return false;
     }
 
@@ -795,29 +795,30 @@ bool iSENSE::post_append_key()
     if(http_code == 200)
     {
       cout << "\n\nPOST request successfully sent off to iSENSE!\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return true;
     }
     else if(http_code == 401)
     {
       cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Try checking to make sure your contributor key is valid\n";
       cout << "for the project you are trying to contribute to.\n";
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return false;
     }
     else if(http_code == 422)
     {
       cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Something went wrong with iSENSE.\n";
       cout << "Try formatting your data differently,\n";
       cout << "using an email & password instead of a contributor key,\n";
@@ -830,7 +831,6 @@ bool iSENSE::post_append_key()
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return false;
     }
 
@@ -980,29 +980,30 @@ bool iSENSE::post_json_email()
     if(http_code == 200)
     {
       cout << "\n\nPOST request successfully sent off to iSENSE!\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return true;
     }
     else if(http_code == 401)
     {
       cout << "\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Try checking to make sure your contributor key is valid\n";
       cout << "for the project you are trying to contribute to.\n";
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
 
-      cout << "HTTP Response Code was: " << http_code << endl;
       return false;
     }
     else if(http_code == 422)
     {
       cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
       cout << "Something went wrong with iSENSE.\n";
       cout << "Try formatting your data differently,\n";
       cout << "using a contributor key instead of an email/password,\n";
@@ -1014,8 +1015,6 @@ bool iSENSE::post_json_email()
 
       curl_easy_cleanup(curl);                // always cleanup
       curl_global_cleanup();
-
-      cout << "HTTP Response Code was: " << http_code << endl;
 
       return false;
     }
