@@ -136,16 +136,20 @@ public:
   bool post_json_key();            // Post using contributor key
 
   // Will need a way to get dataset ID from dataset title.
-  // Then this function will need
+  // Then this function will need to call set_dataset_ID()
   bool get_edit_key();             // Edit a dataset with a dataset ID & contributor key
   bool post_append_key();          // Amend a dataset with a contributor key
 
+  // Same as the above two functions, will need to find a way to append using
+  // dataset names.
+  bool get_edit_user();               // Edit a dataset with a dataset ID & email / password
+  bool post_append_email();            // Amend a dataset with a email / password
+
+  // Post media objects.
+  bool post_media_objects_email();
+  bool post_media_objects_key();
 
   /*  Future functions to be implemented at a later date.
-   *
-   *  void post_append_email();            // Amend a dataset with a email / password
-   *
-   *  void get_edit_user();               // Edit a dataset with a dataset ID & email / password
    *
    *  void post_fields_email();            // Post fields  by email / password
    *  void post_projects_email();          // Post a project by email / password
@@ -155,8 +159,7 @@ public:
    *  void get_search_projects(string search_term); // Search for projects by search term
    *
    *  // Possibly try posting media objects by email/password or contributor key.
-   *  void post_media_objects_email();
-   *  void post_media_objects_key();
+
    */
 
   // For debugging, dumps all the data.

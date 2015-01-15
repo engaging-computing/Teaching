@@ -17,19 +17,20 @@ int main ()
 {
   // Example of using the iSENSE class
   iSENSE test;
-  string title, ID, dataset_ID, key, letters, num, timestamp;
+  string title, ID, dataset_ID, email, password, letters, num, timestamp;
 
   // This will be a test of the append method.
-  title = "test";
+  title = "valid";
   ID = "929";
-  key = "curl";
-  dataset_ID = "6639";
+  email = "j@j.j";
+  password = "j";
+  dataset_ID = "7659";
 
   // Add project info / dataset info to the object
   test.set_project_ID(ID);
   test.set_dataset_ID(dataset_ID);
   test.set_project_title(title);
-  test.set_contributor_key(key);
+  test.set_email_password(email, password);
 
   timestamp = test.generate_timestamp();
 
@@ -60,7 +61,7 @@ int main ()
   }
 
   cout << "\nUploading to rSENSE.\n";
-  test.post_append_key();
+  test.post_append_email();
 
   // Debugging
   test.debug();

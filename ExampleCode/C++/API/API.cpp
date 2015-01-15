@@ -550,7 +550,7 @@ bool iSENSE::post_json_key()
    *    1. Sets the headers, so iSENSE knows we are sending it JSON
    *    2. Does some curl init stuff that makes the magic happen.
    *    3. cURL sends off the request, we can grab the return code to see if cURL failed.
-   *         Also check the curl verbose debug to see why something failed.
+   *       Also check the curl verbose debug to see why something failed.
    *    4. We also get the HTTP status code so we know if iSENSE handled the request or not. */
 
   // CURL object and response code.
@@ -678,6 +678,11 @@ bool iSENSE::post_json_key()
 
 
 // Post append using key
+/*
+ * Having issues getting this to work. Seem to be getting the following error:
+ * Contribution key not valid
+ *
+ */
 bool iSENSE::post_append_key()
 {
   /*
@@ -1030,6 +1035,202 @@ bool iSENSE::post_json_email()
     {
       fprintf(stderr, "\ncurl_easy_perform() failed: %s\n",
       curl_easy_strerror(curl_code));
+    }
+
+    curl_easy_cleanup(curl);                // always cleanup
+    curl_global_cleanup();
+  }
+
+  cout << "cURL failed for some reason. Make sure you have all the required files \n";
+  cout << "and have set up your project / directory correctly.\n";
+
+  return false;
+}
+
+
+// Post append using email and password
+// This should work based on some tests using POSTMAN.
+// Not sure why contributor keys will not work ATM.
+/*
+ * Note: at some point this method and the above three methods should be combined into
+ *       just two methods that take a parameter. Something like:
+ *       if(int == 1)
+ *          uploadDataSet
+ *       else if(int == 2)
+ *          append to DataSet by ID.
+ */
+bool iSENSE::post_append_email()
+{
+  /*
+   *        These first couple of if statements perform some basic error checking, such as
+   *        whether or not all the required fields have been set up.
+   */
+
+  // Check that the project ID is set properly.
+  // When the ID is set, the fields are also pulled down as well.
+  if(project_ID == "empty" || project_ID.empty())
+  {
+    cout << "\nError - please set a project ID!\n";
+    return false;
+  }
+
+  // Check that a title and contributor key has been set.
+  if(title == "title" || title.empty())
+  {
+    cout << "\nError - please set a project title!\n";
+    return false;
+  }
+
+  if(email == "email" || email.empty())
+  {
+    cout << "\nErrror - please set an email address!\n";
+    return false;
+  }
+
+  if(password == "password" || password.empty())
+  {
+    cout << "\nErrror - please set a password!\n";
+    return false;
+  }
+
+  // If a label wasn't set, automatically set it to "cURL"
+  if(contributor_label == "label" || contributor_label.empty())
+  {
+    contributor_label = "cURL";
+  }
+
+  // Make sure the map actually has stuff pushed to it.
+  if(map_data.empty())
+  {
+    cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
+    return false;
+  }
+
+  // Should make sure each vector is not empty as well, since I had issues uploading
+  // if any ONE vector was empty. rSENSE complained about the nil class.
+
+  // Format the data to be uploaded. Call another function to format this.
+  format_upload_string(4);
+
+  // Change the upload URL to append rather than create a new dataset.
+  upload_URL = devURL + "/data_sets/append";
+
+  /*  Once we get the data formatted, we can try to POST to rSENSE
+   *    The below code uses cURL. It
+   *    1. sets the headers, so iSENSE knows we are sending it JSON
+   *    2. does some curl init stuff that makes the magic happen.
+   *    3. cURL sends off the request, we can grab the return code to see if cURL failed.
+   *    also check the curl verbose debug to see why something failed.       */
+
+  // CURL object and response code.
+  CURL *curl = curl_easy_init();          // cURL object
+  CURLcode curl_code;                     // cURL status code
+  long http_code;                         // HTTP status code
+
+  // In windows, this will init the winsock stuff
+  curl_code = curl_global_init(CURL_GLOBAL_DEFAULT);
+
+  // Set the headers to JSON, makesure to use UTF-8
+  struct curl_slist *headers = NULL;
+  headers = curl_slist_append(headers, "Accept: application/json");
+  headers = curl_slist_append(headers, "Accept-Charset: utf-8");
+  headers = curl_slist_append(headers, "charsets: utf-8");
+  headers = curl_slist_append(headers, "Content-Type: application/json");
+
+  // get a curl handle
+  curl = curl_easy_init();
+
+  if(curl)
+  {
+    // Set the URL that we will be using for our POST.
+    curl_easy_setopt(curl, CURLOPT_URL, upload_URL.c_str());
+
+    // This is necessary! As I had issues with only 1 byte being sent off to iSENSE
+    // unless I made sure to make a string out of the upload_data picojson object,
+    // then with that string you can call c_str() on it below.
+    string upload_real = (value(upload_data).serialize());
+
+    // POST data. Upload will be the string with all the data.
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, upload_real.c_str());
+
+    // JSON Headers
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    // Verbose debug output - turn this on if you are having problems. It will spit out a ton
+    // of information, such as bytes sent off, headers/access/etc.
+    // Useful to see if you formatted the data right.
+    //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+    cout << "\nrSENSE response: \n";
+
+    // Perform the request, curl_code will get the return code
+    curl_code = curl_easy_perform(curl);
+
+    // This will put the HTTP response code into the "http_code" variable.
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+    /*
+     *  The iSENSE API gives us two response codes to check against:
+     *  Success: 200 OK (iSENSE handled the request fine)
+     *  Failure: 401 Unauthorized (email / password or contributor key was not valid)
+     *  Failure: 422 Unprocessable Entity (email or contributor key was fine,
+     *               but there was an issue with the upload for some reason.)
+     *               the request's formatting. Something in the formatting caused iSENSE to fail.)
+     */
+
+    if(http_code == 200)
+    {
+      cout << "\n\nPOST request successfully sent off to iSENSE!\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
+      cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
+      return true;
+    }
+    else if(http_code == 401)
+    {
+      cout << "\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
+      cout << "Try checking to make sure your contributor key is valid\n";
+      cout << "for the project you are trying to contribute to.\n";
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
+      return false;
+    }
+    else if(http_code == 422)
+    {
+      cout << "\n\nPOST request **failed**\n";
+      cout << "HTTP Response Code was: " << http_code << endl;
+      cout << "Something went wrong with iSENSE.\n";
+      cout << "Try formatting your data differently,\n";
+      cout << "using a contributor key instead of an email/password,\n";
+      cout << "or asking for help from others. You can also try running the\n";
+      cout << "the program with the \"debug\" method enabled, by typing: \n";
+      cout << "object_name.debug()\n";
+      cout << "This will output a ton of data to the console and may help you in\n";
+      cout << "debugging your program.\n";
+
+      curl_easy_cleanup(curl);                // always cleanup
+      curl_global_cleanup();
+
+      return false;
+    }
+
+    cout << "\n\nPOST request failed for some unknown reason.\n";
+
+    // For cURL return codes, see the following page:
+    // http://curl.haxx.se/libcurl/c/libcurl-errors.html
+    cout << "\ncURL return code was: " << curl_code << endl;
+
+    // Check for errors
+    if(curl_code != CURLE_OK)
+    {
+      fprintf(stderr, "\ncurl_easy_perform() failed: %s\n",
+              curl_easy_strerror(curl_code));
     }
 
     curl_easy_cleanup(curl);                // always cleanup
