@@ -21,9 +21,9 @@ int main ()
 
   // This will be a test of the append method.
   title = "test";
-  ID = "929";
-  key = "curl";
-  dataset_ID = "6639";
+  ID = "1023";
+  key = "key";
+  dataset_ID = "7680";
 
   // Add project info / dataset info to the object
   test.set_project_ID(ID);
@@ -34,8 +34,6 @@ int main ()
   timestamp = test.generate_timestamp();
 
   test.push_back("Number", "123456789");
-  test.push_back("Text", "THIS");
-  test.push_back("Timestamp", timestamp);
 
   // Try grabbing fields. Error checking occurs below.
   test.get_project_fields();

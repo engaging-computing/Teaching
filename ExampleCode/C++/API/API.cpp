@@ -1246,6 +1246,8 @@ bool iSENSE::post_append_email()
 
 // This function is called by the JSON upload function
 // It formats the upload string
+// Users should not have to call this function - API methods will,
+// and will pass an int value indicating which API method they are using.
 void iSENSE::format_upload_string(int key)
 {
   // Add the title + the correct formatting
