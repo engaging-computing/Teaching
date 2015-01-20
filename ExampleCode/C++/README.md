@@ -1,6 +1,13 @@
 C++ Example Code
 ================
 
+It is recommended that you compile any projects using the iSENSE C++ code in a Unix like system,
+either Linux or Mac OS.
+
+The code does work in Visual Studios but it is not trivial to set up.
+
+Setup
+------
 Some of these examples use cURL through the libcURL library for C.
 
 Linux
@@ -48,6 +55,8 @@ add the API files (api.cpp as well as the "include" directory) to the Xcode proj
 For more help with Xcode, [see the following site.](http://docs.millennialmedia.com/iOS-SDK/iOSAddingLinkerFlag.html)
 
 You can also check out the example project in the "Mac" directory in the Github repo.
+
+You should also be able to use the provided Makefile for Linux.
 
 Confirmed working in Windows 7, 8.1 (x64), Mac OS X 10.10.1 Yosemite and Ubuntu 14.04LTS (x64)
 
