@@ -121,6 +121,12 @@ public:
 
   // This formats one FIELD ID : DATA pair
   void format_data(vector<string> *vect, array::iterator it, string field_ID);
+  
+  // This function makes a GET request via libcurl
+  int get_data_function(int type);
+  
+  // This function makes a POST request via libcurl
+  int post_data_function(int type);
 
   /*  iSENSE API functions
    *        Note: methods which return bool return true for success and false for failure.
