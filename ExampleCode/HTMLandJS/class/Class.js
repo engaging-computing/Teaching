@@ -132,10 +132,10 @@ var isense = {
         var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
         var upload = {
 
-            'contribution_key': 'Key',
-            'title': 'titletylertitletyler',
-            'id': 7638,
-            'data': {'638':[4564]}
+            'email': 'isenseproject@gmail.com',
+            'password': 'fieilds',
+            'id': 7736,
+            'data': {'638':[4564,5,4,8,7,87,8,4,84]}
         }
         $.post(apiUrl, upload);
     }
