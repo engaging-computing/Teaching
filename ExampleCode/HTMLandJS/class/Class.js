@@ -123,6 +123,8 @@ var isense = {
             'contributor_name': this.contributorName,
             'data': dataForPost
         }
+
+        console.log(dataForPost);
         $.post(apiUrl, upload);
         alert("Post Successful");
     },
@@ -132,9 +134,9 @@ var isense = {
         var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
         var upload = {
 
-            'email': 'isenseproject@gmail.com',
-            'password': 'fieilds',
-            'id': 7736,
+            'contribution_key' : 'Key',
+            'title' : 'asleifjsliejfasliefj',
+            'id': 7388,
             'data': {'638':[4564,5,4,8,7,87,8,4,84]}
         }
         $.post(apiUrl, upload);
