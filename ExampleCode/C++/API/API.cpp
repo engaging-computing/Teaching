@@ -149,9 +149,9 @@ void iSENSE::clear_data(void)
   map_data.clear();
 
   /* Clear the picojson objects:
-   * object upload_data, fields_data;
-   * value get_data, fields;
-   * array fields_array;
+   * object: upload_data, fields_data;
+   *  value: get_data, fields;
+   *  array: fields_array;
    */
 
   // Under the hood picojson::objects are STL maps and picojson::arrays are STL vectors.
@@ -495,16 +495,97 @@ bool iSENSE::get_datasetID_byTitle()
     return false;
   }
 
+  // This project will try using CURL to make a basic GET request to rSENSE
+  // It will then save the JSON it recieves into a picojson object.
+  CURL *curl = curl_easy_init();      // cURL object
+  CURLcode curl_code;                 // cURL status code
+  long http_code;                     // HTTP status code
+  MEMFILE* json_file = memfopen();    // Writing JSON to this file.
+  char error[256];                    // Errors get written here
+
+  if(curl)
+  {
+    curl_easy_setopt(curl, CURLOPT_URL, get_URL.c_str());
+    curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, &error);    // Write errors to the array "error"
+
+    // From the picojson example, "github-issues.cc". Used  for writing the JSON to a file.
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, memfwrite);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, json_file);
+
+    // Perform the request, res will get the return code
+    curl_code = curl_easy_perform(curl);
+
+    // We can actually get the HTTP response code from cURL, so let's do so to check for errors.
+    http_code = 0;
+
+    // This will put the HTTP response code into the "http_code" variable.
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+    /*
+     *  The iSENSE API gives us one response code to check against:
+     *  Success: 200 OK
+     *  If we do not get a code 200 from iSENSE, something went wrong.
+     */
+
+    // If we do not get a code 200, or cURL quits for some reason, we didn't successfully
+    // get the project's fields.
+    if(http_code != 200)
+    {
+      cout << "\nGET project fields failed.\n";
+      cout << "Is the project ID you entered valid?\n";
+
+      // Clean up cURL and close the memfile
+      curl_easy_cleanup(curl);
+      curl_global_cleanup();
+      memfclose(json_file);
+
+      return false;
+    }
+
+    // We got a code 200, so try and parse the JSON into a PICOJSON object.
+    // Error checking for the parsing occurs below.
+    string errors;
+
+    // This will parse the JSON file.
+    parse(get_data, json_file->data, json_file->data + json_file->size, &errors);
+
+    // If we have errors, print them out and quit.
+    if(errors.empty() != true)
+    {
+      cout << "\nError parsing JSON file!\n";
+      cout << "Error was: " << errors;
+      return false;
+    }
+
+    // Save the fields to the field array
+    fields = get_data.get("fields");
+    fields_array = fields.get<array>();
+  }
+
+  // Clean up cURL and close the memfile
+  curl_easy_cleanup(curl);
+  curl_global_cleanup();
+  memfclose(json_file);
+
   // If we have both a title and project ID, we can grab the dataset ID from the get data.
   return true;
 }
 
 
-// GET request using libcurl
-int iSENSE::get_data_function(int type)
+// Given a project ID has been set, this method will return a string of JSON from iSENSE,
+// containing various information about the given project.
+bool get_projects_by_id()
 {
-  // This will be implemented at a later date to simplify the above code.
-  return 1;
+  // Check that the project ID is set properly.
+  // When the ID is set, the fields are also pulled down as well.
+  if(project_ID == "empty" || project_ID.empty())
+  {
+    cout << "\nError - please set a project ID!\n";
+    return false;
+  }
+
+
+
 }
 
 
@@ -552,12 +633,12 @@ bool iSENSE::post_json_key()
 
   // Should make sure each vector is not empty as well, since I had issues uploading
   // if any ONE vector was empty. rSENSE complained about the nil class.
-  
+
   upload_URL = devURL + "/projects/" + project_ID + "/jsonDataUpload";
 
   // Call the POST function, give it type 1 since this is a upload JSON by contributor key.
   int http_code = post_data_function(1);
-  
+
   /*
   *  The iSENSE API gives us two response codes to check against:
   *  Success: 200 OK (iSENSE handled the request fine)
@@ -566,7 +647,7 @@ bool iSENSE::post_json_key()
   *           but there was an issue with the request's formatting.
   *           Something in the formatting caused iSENSE to fail.)
   */
-  
+
   if(http_code == 200)
   {
     cout << "\n\nPOST request successfully sent off to iSENSE!\n";
@@ -664,7 +745,7 @@ bool iSENSE::post_append_key()
 
   // Call the POST function, give it type 2 since this is an append by contributor key.
   int http_code = post_data_function(2);
-  
+
    /*
     *  The iSENSE API gives us two response codes to check against:
     *  Success: 200 OK (iSENSE handled the request fine)
@@ -673,7 +754,7 @@ bool iSENSE::post_append_key()
     *           but there was an issue with the request's formatting.
     *           Something in the formatting caused iSENSE to fail.)
     */
-  
+
   if(http_code == 200)
   {
     cout << "\n\nPOST request successfully sent off to iSENSE!\n";
@@ -761,13 +842,13 @@ bool iSENSE::post_json_email()
 
   // Should make sure each vector is not empty as well, since I had issues uploading
   // if any ONE vector was empty. rSENSE complained about the nil class.
-  
+
   // Make sure to set the upload URL!
   upload_URL = devURL + "/projects/" + project_ID + "/jsonDataUpload";
 
   // Call the POST function, give it type 3 since this is upload JSON by email & password.
   int http_code = post_data_function(3);
-  
+
   /*
     *  The iSENSE API gives us two response codes to check against:
     *  Success: 200 OK (iSENSE handled the request fine)
@@ -806,7 +887,7 @@ bool iSENSE::post_json_email()
     cout << "debugging your program.\n";
     return false;
   }
-  
+
   // If something really fails.
   cout << "cURL failed for some reason. Make sure you have all the required files \n";
   cout << "and have set up your project / directory correctly.\n";
@@ -1025,7 +1106,7 @@ void iSENSE::format_data(vector<string> *vect, array::iterator it, string field_
 /*    This function is called by all of the POST functions.
  *    It must be given a parameter, an integer "type", which determines
  *    which way the JSON should be formatted in the format_upload_string function.
- * 
+ *
  *    Function returns an HTTP response code, like "200", "404", "503", etc.
  */
 int iSENSE::post_data_function(int type)
@@ -1037,7 +1118,7 @@ int iSENSE::post_data_function(int type)
     cout << "\n\nPlease set a valid upload URL.\n";
     return -1;
   }
-  
+
   // Format the data to be uploaded. Call another function to format this.
   format_upload_string(type);
 
@@ -1099,11 +1180,11 @@ int iSENSE::post_data_function(int type)
     // Clean up curl.
     curl_easy_cleanup(curl);
     curl_global_cleanup();
-    
+
     // Return the HTTP code we get from curl.
     return http_code;
   }
-  
+
   // If curl fails for some reason, return -1.
   return -1;
 }

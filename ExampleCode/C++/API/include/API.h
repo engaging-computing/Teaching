@@ -122,9 +122,6 @@ public:
   // This formats one FIELD ID : DATA pair
   void format_data(vector<string> *vect, array::iterator it, string field_ID);
 
-  // This function makes a GET request via libcurl
-  int get_data_function(int type);
-
   // This function makes a POST request via libcurl
   int post_data_function(int type);
 
@@ -134,6 +131,7 @@ public:
   bool get_check_user();          // Checks to see if a username / password is valid
   bool get_project_fields();      // Pulls the fields and puts them into the fields object & array
   bool get_datasetID_byTitle();   // Append function will call this function if a title has been set.
+  bool get_projects_by_id(string project_ID);   // Get information about a project by project ID
 
   // Search for projects with the search term
   vector<string> get_projects_search(string search_term);
@@ -173,7 +171,7 @@ public:
    *  void post_fields_email();            // Post fields  by email / password
    *  void post_projects_email();          // Post a project by email / password
    *
-   *  void get_projects_by_id(string project_ID);   // Get information about a project by project ID
+   *
    *  void get_fields_by_id();                      // Get information about a field by field ID
    *  void get_search_projects(string search_term); // Search for projects by search term
    *
