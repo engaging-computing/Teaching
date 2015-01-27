@@ -1,5 +1,5 @@
 CC		= g++
-CFLAGS = -O0 -g -Wall -Wextra -pedantic-errors  -w -std=c++11
+CFLAGS = -O0 -g -Wall -Wextra -pedantic-errors -w -std=c++11
 
 all:
 	$(CC) $(CFLAGS) POST_key.cpp API.cpp -o key.out -lcurl

@@ -196,7 +196,6 @@ vector<string> iSENSE::get_projects_search(string search_term)
 
   // This project will try using CURL to make a basic GET request to rSENSE
   CURL *curl = curl_easy_init();          // cURL object
-  CURLcode curl_code;                     // cURL status code
   long http_code;                         // HTTP status code
   MEMFILE* json_file = memfopen();        // Writing JSON to this file.
   char error[256];                        // Errors get written here
@@ -309,6 +308,11 @@ vector<string> iSENSE::get_projects_search(string search_term)
 
     return project_titles;
   }
+
+  // If we get here, this returns an empty vector.
+  // So if curl fails, an empty vector gets returned.
+  cout << "\ncurl failed, so an empty vector was returned.\n";
+  return project_titles;
 }
 
 
@@ -334,7 +338,6 @@ bool iSENSE::get_check_user()
 
   // This project will try using CURL to make a basic GET request to rSENSE
   CURL *curl = curl_easy_init();          // cURL object
-  CURLcode curl_code;                     // cURL status code
   long http_code;                         // HTTP status code
 
   if(curl)
@@ -520,7 +523,7 @@ bool iSENSE::post_json_key()
     return false;
   }
 
-  if(contributor_key == "key" || contributor_key.empty())
+  if(contributor_key.empty())
   {
     cout << "\nErrror - please set a contributor key!\n";
     return false;
@@ -705,7 +708,7 @@ bool iSENSE::post_append_key()
     return false;
   }
 
-  if(contributor_key == "key" || contributor_key.empty())
+  if(contributor_key.empty())
   {
     cout << "\nErrror - please set a contributor key!\n";
     return false;
