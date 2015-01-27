@@ -121,10 +121,10 @@ public:
 
   // This formats one FIELD ID : DATA pair
   void format_data(vector<string> *vect, array::iterator it, string field_ID);
-  
+
   // This function makes a GET request via libcurl
   int get_data_function(int type);
-  
+
   // This function makes a POST request via libcurl
   int post_data_function(int type);
 
@@ -140,6 +140,19 @@ public:
 
   bool post_json_email();          // Post using a email / password
   bool post_json_key();            // Post using contributor key
+
+  /*    Notes about the append & edit functions
+   *
+   *    Appending & editing by key is tricky.
+   *    In general, you should only be able to append or edit a dataset that you uploaded with
+   *    your contributor key. You cannot append to just any project with email & password. It
+   *    DOES not work like uploading a dataset - you will only be able to append to datasets you
+   *    own - i.e. projects you've created while logged in.
+   *
+   *    To sum up:
+   *    Contributor key appends to contributor key datasets that YOUR KEY uploaded.
+   *    Email & password appends to datasets YOU uploaded OR any datasets in projects YOU created.
+   */
 
   // Will need a way to get dataset ID from dataset title.
   // Then this function will need to call set_dataset_ID()
