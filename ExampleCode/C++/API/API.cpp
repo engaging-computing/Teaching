@@ -591,118 +591,6 @@ bool iSENSE::get_datasets_and_mediaobjects()
 }
 
 
-// Append function will call this function if a title has been set.
-bool iSENSE::get_datasetID_byTitle()
-{
-  // Check that a title has been set.
-  if(title == "title" || title.empty())
-  {
-    cout << "\nError - please set a project title!\n";
-    return false;
-  }
-
-  // Check that the project ID is set properly.
-  // When the ID is set, the fields are also pulled down as well.
-  if(project_ID == "empty" || project_ID.empty())
-  {
-    cout << "\nError - please set a project ID!\n";
-    return false;
-  }
-
-  // This project will try using CURL to make a basic GET request to rSENSE
-  // It will then save the JSON it recieves into a picojson object.
-  CURL *curl = curl_easy_init();      // cURL object
-  CURLcode curl_code;                 // cURL status code
-  long http_code;                     // HTTP status code
-  MEMFILE* json_file = memfopen();    // Writing JSON to this file.
-  char error[256];                    // Errors get written here
-
-  if(curl)
-  {
-    curl_easy_setopt(curl, CURLOPT_URL, get_URL.c_str());
-    curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, &error);    // Write errors to the array "error"
-
-    // From the picojson example, "github-issues.cc". Used  for writing the JSON to a file.
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, memfwrite);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, json_file);
-
-    // Perform the request, res will get the return code
-    curl_code = curl_easy_perform(curl);
-
-    // We can actually get the HTTP response code from cURL, so let's do so to check for errors.
-    http_code = 0;
-
-    // This will put the HTTP response code into the "http_code" variable.
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-    /*
-     *  The iSENSE API gives us one response code to check against:
-     *  Success: 200 OK
-     *  If we do not get a code 200 from iSENSE, something went wrong.
-     */
-
-    // If we do not get a code 200, or cURL quits for some reason, we didn't successfully
-    // get the project's fields.
-    if(http_code != 200)
-    {
-      cout << "\nGET project fields failed.\n";
-      cout << "Is the project ID you entered valid?\n";
-
-      // Clean up cURL and close the memfile
-      curl_easy_cleanup(curl);
-      curl_global_cleanup();
-      memfclose(json_file);
-
-      return false;
-    }
-
-    // We got a code 200, so try and parse the JSON into a PICOJSON object.
-    // Error checking for the parsing occurs below.
-    string errors;
-
-    // This will parse the JSON file.
-    parse(get_data, json_file->data, json_file->data + json_file->size, &errors);
-
-    // If we have errors, print them out and quit.
-    if(errors.empty() != true)
-    {
-      cout << "\nError parsing JSON file!\n";
-      cout << "Error was: " << errors;
-      return false;
-    }
-
-    // Save the fields to the field array
-    fields = get_data.get("fields");
-    fields_array = fields.get<array>();
-  }
-
-  // Clean up cURL and close the memfile
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
-  memfclose(json_file);
-
-  // If we have both a title and project ID, we can grab the dataset ID from the get data.
-  return true;
-}
-
-
-// Given a project ID has been set, this method will return a string of JSON from iSENSE,
-// containing various information about the given project.
-bool iSENSE::get_projects_by_id()
-{
-  // Check that the project ID is set properly.
-  // When the ID is set, the fields are also pulled down as well.
-  if(project_ID == "empty" || project_ID.empty())
-  {
-    cout << "\nError - please set a project ID!\n";
-    return false;
-  }
-
-
-
-}
-
-
 // Call this function to POST data to rSENSE
 bool iSENSE::post_json_key()
 {
@@ -804,13 +692,13 @@ bool iSENSE::post_json_key()
 }
 
 
-// Post append using key
-/*
- * Having issues getting this to work. Seem to be getting the following error:
- * Contribution key not valid
- *
+/*    Append to a dataset using its dataset_ID.
+ *    The dataset ID can be found on iSENSE by going to a project and clicking on
+ *    a dataset.
+ *    In the future, uploading JSON will return the dataset ID for this function
+ *    (assuming iSENSE allows that)
  */
-bool iSENSE::post_append_key()
+bool iSENSE::append_key_byID(string dataset_ID)
 {
   /*
    *  These first couple of if statements perform some basic error checking, such as
@@ -902,6 +790,87 @@ bool iSENSE::post_append_key()
   // If we really fail.
   cout << "cURL failed for some reason. Make sure you have all the required files \n";
   cout << "and have set up your project / directory correctly.\n";
+  return false;
+}
+
+
+/*
+ *    Appends to a dataset using its dataset name, which can be used to find a dataset ID
+ *    We can find the dataset ID by comparing against all the datasets in a given project
+ *    until we find the dataset with the given name.
+ *
+ */
+bool iSENSE::append_key_byName(string dataset_name)
+{
+  /*
+   *  These first couple of if statements perform some basic error checking, such as
+   *  whether or not all the required fields have been set up.
+   */
+
+  // Check that the project ID is set properly.
+  // When the ID is set, the fields are also pulled down as well.
+  if(project_ID == "empty" || project_ID.empty())
+  {
+    cout << "\nError - please set a project ID!\n";
+    return false;
+  }
+
+  // Check that a title and contributor key has been set.
+  if(title == "title" || title.empty())
+  {
+    cout << "\nError - please set a project title!\n";
+    return false;
+  }
+
+  if(contributor_key.empty())
+  {
+    cout << "\nErrror - please set a contributor key!\n";
+    return false;
+  }
+
+  // If a label wasn't set, automatically set it to "cURL"
+  if(contributor_label == "label" || contributor_label.empty())
+  {
+    contributor_label = "cURL";
+  }
+
+  // Make sure the map actually has stuff pushed to it.
+  if(map_data.empty())
+  {
+    cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
+    return false;
+  }
+
+  // We can now find the dataset ID by comparing against all the datasets in this project.
+  // First pull down the datasets
+  get_datasets_and_mediaobjects();
+
+  // Now compare the dataset name that the user provided with datasets in the project.
+  // Use an iterator to go through all the datasets
+  array::iterator it;
+
+  // We made an iterator above, that will let us run through the fields
+  for(it = data_sets.begin(); it != data_sets.end(); it++)
+  {
+    // Get the current object
+    object obj = it->get<object>();
+
+    // Grab the field ID and save it in a string/
+    string ID = obj["id"].to_str();
+
+    // Grab the field name
+    string name = obj["name"].get<string>();
+
+    // Compare this current name against the dataset name that was passed into this method.
+    if(name == dataset_name)
+    {
+      // We found the name, so call the append by ID function and quit with success.
+      append_key_byID(ID);
+      return true;
+    }
+  }
+
+  // If we got here, we failed to find that dataset name in the current project.
   return false;
 }
 
@@ -1010,17 +979,7 @@ bool iSENSE::post_json_email()
 
 
 // Post append using email and password
-// This should work based on some tests using POSTMAN.
-// Not sure why contributor keys will not work ATM.
-/*
- * Note: at some point this method and the above three methods should be combined into
- *       just two methods that take a parameter. Something like:
- *       if(int == 1)
- *          uploadDataSet
- *       else if(int == 2)
- *          append to DataSet by ID.
- */
-bool iSENSE::post_append_email()
+bool iSENSE::append_email_byID(string dataset_ID)
 {
   /*
    *        These first couple of if statements perform some basic error checking, such as
@@ -1052,12 +1011,6 @@ bool iSENSE::post_append_email()
   {
     cout << "\nErrror - please set a password!\n";
     return false;
-  }
-
-  // If a label wasn't set, automatically set it to "cURL"
-  if(contributor_label == "label" || contributor_label.empty())
-  {
-    contributor_label = "cURL";
   }
 
   // Make sure the map actually has stuff pushed to it.
@@ -1118,6 +1071,82 @@ bool iSENSE::post_append_email()
   // If something really fails.
   cout << "cURL failed for some reason. Make sure you have all the required files \n";
   cout << "and have set up your project / directory correctly.\n";
+  return false;
+}
+
+
+/*
+ *    Appends to a dataset using its dataset name, which can be used to find a dataset ID
+ *    We can find the dataset ID by comparing against all the datasets in a given project
+ *    until we find the dataset with the given name.
+ *
+ */
+bool iSENSE::append_email_byName(string dataset_name)
+{
+  // Check that the project ID is set properly.
+  // When the ID is set, the fields are also pulled down as well.
+  if(project_ID == "empty" || project_ID.empty())
+  {
+    cout << "\nError - please set a project ID!\n";
+    return false;
+  }
+
+  // Check that a title and contributor key has been set.
+  if(title == "title" || title.empty())
+  {
+    cout << "\nError - please set a project title!\n";
+    return false;
+  }
+
+  if(email == "email" || email.empty())
+  {
+    cout << "\nErrror - please set an email address!\n";
+    return false;
+  }
+
+  if(password == "password" || password.empty())
+  {
+    cout << "\nErrror - please set a password!\n";
+    return false;
+  }
+
+  // Make sure the map actually has stuff pushed to it.
+  if(map_data.empty())
+  {
+    cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
+    return false;
+  }
+
+  // We can now find the dataset ID by comparing against all the datasets in this project.
+  // First pull down the datasets
+  get_datasets_and_mediaobjects();
+
+  // Now compare the dataset name that the user provided with datasets in the project.
+  // Use an iterator to go through all the datasets
+  array::iterator it;
+
+  // We made an iterator above, that will let us run through the fields
+  for(it = data_sets.begin(); it != data_sets.end(); it++)
+  {
+    // Get the current object
+    object obj = it->get<object>();
+
+    // Grab the field ID and save it in a string/
+    string ID = obj["id"].to_str();
+
+    // Grab the field name
+    string name = obj["name"].get<string>();
+
+    // Compare this current name against the dataset name that was passed into this method.
+    if(name == dataset_name)
+    {
+      // We found the name, so call the append by ID function and quit with success.
+      append_key_byID(ID);
+      return true;
+    }
+  }
+
+  // If we got here, we failed to find that dataset name in the current project.
   return false;
 }
 

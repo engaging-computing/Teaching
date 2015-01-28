@@ -130,8 +130,6 @@ public:
    *        They also output the reasons for failure to the screen.   */
   bool get_check_user();          // Checks to see if a username / password is valid
   bool get_project_fields();      // Pulls the fields and puts them into the fields object & array
-  bool get_datasetID_byTitle();   // Append function will call this function if a title has been set.
-  bool get_projects_by_id();      // Get information about a project by project ID
 
   // This function grabs fields, datasets, media objects and owner information
   // Saves these arrays into picojson arrays.
@@ -154,19 +152,32 @@ public:
    *    To sum up:
    *    Contributor key appends to contributor key datasets that YOUR KEY uploaded.
    *    Email & password appends to datasets YOU uploaded OR any datasets in projects YOU created.
+   *
+   *    You should also call
+   *    bool get_datasets_and_mediaobjects();
+   *    before using any of the editing and appending methods.
+   *
+   *    Note - the edit functions are not yet complete.
+   *
    */
 
   // Will need a way to get dataset ID from dataset title.
   // Then this function will need to call set_dataset_ID()
-  bool get_edit_key();             // Edit a dataset with a dataset ID & contributor key
-  bool post_append_key();          // Amend a dataset with a contributor key
+  bool get_edit_key();                 // Edit a dataset with a dataset ID & contributor key
+
+  // The first one uses dataset_IDs, the other uses dataset names as seen on iSENSE.
+  bool append_key_byID(string dataset_ID);       // Appends a dataset with a contributor key
+  bool append_key_byName(string dataset_name);   // Appends by dataset_name
 
   // Same as the above two functions, will need to find a way to append using
   // dataset names.
   bool get_edit_user();               // Edit a dataset with a dataset ID & email / password
-  bool post_append_email();            // Amend a dataset with a email / password
 
-  // Post media objects.
+  // The first one uses datset_IDs, the other uses dataset names as seen on iSENSE
+  bool append_email_byID(string dataset_ID);        // Amend a dataset with a email / password
+  bool append_email_byName(string dataset_name);
+
+  // Post media objects - this is less of a priority but still could be interesting to do.
   bool post_media_objects_email();
   bool post_media_objects_key();
 

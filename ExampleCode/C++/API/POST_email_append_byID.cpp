@@ -61,7 +61,7 @@ int main ()
   }
 
   cout << "\nUploading to rSENSE.\n";
-  test.post_append_email();
+  test.append_email_byID(dataset_ID);
 
   // Debugging
   test.debug();
