@@ -54,7 +54,7 @@ void iSENSE::set_project_ID(string proj_ID)
   // Set the Project ID, and the upload/get URLs as well.
   project_ID = proj_ID;
   upload_URL = devURL + "/projects/" + project_ID + "/jsonDataUpload";
-  get_URL = devURL + "/projects/" + project_ID ;
+  get_URL = devURL + "/projects/" + project_ID;
   get_project_fields();
 }
 
@@ -157,6 +157,7 @@ void iSENSE::clear_data(void)
   // Under the hood picojson::objects are STL maps and picojson::arrays are STL vectors.
   upload_data.clear();
   fields_data.clear();
+  owner_info.clear();
 
   // Uses picojson's = operator to clear the get_data object and the fields object.
   value new_object;
@@ -165,6 +166,8 @@ void iSENSE::clear_data(void)
 
   // Clear the field array (STL vector)
   fields_array.clear();
+  media_objects.clear();
+  data_sets.clear();
 }
 
 
@@ -400,6 +403,8 @@ bool iSENSE::get_project_fields()
     return false;
   }
 
+  get_URL = devURL + "/projects/" + project_ID;
+
   // This project will try using CURL to make a basic GET request to rSENSE
   // It will then save the JSON it recieves into a picojson object.
   CURL *curl = curl_easy_init();      // cURL object
@@ -429,7 +434,7 @@ bool iSENSE::get_project_fields()
     /*
      *  The iSENSE API gives us one response code to check against:
      *  Success: 200 OK
-     *  If we do not get a code 200 from iSENSE, something went wrong.
+     *  Failure: 404 Not Found
      */
 
     // If we do not get a code 200, or cURL quits for some reason, we didn't successfully
@@ -473,6 +478,115 @@ bool iSENSE::get_project_fields()
   memfclose(json_file);
 
   // Return true as we were able to successfully get the project's fields.
+  return true;
+}
+
+
+// Given that a project ID has been set, this function
+// makes a GET request and saves all the datasets & media objects
+// into two picojson arrays.
+// It will also update the fields for that given project ID
+bool iSENSE::get_datasets_and_mediaobjects()
+{
+  // Check that the project ID is set properly.
+  // When the ID is set, the fields are also pulled down as well.
+  if(project_ID == "empty" || project_ID.empty())
+  {
+    cout << "\nError - please set a project ID!\n";
+    return false;
+  }
+
+  // The "?recur=true" will make iSENSE return:
+  // ALL datasets in that project.
+  // ALL media objects in that project
+  // And owner information.
+  get_URL = devURL + "/projects/" + project_ID + "?recur=true";
+
+  // This project will try using CURL to make a basic GET request to rSENSE
+  // It will then save the JSON it recieves into a picojson object.
+  CURL *curl = curl_easy_init();      // cURL object
+  CURLcode curl_code;                 // cURL status code
+  long http_code;                     // HTTP status code
+  MEMFILE* json_file = memfopen();    // Writing JSON to this file.
+  char error[256];                    // Errors get written here
+
+  if(curl)
+  {
+    curl_easy_setopt(curl, CURLOPT_URL, get_URL.c_str());
+    curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, &error);    // Write errors to the array "error"
+
+    // From the picojson example, "github-issues.cc". Used  for writing the JSON to a file.
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, memfwrite);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, json_file);
+
+    // Perform the request, res will get the return code
+    curl_code = curl_easy_perform(curl);
+
+    // We can actually get the HTTP response code from cURL, so let's do so to check for errors.
+    http_code = 0;
+
+    // This will put the HTTP response code into the "http_code" variable.
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+    /*
+     *  The iSENSE API gives us one response code to check against:
+     *  Success: 200 OK
+     *  Failure: 404 Not Found
+     */
+
+    // If we do not get a code 200, or cURL quits for some reason, we didn't successfully
+    // get the project's fields.
+    if(http_code != 200)
+    {
+      cout << "\nGET project fields failed.\n";
+      cout << "Is the project ID you entered valid?\n";
+
+      // Clean up cURL and close the memfile
+      curl_easy_cleanup(curl);
+      curl_global_cleanup();
+      memfclose(json_file);
+
+      return false;
+    }
+
+    // We got a code 200, so try and parse the JSON into a PICOJSON object.
+    // Error checking for the parsing occurs below.
+    string errors;
+
+    // This will parse the JSON file.
+    parse(get_data, json_file->data, json_file->data + json_file->size, &errors);
+
+    // If we have errors, print them out and quit.
+    if(errors.empty() != true)
+    {
+      cout << "\nError parsing JSON file!\n";
+      cout << "Error was: " << errors;
+      return false;
+    }
+
+    // Save the fields to the field array
+    fields = get_data.get("fields");
+    fields_array = fields.get<array>();
+
+    // Save the datasets to the datasets array
+    value temp = get_data.get("dataSets");
+    data_sets = temp.get<array>();
+
+    // Save the media objects to the media objects array
+    value temp2 = get_data.get("mediaObjects");
+    media_objects = temp2.get<array>();
+
+    // Save the owner info.
+    value temp3 = get_data.get("owner");
+    owner_info = temp3.get<object>();
+  }
+
+  // Clean up cURL and close the memfile
+  curl_easy_cleanup(curl);
+  curl_global_cleanup();
+  memfclose(json_file);
+
+  // If we have both a title and project ID, we can grab the dataset ID from the get data.
   return true;
 }
 
@@ -574,7 +688,7 @@ bool iSENSE::get_datasetID_byTitle()
 
 // Given a project ID has been set, this method will return a string of JSON from iSENSE,
 // containing various information about the given project.
-bool get_projects_by_id()
+bool iSENSE::get_projects_by_id()
 {
   // Check that the project ID is set properly.
   // When the ID is set, the fields are also pulled down as well.
@@ -1209,6 +1323,12 @@ void iSENSE::debug()
   cout << "GET Data (picojson value): \n" << get_data.serialize() << "\n\n";
   cout << "GET Field Data (picojson value): \n" << fields.serialize() << "\n\n";
   cout << "GET Fields array (picojson array): \n" << value(fields_array).serialize() << "\n\n";
+
+  // This part may get huge depending on the project!
+  // May want a confirm if the user actually wants to display these.
+  cout << "Datasets (picojson array): " << value(data_sets).serialize() << "\n\n";
+  cout << "Media objects (picojson array): " << value(media_objects).serialize() << "\n\n";
+  cout << "Owner info (picojson object): " << value(owner_info).serialize() << "\n\n";
 
   cout << "Map data: \n\n";
 

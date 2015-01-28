@@ -110,7 +110,7 @@ public:
   void push_vector(string field_name, vector<string> data);
 
   // Resets the object and clears the map.
-  void clear_data(void);
+  void clear_data();
 
   // Timestamp function to make it easier for users to use timestamps in their project.
   // Only returns the timestamp, does not add it to the map.
@@ -131,7 +131,11 @@ public:
   bool get_check_user();          // Checks to see if a username / password is valid
   bool get_project_fields();      // Pulls the fields and puts them into the fields object & array
   bool get_datasetID_byTitle();   // Append function will call this function if a title has been set.
-  bool get_projects_by_id(string project_ID);   // Get information about a project by project ID
+  bool get_projects_by_id();      // Get information about a project by project ID
+
+  // This function grabs fields, datasets, media objects and owner information
+  // Saves these arrays into picojson arrays.
+  bool get_datasets_and_mediaobjects();
 
   // Search for projects with the search term
   vector<string> get_projects_search(string search_term);
@@ -168,15 +172,10 @@ public:
 
   /*  Future functions to be implemented at a later date.
    *
-   *  void post_fields_email();            // Post fields  by email / password
-   *  void post_projects_email();          // Post a project by email / password
+   *  void get_fields_by_id();       // Get information about a field by field ID
    *
-   *
-   *  void get_fields_by_id();                      // Get information about a field by field ID
-   *  void get_search_projects(string search_term); // Search for projects by search term
-   *
-   *  // Possibly try posting media objects by email/password or contributor key.
-
+   *  void post_fields_email();      // Post fields  by email / password
+   *  void post_projects_email();    // Post a project by email / password
    */
 
   // For debugging, dumps all the data.
@@ -189,7 +188,7 @@ private:
    *  The fields data object is the object that the 'data' part contains in the upload_data object.
    *  Basically it is a bunch of key:values, with the key being the field ID and the value being an
    *  array of data, whether it be numbers/text/etc.    */
-  object upload_data, fields_data;
+  object upload_data, fields_data, owner_info;
 
   /*  These three objects are the data that is pulled off iSENSE for the given project.
    *  The get_data object contains all the data we can pull off of iSENSE (like what you find
@@ -197,7 +196,7 @@ private:
    *  information, and the fields_array has that same data in an array form for iterating
    *  through it.  */
   value get_data, fields;
-  array fields_array;
+  array fields_array, data_sets, media_objects;
 
   /*  Data to be uploaded to iSENSE. The string is the field name, the vector of strings
    *  contains all the data for that field name.  */
@@ -212,7 +211,7 @@ private:
   string get_UserURL;               // URL to test credentials
   string title;                     // title for the dataset
   string project_ID;                // project ID of the project
-  string dataset_ID;                // dataset ID for the dataset you want to append.
+  string dataset_ID;                // dataset ID for the dataset you want to append to.
   string contributor_label;         // Label for the contributor key. by default this is "cURL"
   string contributor_key;           // contributor key for the project
   string email;                     // Email to be used to upload the data

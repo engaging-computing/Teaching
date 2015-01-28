@@ -9,6 +9,7 @@ all:
 	$(CC) $(CFLAGS) POST_API_Test.cpp API.cpp -o api.out -lcurl
 	$(CC) $(CFLAGS) tests.cpp API.cpp -o tests.out -lcurl
 	$(CC) $(CFLAGS) GET_search.cpp API.cpp -o search.out -lcurl
+	$(CC) $(CFLAGS) GET_Datasets.cpp API.cpp -o datasets.out -lcurl
 
 clean:
 	rm key.out
@@ -18,3 +19,4 @@ clean:
 	rm api.out
 	rm tests.out
 	rm search.out
+	rm datasets.out
