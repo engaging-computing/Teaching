@@ -20,8 +20,23 @@ function get(){
 
 
 	isense.postDataset(927,"Key","Dice Roll","TEST","Tyler",data);  // Project ID,Contributor Key,Title,Contributor Name,data as an array
+<<<<<<< HEAD
 	*/
 }
 
 
 
+=======
+
+	fieldNameArray = ['Walks','Home Runs'];
+
+	data1 = [1,2];
+	data2 = [10,11,12,13];
+
+	ArrayofDataArrays = [data1,data2];
+
+
+
+	isense.postMultipleDataset(106,'Key',fieldNameArray,'title','Tyler',ArrayofDataArrays)
+}
+>>>>>>> d284520582fc9b92075f98da6b6a3cbfc90b2d5a
