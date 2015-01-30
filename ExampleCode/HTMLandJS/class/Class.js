@@ -140,8 +140,9 @@ var isense = {
             'data': {'638':[4564,5,4,8,7,87,8,4,84]}
         }
         $.post(apiUrl, upload);
+    },
 
-    postMultipleDataset: function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
+    postMultipleDataset : function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
 
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);

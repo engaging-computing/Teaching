@@ -7,10 +7,10 @@ function get(){
 
 	data = [2,5,4,8,7,4,4];
 
-	isense.postDataset('Runs','lsifjel684iefj',data);
+	//isense.postDataset('Runs','lsifjel684iefj',data);
 	fields = ['Runs','Hits','Walks'];
 
-	isense.appendToDataset(fields,'titlesldfijsleifj',data);
+	//isense.appendToDataset(fields,'titlesldfijsleifj',data);
 
 	fieldNameArray = ['Walks','Home Runs'];
 
