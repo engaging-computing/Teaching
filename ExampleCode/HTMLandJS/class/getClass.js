@@ -1,6 +1,5 @@
 function get(){
 
-
 	isense.isense(106,'key','JIM');
 
 	console.log(isense.getDatasetFieldData('MLB Team Statistics 2013','Runs'));
@@ -21,6 +20,9 @@ function get(){
 
 
 
-	isense.postMultipleDataset(106,'Key',fieldNameArray,'title','Tyler',ArrayofDataArrays)
+	isense.postMultipleDataset(106,'key',fieldNameArray,'title4684','contributorName',ArrayofDataArrays);
+
+	isense.postDatasetHorizontal(fieldNameArray,'title',ArrayofDataArrays);
+
 }
 

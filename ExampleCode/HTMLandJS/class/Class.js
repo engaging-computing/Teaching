@@ -11,7 +11,6 @@ var isense = {
         this.contributorName = contributorName;
     },
 
-
     projectGetRequest : function() {
 
         var urlProject = baseUrl+ 'projects/' + this.projectID+'?recur=true';
@@ -174,7 +173,7 @@ var isense = {
 
         console.log(dataForPost['645']);
 
-        var apiUrl = baseUrl+projectID+'/jsonDataUpload';
+        var apiUrl = baseUrl+ 'projects/' + projectID+'/jsonDataUpload';
         var upload = {
 
             'title': title + ' ' + timestamp,
