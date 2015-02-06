@@ -60,7 +60,7 @@ def postDataset(projectID,contributionKey,fieldName,datasetName,contributorName,
     payload = {
         'title': datasetName + ' ' + timestamp_reformatted,                                 
         'contribution_key':  contributionKey,                    
-        'contributor_name': contributorName,
+        'contributor_name': contributor_name,
         'data':
         {
             fieldID: fieldData
