@@ -12,6 +12,12 @@ using std::to_string;
 // For picojson
 using namespace picojson;
 
+/*
+ * This code tests appending by dataset ID
+ * NOT by dataset name.
+ *
+ */
+
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
 int main ()
 {
@@ -64,7 +70,7 @@ int main ()
   test.append_email_byID(dataset_ID);
 
   // Debugging
-  test.debug();
+//   test.debug();
 
   // In the future we should tell the user if this upload function was a success. Or if it failed then why.
   return 0;

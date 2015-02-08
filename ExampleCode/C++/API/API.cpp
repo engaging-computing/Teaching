@@ -336,7 +336,6 @@ bool iSENSE::get_check_user()
 
   // If we get here, an email and password have been set, so do a GET using
   // the email & password.
-
   get_UserURL = devURL + "/users/myInfo?email=" + email + "&password=" + password;
 
   // This project will try using CURL to make a basic GET request to rSENSE
@@ -739,8 +738,8 @@ bool iSENSE::append_key_byID(string dataset_ID)
     return false;
   }
 
-  // Should make sure each vector is not empty as well, since I had issues uploading
-  // if any ONE vector was empty. rSENSE complained about the nil class.
+  // Set the dataset_ID
+  set_dataset_ID(dataset_ID);
 
   // Set the append API URL
   upload_URL = devURL + "/data_sets/append";
@@ -871,6 +870,8 @@ bool iSENSE::append_key_byName(string dataset_name)
   }
 
   // If we got here, we failed to find that dataset name in the current project.
+  cout << "Failed to find the dataset name in project # " << project_ID << endl;
+  cout << "Make sure to type the exact name, as it appears on iSENSE. \n";
   return false;
 }
 
@@ -1020,8 +1021,8 @@ bool iSENSE::append_email_byID(string dataset_ID)
     return false;
   }
 
-  // Should make sure each vector is not empty as well, since I had issues uploading
-  // if any ONE vector was empty. rSENSE complained about the nil class.
+  // Set the dataset_ID
+  set_dataset_ID(dataset_ID);
 
   // Change the upload URL to append rather than create a new dataset.
   upload_URL = devURL + "/data_sets/append";
@@ -1333,7 +1334,6 @@ int iSENSE::post_data_function(int type)
 }
 
 
-
 // Call this function to dump all the data in the given object.
 void iSENSE::debug()
 {
@@ -1390,6 +1390,7 @@ MEMFILE*  memfopen()
   return mf;
 }
 
+
 void memfclose(MEMFILE* mf)
 {
   // Double check to make sure that mf exists.
@@ -1438,6 +1439,7 @@ size_t memfwrite(char* ptr, size_t size, size_t nmemb, void* stream)
 
   return block;
 }
+
 
 char* memfstrdup(MEMFILE* mf)
 {

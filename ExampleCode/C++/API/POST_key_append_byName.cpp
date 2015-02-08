@@ -13,8 +13,7 @@ using std::to_string;
 using namespace picojson;
 
 /*
- * This code tests appending by dataset ID
- * NOT by dataset name.
+ * This code tests appending by dataset name
  *
  */
 
@@ -23,23 +22,22 @@ int main ()
 {
   // Example of using the iSENSE class
   iSENSE test;
-  string title, ID, dataset_ID, key, letters, num, timestamp;
+  string title, ID, dataset_name, key, letters, num, timestamp;
 
   // This will be a test of the append method.
   title = "test";
   ID = "1029";
   key = "key";
-  dataset_ID = "7795";
+  dataset_name = "this works?";
 
   // Add project info / dataset info to the object
   test.set_project_ID(ID);
-  test.set_dataset_ID(dataset_ID);
   test.set_project_title(title);
   test.set_contributor_key(key);
 
   timestamp = test.generate_timestamp();
 
-  test.push_back("Number", "123456789");
+  test.push_back("Number", "999");
 
   // Try grabbing fields. Error checking occurs below.
   test.get_project_fields();
@@ -64,7 +62,7 @@ int main ()
   }
 
   cout << "\nUploading to rSENSE.\n";
-  test.append_key_byID(dataset_ID);
+  test.append_key_byName(dataset_name);
 
   // Debugging
   test.debug();

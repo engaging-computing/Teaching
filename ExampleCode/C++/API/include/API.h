@@ -211,7 +211,7 @@ private:
 
   /*  Data to be uploaded to iSENSE. The string is the field name, the vector of strings
    *  contains all the data for that field name.  */
-  map<string, vector<string>> map_data;
+  map<string, vector<string> > map_data;
 
   // Data needed for processing the upload request
   //bool usingDev;                  // Whether the user wants iSENSE or rSENSE

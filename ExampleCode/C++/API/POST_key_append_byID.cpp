@@ -26,7 +26,7 @@ int main ()
   string title, ID, dataset_ID, key, letters, num, timestamp;
 
   // This will be a test of the append method.
-  title = "test";
+  title = "this works?";
   ID = "1029";
   key = "key";
   dataset_ID = "7795";
@@ -39,7 +39,7 @@ int main ()
 
   timestamp = test.generate_timestamp();
 
-  test.push_back("Number", "123456789");
+  test.push_back("Number", "99");
 
   // Try grabbing fields. Error checking occurs below.
   test.get_project_fields();
