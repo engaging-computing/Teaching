@@ -17,6 +17,9 @@
   post_json_key()
   post_json_email()
 
+  Every function in the future should return something to make testing easier. Either a bool or
+  an int would work.
+
 */
 
 using std::cin;
@@ -34,29 +37,27 @@ int main ()
   // First test: uploading a blank dataset.
   iSENSE test;
 
-  // Debug info
-  cout << "This should be **empty** \n\n";
-  test.debug();
-
   // These should all fail.
-  test.get_check_user();
-  test.get_project_fields();
-  test.post_json_email();
-  test.post_json_key();
-
-  // Debug info
-  cout << "This should still be **empty** \n\n";
-  test.debug();
+  if(!test.get_check_user() && !test.get_project_fields() \
+    && !test.post_json_email() && !test.post_json_key())
+  {
+    cout << "Test 1: All failures for empty object - PASSED\n";
+  }
+  else{
+    cout << "Test 1: All failures for empty object - FAILED\n";
+  }
 
   // Add non-valid data to the object.
   test.set_project_all("9999", "not-valid", "label", "999");
 
   // Try uploading. This will fail.
-  test.post_json_key();
-
-  // Debug info
-  cout << "This obviously failed. \n\n";
-  test.debug();
+  if(!test.post_json_key())
+  {
+    cout << "Test 2: non-valid data fails - PASSED\n";
+  }
+  else{
+    cout << "Test 2: non-valid data fails - FAILED\n";
+  }
 
   // Make sure the title is unique.
   string timestamp = test.generate_timestamp();
@@ -67,11 +68,13 @@ int main ()
   test.push_back("Text", "this is some text");
 
   // Try uploading. This will work.
-  test.post_json_key();
-
-  // Debug info
-  cout << "This should have worked. If not, see why. \n\n";
-  test.debug();
+  if(test.post_json_key())
+  {
+    cout << "Test 3 - valid JSON data uploaded by key - PASSED\n";
+  }
+  else{
+    cout << "Test 3 - valid JSON data uploaded by key - FAILED\n";
+  }
 
   // Should also test pushing back a vector.
   test.set_project_all("929", "valid", "Jason", "123");
@@ -92,18 +95,16 @@ int main ()
   test.push_back("Timestamp","2011-10-08T07:07:09Z");
 
   // Try uploading. This will work.
-  test.post_json_key();
-
-  // Debug info
-  cout << "\n\nThis should have worked. If not, see why. \n\n";
-  test.debug();
+  if(test.post_json_key())
+  {
+    cout << "Test 4 - valid vector of JSON data uploaded by key - PASSED\n";
+  }
+  else{
+    cout << "Test 4 - valid vector of JSON data uploaded by key - FAILED\n";
+  }
 
   // Let's try resetting the object.
   test.clear_data();
-
-  // Debug
-  cout << "\n\nData should be reset. Testing. \n\n";
-  test.debug();
 
   // Here we should test the edit / append function.
 

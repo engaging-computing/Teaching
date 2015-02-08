@@ -65,7 +65,7 @@ int main ()
   test.append_key_byName(dataset_name);
 
   // Debugging
-  test.debug();
+  // test.debug();
 
   // In the future we should tell the user if this upload function was a success. Or if it failed then why.
   return 0;

@@ -407,7 +407,6 @@ bool iSENSE::get_project_fields()
   // This project will try using CURL to make a basic GET request to rSENSE
   // It will then save the JSON it recieves into a picojson object.
   CURL *curl = curl_easy_init();      // cURL object
-  CURLcode curl_code;                 // cURL status code
   long http_code;                     // HTTP status code
   MEMFILE* json_file = memfopen();    // Writing JSON to this file.
   char error[256];                    // Errors get written here
@@ -422,7 +421,7 @@ bool iSENSE::get_project_fields()
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, json_file);
 
     // Perform the request, res will get the return code
-    curl_code = curl_easy_perform(curl);
+    curl_easy_perform(curl);
 
     // We can actually get the HTTP response code from cURL, so let's do so to check for errors.
     http_code = 0;
@@ -504,7 +503,6 @@ bool iSENSE::get_datasets_and_mediaobjects()
   // This project will try using CURL to make a basic GET request to rSENSE
   // It will then save the JSON it recieves into a picojson object.
   CURL *curl = curl_easy_init();      // cURL object
-  CURLcode curl_code;                 // cURL status code
   long http_code;                     // HTTP status code
   MEMFILE* json_file = memfopen();    // Writing JSON to this file.
   char error[256];                    // Errors get written here
@@ -519,7 +517,7 @@ bool iSENSE::get_datasets_and_mediaobjects()
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, json_file);
 
     // Perform the request, res will get the return code
-    curl_code = curl_easy_perform(curl);
+    curl_easy_perform(curl);
 
     // We can actually get the HTTP response code from cURL, so let's do so to check for errors.
     http_code = 0;
@@ -1142,7 +1140,7 @@ bool iSENSE::append_email_byName(string dataset_name)
     if(name == dataset_name)
     {
       // We found the name, so call the append by ID function and quit with success.
-      append_key_byID(ID);
+      append_email_byID(ID);
       return true;
     }
   }
@@ -1276,11 +1274,10 @@ int iSENSE::post_data_function(int type)
 
   // CURL object and response code.
   CURL *curl = curl_easy_init();          // cURL object
-  CURLcode curl_code;                     // cURL status code
   long http_code;                         // HTTP status code
 
   // In windows, this will init the winsock stuff
-  curl_code = curl_global_init(CURL_GLOBAL_DEFAULT);
+  curl_global_init(CURL_GLOBAL_DEFAULT);
 
   // Set the headers to JSON, make sure to use UTF-8
   struct curl_slist *headers = NULL;
@@ -1316,7 +1313,7 @@ int iSENSE::post_data_function(int type)
     cout << "\nrSENSE response: \n";
 
     // Perform the request, res will get the return code
-    curl_code = curl_easy_perform(curl);
+    curl_easy_perform(curl);
 
     // This will put the HTTP response code into the "http_code" variable.
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
