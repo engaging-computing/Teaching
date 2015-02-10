@@ -38,7 +38,8 @@ iSENSE::iSENSE(string proj_ID, string proj_title, string label, string contr_key
 }
 
 
-// Similar to the constructor with parameters, but can be called at anytime to set up the upload object.
+// Similar to the constructor with parameters,
+// but can be called at anytime to set up the upload object.
 void iSENSE::set_project_all(string proj_ID, string proj_title, string label, string contr_key)
 {
   set_project_ID(proj_ID);
@@ -192,7 +193,8 @@ void iSENSE::push_vector(string field_name, vector<string> data)
 // Returns a vector with projects that show up.
 vector<string> iSENSE::get_projects_search(string search_term)
 {
-  string get_search = devURL + "/projects?utf8=true&search=" + search_term + "&sort=updated_at&order=DESC";
+  string get_search = devURL + "/projects?utf8=true&search=" + search_term \
+  + "&sort=updated_at&order=DESC";
 
   // Vector of project titles.
   vector<string> project_titles;

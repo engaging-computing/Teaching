@@ -5,6 +5,10 @@ CC = g++
 # NOTES: -lcurl is required. std=c++11 is also needed for to_string. -ansci
 CFLAGS = -Wall -Werror -pedantic -std=c++11 -lcurl
 
+# In the future, should try compiling with these flags (change to -ansi)
+# CFLAGS= -Wall -Werror -ansi -pedantic
+Boost= -lboost_unit_test_framework
+
 # Makes all of the C++ projects, appends a ".out" for easy removal in make clean
 all:	key.out append_key_byID.out append_key_byName.out email.out append_email_byID.out \
 	append_email_byName.out search.out datasets.out tests.out
@@ -77,7 +81,7 @@ POST_API_Test.o: POST_API_Test.cpp include/API.h include/memfile.h include/picoj
 
 # Unit tests for the iSENSE code. Not yet fully implemented - future idea
 tests.out:	tests.o API.o
-	$(CC) tests.o API.o -o tests.out $(CFLAGS)
+	$(CC) tests.o API.o -o tests.out $(CFLAGS) $(Boost)
 
 tests.o: tests.cpp include/API.h include/memfile.h include/picojson.h
 	$(CC) -c tests.cpp $(CFLAGS)
