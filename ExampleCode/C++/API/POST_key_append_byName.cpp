@@ -14,7 +14,6 @@ using namespace picojson;
 
 /*
  * This code tests appending by dataset name
- *
  */
 
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
@@ -63,9 +62,6 @@ int main ()
 
   cout << "\nUploading to rSENSE.\n";
   test.append_key_byName(dataset_name);
-
-  // Debugging
-  // test.debug();
 
   // In the future we should tell the user if this upload function was a success. Or if it failed then why.
   return 0;

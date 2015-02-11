@@ -22,26 +22,51 @@
  *    To do list:
  *
  *    1. Amending / editing datasets
- *    2. Pulling data off of iSENSE, then amending to that via push_back.
+ *      - Appending now works and can also pull down all the datasets in a project.
+ *      - Try the edit API call and see if its useful.
+ *
+ *    2. Pulling data off of iSENSE, then appending to that via push_back.
+ *      - This can now be done since pulling datasets works.
+ *      - Need to add a way to return data in the form of some sort of map though.
+ *        That way users can pull down datasets, get a map to play with and then
+ *        reupload data through push_back(string) and push_back(vector)
+ *
  *    3. Media objects
+ *      - Since datasets are pulled down, media objects also get pulled down.
+ *        Could add the same ability as datasets - return a map of media objects
+ *      - Also work on allowing media objects to be pushed to iSENSE through the
+ *        media objects API call
+ *
  *    4. Test file that should also work as an example of all the various API methods
+ *      - Boost tests now written.
+ *      - Only 7 which test basic JSON uploading and appending.
+ *      - Should test more areas of the API
+ *
  *    5. Dice roll app to serve as another example.
+ *      - Possible to rewrite it using the API now.
+ *      - Should be very simple. Add it to the Makefile once completed.
  *
+ *    6. Baseball app to serve as an example of pulling data and uploading it.
+ *      - Requires above mentioned map of datasets.
+ *      - Can use the push_back(vector) method to push data back to iSENSE.
  *
- *    1. Make a dice roll app
- *    2. Try other GET/POST API functions, such as amending/editing datasets.
- *    3. Try media objects.
- *    4. Create a zip file for people to download for Linux / Mac / Windows.
+ *    7. Create a zip file for people to download for Linux / Mac.
+ *      - Install script could be useful.
+ *        Just need to write a bash script that install curl, git clones the repo,
+ *        curls picojson.h off of the picojson repo and then runs the Makefile
+ *        to test stuff.
  *
- *    Currently working in Linux & Windows 8.1 (x64)
- *    Test in x86 if possible (VM?) and Windows 7. Also Mac OS.
+ *    Currently working on:
+ *    Linux (64 bit) -> Uses a Makefile
+ *    Mac OS 10.9 (64 bit) -> should work the same as Linux
+ *    Windows 7 / 8.1 (64 bit) -> Requires Visual Studios
  */
 
-/* Notes:
+/*
+ * NOTE:
  * Most of the API calls expect that you have already set an email & password OR a contributor
- * key, as well as a project ID and a project title.
- * You can set these by either calling the default constructor with parameters,
- * or by calling the set_ method.
+ * key, as well as a project ID and a project title. You can set these by either calling the
+ * default constructor with parameters, or by calling one of the set methods.
  *
  */
 
@@ -150,12 +175,13 @@ public:
    *    own - i.e. projects you've created while logged in.
    *
    *    To sum up:
-   *    Contributor key appends to contributor key datasets that YOUR KEY uploaded.
-   *    Email & password appends to datasets YOU uploaded OR any datasets in projects YOU created.
+   *    A Contributor key can append to datasets that YOUR KEY uploaded.
+   *    Email & password can append to datasets YOU uploaded OR any datasets in projects YOU created.
    *
-   *    You should also call
+   *    NOTE: You do not need call
    *    bool get_datasets_and_mediaobjects();
    *    before using any of the editing and appending methods.
+   *    All append methods automatically call this function.
    *
    *    Note - the edit functions are not yet complete.
    *

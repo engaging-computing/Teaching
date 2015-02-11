@@ -80,7 +80,7 @@ int main ()
   test.get_project_fields();
 
   // Try formatting the upload data string without uploading yet.
-  test.format_upload_string(false);
+  test.format_upload_string(3);
 
   // Check the fields for errors (manually compare against iSENSE)
   test.debug();
