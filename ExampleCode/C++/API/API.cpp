@@ -81,8 +81,9 @@ void iSENSE::set_contributor_key(string proj_key)
 }
 
 
-// Users should never call this function. The append function will call
-// a GET function, which will set this here. Just make sure to
+// Users should never have to call this method, as it is possible to
+// pull datasets and compare dataset names to get the dataset_ID
+// Users should instead use the append byName method.
 void iSENSE::set_dataset_ID(string proj_dataset_ID)
 {
   dataset_ID = proj_dataset_ID;

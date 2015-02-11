@@ -58,7 +58,7 @@
  *
  *    Currently working on:
  *    Linux (64 bit) -> Uses a Makefile
- *    Mac OS 10.9 (64 bit) -> should work the same as Linux
+ *    Mac OS 10.10 (64 bit) -> should work the same as Linux
  *    Windows 7 / 8.1 (64 bit) -> Requires Visual Studios
  */
 

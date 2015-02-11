@@ -1,5 +1,5 @@
 # Makefile for the iSENSE projects involving C++
-# Designed to quickly compile the C++ code (only if files are changed!)
+# Designed to quickly compile the C++ code (only if files are changed)
 CC = g++
 
 # NOTES: -lcurl is required. std=c++11 is also needed for to_string. -ansci
