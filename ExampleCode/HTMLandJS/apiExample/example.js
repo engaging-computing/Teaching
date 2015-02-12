@@ -1,8 +1,6 @@
 function run() {
-/*
-	FINISHED AND WORKING
 
-	/api/v1/projects/XX
+//	/api/v1/projects/XX
 
     var urlProject = 'http://isenseproject.org/api/v1/projects/835';
     var responseProject = $.ajax({ type: "GET",
@@ -13,13 +11,9 @@ function run() {
 
     var parsedResponseProject = JSON.parse(responseProject); 
 
-
     console.log(parsedResponseProject);
-*/
-/*
-	FINISHED AND WORKING
 
-	/api/v1/projects
+//	/api/v1/projects
 
     var urlProject = 'http://isenseproject.org/api/v1/projects';
     var responseProject = $.ajax({ type: "GET",
@@ -30,13 +24,9 @@ function run() {
 
     var parsedResponseProject = JSON.parse(responseProject); 
 
-
     console.log(parsedResponseProject);
-*/
-/*
-	FINISHED AND WORKING
-	
-	/api/v1/projects
+
+//	/api/v1/projects
 
     var apiUrl = 'http://isenseproject.org/api/v1/projects';
 
@@ -47,12 +37,8 @@ function run() {
         'project_name': 'TEST123456',
     }
     $.post(apiUrl, upload);
-*/
 
-/*
-	FINISHED AND WORKING
-
-	/api/v1/projects/XX/add_key
+//	/api/v1/projects/XX/add_key
 
     var apiUrl = 'http://isenseproject.org/api/v1/projects/835/add_key';
 
@@ -66,11 +52,8 @@ function run() {
         			   }
     }
     $.post(apiUrl, upload);
-*/
-/*
-	FINISHED AND WORKING
 
-	/api/v1/fields
+//	/api/v1/fields
 
     var apiUrl = 'http://isenseproject.org/api/v1/fields';
 
@@ -86,11 +69,8 @@ function run() {
         		  }
     }
     $.post(apiUrl, upload);
-*/
-/*
-	FINISHED AND WORKING
 
-	/api/v1/fields/XX
+//	/api/v1/fields/XX
 
     var urlProject = 'http://isenseproject.org/api/v1/fields/4169';
     var responseProject = $.ajax({ type: "GET",
@@ -103,11 +83,8 @@ function run() {
 
 
     console.log(parsedResponseProject);
-*/
-/*
-	FINISHED AND WORKING
 
-	/api/v1/projects/XX/jsonDataUpload
+//	/api/v1/projects/XX/jsonDataUpload
 
     var apiUrl = 'http://isenseproject.org/api/v1/projects/835/jsonDataUpload';
 
@@ -121,16 +98,12 @@ function run() {
         		 }
     }
     $.post(apiUrl, upload);
-*/
-/*
-	FINISHED AND WORKING
 
-	/api/v1/projects/XX/jsonDataUpload
+//	/api/v1/projects/XX/jsonDataUpload
 
     var apiUrl = 'http://isenseproject.org/api/v1/projects/835/jsonDataUpload';
 
     var upload = {
-
 
         'title' : 'TEST1234',
         'contribution_key': 'key',
@@ -141,13 +114,7 @@ function run() {
     }
     $.post(apiUrl, upload);
 
-
-*/
-/*
-
-	/api/v1/data_sets/XX/edit
-
-	FINISHED AND WORKING BUT STILL STUPID
+//	/api/v1/data_sets/XX/edit
 
     var apiUrl = 'http://isenseproject.org/api/v1/data_sets/7583/edit';
 
@@ -161,11 +128,7 @@ function run() {
     }
     $.get(apiUrl, upload);
 
-*/
-/*
-	/api/v1/data_sets/XX/edit
-
-	FINISHED AND WORKING BUT STILL STUPID
+//	/api/v1/data_sets/XX/edit
 
     var apiUrl = 'http://isenseproject.org/api/v1/data_sets/7584/edit';
 
@@ -177,16 +140,12 @@ function run() {
         		 }
     }
     $.get(apiUrl, upload);
-*/
-/*
-	/api/v1/data_sets/append
 
-	FINISHED AND WORKING
+//	/api/v1/data_sets/append
 
     var apiUrl = 'http://isenseproject.org/api/v1/data_sets/append';
 
     var upload = {
-
 
         'email' : 't@t.t',
         'password' : 't',
@@ -196,11 +155,8 @@ function run() {
         		 }
     }
     $.post(apiUrl, upload);
-*/
-/*
-	/api/v1/data_sets/append
 
-	FINISHED AND WORKING
+//	/api/v1/data_sets/append
 
     var apiUrl = 'http://isenseproject.org/api/v1/data_sets/append';
 
@@ -214,17 +170,11 @@ function run() {
         		 }
     }
     $.post(apiUrl, upload);
-*/
 
-/*
-	DONT KNOW HOW TO DO MEDIA OBJECTS
-*/
+	//DONT KNOW HOW TO DO MEDIA OBJECTS
+	//DONT KNOW HOW TO DO MEDIA OBJECTS
 
-/*
-	DONT KNOW HOW TO DO MEDIA OBJECTS
-*/
-/*
-	FINISHED AND WORKING
+//	/api/v1/users/myInfo
 
     var urlProject = 'http://isenseproject.org/api/v1/users/myInfo';
     var responseProject = $.ajax({ type: "GET",
@@ -237,9 +187,4 @@ function run() {
     var parsedResponseProject = JSON.parse(responseProject); 
 
     console.log(parsedResponseProject);
-*/
-
-
-
-    console.log("POST SUCCESSFUL");
 }
