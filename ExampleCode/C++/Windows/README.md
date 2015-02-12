@@ -47,12 +47,17 @@ iSENSE class, as well as your main.
 1. Right click on the project name in the solution explorer, then click on "Properties"
 2. Click on Configuration Properties, then C/C++ and go to General, then at the very top click on
 "Additional Include Directories" and add a link to the curl folder inside the builds/windows folder.
-3. Now go to C/C++ -> Preprecessor, click on the top "Preprocessor definitions" and add:
+3. Now go to C/C++ -> Preprecessor, click on the top "Preprocessor definitions" and add the two following lines:
+
 CURL_STATICLIB
+_CRT_SECURE_NO_WARNINGS
+
+The CRT SECURE NO WARNINGS is to prevent Visual Studios from complaining.
+
 4. Next go to Linker -> General and then click on "Additional Library Directories" and add
-a link to the lib folder in the builds/windows folder.
+a link to the libcurl folder in the builds/windows folder.
 5. Finally, go to Linker -> Input and click on "Additional Dependencies" and add the following:
-libcurl_a_debug.lib
+libcurl.lib
 
 Add the API files to the project
 ===================================

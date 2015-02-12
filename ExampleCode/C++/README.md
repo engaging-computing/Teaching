@@ -1,7 +1,7 @@
 C++ Example Code.
 =================
 
-Some of these examples use libcURL through the libcurl library for C/C++.
+Some of these examples use cURL through the libcURL library for C.
 
 You can get libcurl on Linux (Ubuntu/Debian) by running the following commands:
 
@@ -16,15 +16,23 @@ If those prerequisites are not installed, you may see the following error:
 ```
 g++ -O0 -g -Wall -Wextra -pedantic-errors  -w -std=c++11 POST_simple.cpp -o simple.out -lcurl
 POST_simple.cpp:1:65: fatal error: curl/curl.h: No such file or directory
- #include <curl/curl.h>             // cURL to make HTTP requests
+#include <curl/curl.h>            
 ```
 
-To compile in Windows, you will need to use Visual Studios Express 2013 (Professional version will work as well).
-See the "Windows" directory for more information. An example project will be created in the future.
+To compile in Windows, you will need to use Visual Studios Express 2013 (Professional / Community versions should also work).
+See the "Windows" directory for more information. An example project is provided - however, you will need to change
+the paths of the curl directory and the lib directory.
 
-See this site for help:
-[curl website](http://curl.haxx.se/docs/httpscripting.html)
+To download Visual Studios 2013, go to the following website: http://www.visualstudio.com/
 
+MacOS users should have curl / libcurl installed by default.
+You may however need to add "-lcurl" to the Other Linker Flags (OTHER_LDFLAGS) according to one stackoverflow post.
+In the future MacOS will be tested and any other issues will be noted.
+
+
+Confirmed working in Windows 7, 8.1 (x64) and Ubuntu 14.04LTS (x64)
+
+Unconfirmed: MacOS X
 
 NOTES:
 -------------
@@ -40,10 +48,11 @@ g++ GET_basic_curl.cpp -lcurl
 
 For some of these programs, I use a JSON library called picojson to serialize and parse JSON. 
 You can grab the code for that off the following github repo: https://github.com/kazuho/picojson
+I have also included it in this GitHub Repository. 
 
 The one header file you need can be found at: https://raw.githubusercontent.com/kazuho/picojson/master/picojson.h
 
-You can also just git clone the repo using the following command:
+You can also just git clone the repository using the following command:
 
 ```
 git clone https://github.com/kazuho/picojson.git

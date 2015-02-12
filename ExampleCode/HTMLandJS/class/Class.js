@@ -1,12 +1,20 @@
 "use strict";
 window.isense = {};
-var baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/projects/';
+var baseUrl = 'http://rsense-dev.cs.uml.edu/api/v1/';
 
 var isense = {
 
-    projectGetRequest: function(projectID) {
+    isense : function(projectID,contributorKey,contributorName){
 
-        var urlProject = baseUrl+projectID+'?recur=true';
+        this.projectID = projectID;
+        this.contributorKey = contributorKey;
+        this.contributorName = contributorName;
+    },
+
+
+    projectGetRequest : function() {
+
+        var urlProject = baseUrl+ 'projects/' + this.projectID+'?recur=true';
         var responseProject = $.ajax({ type: "GET",
                             url: urlProject,
                             async: false,
@@ -18,7 +26,7 @@ var isense = {
         return parsedResponseProject;  
     },
 
-    getDatasetLocation: function(datasetName,parsedResponseProject) {
+    getDatasetLocation : function(datasetName,parsedResponseProject) {
 
         for (var j = 0; j < parsedResponseProject.dataSetCount; j++) { 
 
@@ -36,7 +44,7 @@ var isense = {
         return datasetLocation;
     },
 
-    getFieldID: function(fieldName,parsedResponseProject) {
+    getFieldID : function(fieldName,parsedResponseProject) {
 
         for (var i = 0; i < parsedResponseProject.fieldCount; i++) {    // Parsing through fields looking for field id
 
@@ -50,13 +58,16 @@ var isense = {
 
             return "Field Not Found"
         }
+
+        fieldID = fieldID.toString();
+
         return fieldID;
     },
 
-    getDatasetFieldData: function(projectID,datasetName,fieldName) {
+    getDatasetFieldData : function(datasetName,fieldName) {
 
         var values = [];
-        var parsedResponseProject = isense.projectGetRequest(projectID);
+        var parsedResponseProject = isense.projectGetRequest(this.projectID);
         var datasetLocation = isense.getDatasetLocation(datasetName,parsedResponseProject);
         var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
 
@@ -68,27 +79,55 @@ var isense = {
         return values;
     },
 
-    postDataset: function(projectID,contributorKey,fieldName,title,contributorName,data) {
+    postDataset : function(fieldName,title,data) {
 
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);
-        var parsedResponseProject = isense.projectGetRequest(projectID);
+        var parsedResponseProject = isense.projectGetRequest(this.projectID);
         var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
         var fieldIDString = fieldID.toString();
         var dataForPost = {};
         dataForPost[fieldIDString] = data;
-        var apiUrl = baseUrl+projectID+'/jsonDataUpload';
+        var apiUrl = baseUrl+ 'projects/' + this.projectID+'/jsonDataUpload';
+
         var upload = {
 
             'title': title + ' ' + timestamp,
-            'contribution_key': contributorKey,
-            'contributor_name': contributorName,
+            'contribution_key': this.contributorKey,
+            'contributor_name': this.contributorName,
             'data': dataForPost
         }
         $.post(apiUrl, upload);
         alert("Post Successful");
     },
 
+    postDatasetHorizontal : function(fields,title,data) {
+
+        var currentTime = new Date();
+        var timestamp = JSON.stringify(currentTime);
+        var parsedResponseProject = isense.projectGetRequest(this.projectID);
+        var dataForPost = {};
+        var fieldID = []
+
+        for (var i = 0; i < fields.length; i++) {
+
+            fieldID[i] = isense.getFieldID(fields[i],parsedResponseProject);
+            dataForPost[fieldID[i]] = data[i];
+        };
+
+        var apiUrl = baseUrl+ 'projects/' + this.projectID+'/jsonDataUpload';
+        var upload = {
+
+            'title': title + ' ' + timestamp,
+            'contribution_key': this.contributorKey,
+            'contributor_name': this.contributorName,
+            'data': dataForPost
+        }
+        $.post(apiUrl, upload);
+        alert("Post Successful");
+    },
+
+<<<<<<< HEAD
     postMultipleDataset: function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
 
         var currentTime = new Date();
@@ -134,5 +173,18 @@ var isense = {
         }
         $.post(apiUrl, upload);
         alert("Post Successful");
+=======
+    appendToDataset : function(datasetName,fields,data) {
+
+        var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
+        var upload = {
+
+            'email': 'isenseproject@gmail.com',
+            'password': 'fieilds',
+            'id': 7736,
+            'data': {'638':[4564,5,4,8,7,87,8,4,84]}
+        }
+        $.post(apiUrl, upload);
+>>>>>>> upstream/master
     }
 };
