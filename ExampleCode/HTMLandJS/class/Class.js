@@ -11,7 +11,6 @@ var isense = {
         this.contributorName = contributorName;
     },
 
-
     projectGetRequest : function() {
 
         var urlProject = baseUrl+ 'projects/' + this.projectID+'?recur=true';
@@ -123,12 +122,31 @@ var isense = {
             'contributor_name': this.contributorName,
             'data': dataForPost
         }
+
+        console.log(dataForPost);
         $.post(apiUrl, upload);
         alert("Post Successful");
     },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     postMultipleDataset: function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
+=======
+    appendToDataset : function(datasetName,fields,data) {
+
+        var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
+        var upload = {
+
+            'contribution_key' : 'Key',
+            'title' : 'asleifjsliejfasliefj',
+            'id': 7388,
+            'data': {'638':[4564,5,4,8,7,87,8,4,84]}
+        }
+        $.post(apiUrl, upload);
+    },
+
+    postMultipleDataset : function(projectID,contributorKey,fieldNameArray,title,contributorName,ArrayofDataArrays) {
+>>>>>>> d399607340af7861913249812baf4cda0b0971d5
 
         var currentTime = new Date();
         var timestamp = JSON.stringify(currentTime);
@@ -160,7 +178,7 @@ var isense = {
 
         console.log(dataForPost['645']);
 
-        var apiUrl = baseUrl+projectID+'/jsonDataUpload';
+        var apiUrl = baseUrl+ 'projects/' + projectID+'/jsonDataUpload';
         var upload = {
 
             'title': title + ' ' + timestamp,
@@ -173,9 +191,8 @@ var isense = {
         }
         $.post(apiUrl, upload);
         alert("Post Successful");
-=======
-    appendToDataset : function(datasetName,fields,data) {
 
+<<<<<<< HEAD
         var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
         var upload = {
 
@@ -186,5 +203,7 @@ var isense = {
         }
         $.post(apiUrl, upload);
 >>>>>>> upstream/master
+=======
+>>>>>>> d399607340af7861913249812baf4cda0b0971d5
     }
 };
