@@ -5,6 +5,7 @@
 // To avoid poluting the namespace, and also to avoid typing std:: everywhere.
 using std::cin;
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::map;
 using std::string;
@@ -657,37 +658,36 @@ bool iSENSE::post_json_key()
     cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
     return true;
   }
-  else if(http_code == 401)
+  else
   {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Try checking to make sure your contributor key is valid\n";
-    cout << "for the project you are trying to contribute to.\n";
-    return false;
-  }
-  else if(http_code == 404)
-  {
-    cout << "\n\nUnable to find that project ID.\n";
-    return false;
-  }
-  else if(http_code == 422)
-  {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Something went wrong with iSENSE.\n";
-    cout << "Try formatting your data differently,\n";
-    cout << "using an email & password instead of a contributor key,\n";
-    cout << "or asking for help from others. You can also try running the\n";
-    cout << "the program with the \"debug\" method enabled, by typing: \n";
-    cout << "object_name.debug()\n";
-    cout << "This will output a ton of data to the console and may help you in\n";
-    cout << "debugging your program.\n";
+    cerr << "\n\nPOST request **failed**\n";
+    cerr << "HTTP Response Code was: " << http_code << endl;
+
+    if(http_code == 401)
+    {
+      cerr << "Try checking to make sure your contributor key is valid\n";
+      cerr << "for the project you are trying to contribute to.\n";
+    }
+    if(http_code == 404)
+    {
+      cerr << "\n\nUnable to find that project ID.\n";
+    }
+    if(http_code == 422)
+    {
+      cerr << "Something went wrong with iSENSE.\n";
+      cerr << "Try formatting your data differently,\n";
+      cerr << "using an email & password instead of a contributor key,\n";
+      cerr << "or asking for help from others. You can also try running the\n";
+      cerr << "the program with the \"debug\" method enabled, by typing: \n";
+      cerr << "object_name.debug()\n";
+      cerr << "This will output a ton of data to the console and may help you in\n";
+      cerr << "debugging your program.\n";
+    }
+
     return false;
   }
 
   // If something really fails.
-  cout << "cURL failed for some reason. Make sure you have all the required files \n";
-  cout << "and have set up your project / directory correctly.\n";
   return false;
 }
 
@@ -764,32 +764,32 @@ bool iSENSE::append_key_byID(string dataset_ID)
     cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
     return true;
   }
-  else if(http_code == 401)
+  else
   {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Try checking to make sure your contributor key is valid\n";
-    cout << "for the project you are trying to contribute to.\n";
-    return false;
-  }
-  else if(http_code == 422)
-  {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Something went wrong with iSENSE.\n";
-    cout << "Try formatting your data differently,\n";
-    cout << "using an email & password instead of a contributor key,\n";
-    cout << "or asking for help from others. You can also try running the\n";
-    cout << "the program with the \"debug\" method enabled, by typing: \n";
-    cout << "object_name.debug()\n";
-    cout << "This will output a ton of data to the console and may help you in\n";
-    cout << "debugging your program.\n";
+    cerr << "\n\nPOST request **failed**\n";
+    cerr << "HTTP Response Code was: " << http_code << endl;
+
+    if(http_code == 401)
+    {
+      cerr << "Try checking to make sure your contributor key is valid\n";
+      cerr << "for the project you are trying to contribute to.\n";
+    }
+    if(http_code == 422)
+    {
+      cerr << "Something went wrong with iSENSE.\n";
+      cerr << "Try formatting your data differently,\n";
+      cerr << "using an email & password instead of a contributor key,\n";
+      cerr << "or asking for help from others. You can also try running the\n";
+      cerr << "the program with the \"debug\" method enabled, by typing: \n";
+      cerr << "object_name.debug()\n";
+      cerr << "This will output a ton of data to the console and may help you in\n";
+      cerr << "debugging your program.\n";
+    }
+
     return false;
   }
 
   // If we really fail.
-  cout << "cURL failed for some reason. Make sure you have all the required files \n";
-  cout << "and have set up your project / directory correctly.\n";
   return false;
 }
 
@@ -950,32 +950,32 @@ bool iSENSE::post_json_email()
     cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
     return true;
   }
-  else if(http_code == 401)
+  else
   {
-    cout << "\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Try checking to make sure your contributor key is valid\n";
-    cout << "for the project you are trying to contribute to.\n";
-    return false;
-  }
-  else if(http_code == 422)
-  {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Something went wrong with iSENSE.\n";
-    cout << "Try formatting your data differently,\n";
-    cout << "using a contributor key instead of an email/password,\n";
-    cout << "or asking for help from others. You can also try running the\n";
-    cout << "the program with the \"debug\" method enabled, by typing: \n";
-    cout << "object_name.debug()\n";
-    cout << "This will output a ton of data to the console and may help you in\n";
-    cout << "debugging your program.\n";
+    cerr << "\nPOST request **failed**\n";
+    cerr << "HTTP Response Code was: " << http_code << endl;
+
+    if(http_code == 401)
+    {
+      cerr << "Try checking to make sure your contributor key is valid\n";
+      cerr << "for the project you are trying to contribute to.\n";
+    }
+    if(http_code == 422)
+    {
+      cerr << "Something went wrong with iSENSE.\n";
+      cerr << "Try formatting your data differently,\n";
+      cerr << "using a contributor key instead of an email/password,\n";
+      cerr << "or asking for help from others. You can also try running the\n";
+      cerr << "the program with the \"debug\" method enabled, by typing: \n";
+      cerr << "object_name.debug()\n";
+      cerr << "This will output a ton of data to the console and may help you in\n";
+      cerr << "debugging your program.\n";
+    }
+
     return false;
   }
 
   // If something really fails.
-  cout << "cURL failed for some reason. Make sure you have all the required files \n";
-  cout << "and have set up your project / directory correctly.\n";
   return false;
 }
 
@@ -1047,32 +1047,31 @@ bool iSENSE::append_email_byID(string dataset_ID)
     cout << "The URL to your project is: " << dev_baseURL << "/projects/" << project_ID << endl;
     return true;
   }
-  else if(http_code == 401)
+  else
   {
-    cout << "\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Try checking to make sure your contributor key is valid\n";
-    cout << "for the project you are trying to contribute to.\n";
-    return false;
-  }
-  else if(http_code == 422)
-  {
-    cout << "\n\nPOST request **failed**\n";
-    cout << "HTTP Response Code was: " << http_code << endl;
-    cout << "Something went wrong with iSENSE.\n";
-    cout << "Try formatting your data differently,\n";
-    cout << "using a contributor key instead of an email/password,\n";
-    cout << "or asking for help from others. You can also try running the\n";
-    cout << "the program with the \"debug\" method enabled, by typing: \n";
-    cout << "object_name.debug()\n";
-    cout << "This will output a ton of data to the console and may help you in\n";
-    cout << "debugging your program.\n";
+    cerr << "\nPOST request **failed**\n";
+    cerr << "HTTP Response Code was: " << http_code << endl;
+
+    if(http_code == 401)
+    {
+      cerr << "Try checking to make sure your contributor key is valid\n";
+      cerr << "for the project you are trying to contribute to.\n";
+    }
+    if(http_code == 422)
+    {
+      cerr << "Something went wrong with iSENSE.\n";
+      cerr << "Try formatting your data differently,\n";
+      cerr << "using a contributor key instead of an email/password,\n";
+      cerr << "or asking for help from others. You can also try running the\n";
+      cerr << "the program with the \"debug\" method enabled, by typing: \n";
+      cerr << "object_name.debug()\n";
+      cerr << "This will output a ton of data to the console and may help you in\n";
+      cerr << "debugging your program.\n";
+    }
     return false;
   }
 
   // If something really fails.
-  cout << "cURL failed for some reason. Make sure you have all the required files \n";
-  cout << "and have set up your project / directory correctly.\n";
   return false;
 }
 

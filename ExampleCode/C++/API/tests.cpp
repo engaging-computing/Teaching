@@ -11,11 +11,11 @@ using std::to_string;
 // For picojson
 using namespace picojson;
 
-/* 
+/*
  * This file requires Boost. Please make sure to run the following command before compiling:
  * sudo apt-get install libboost-test-dev
  * The above command installs Boost into your development environment.
- * 
+ *
  */
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main
@@ -206,4 +206,3 @@ BOOST_AUTO_TEST_CASE(Append_withDatasetName_byKey)
   BOOST_REQUIRE(test.append_key_byName(dataset_name) == true);
 }
 
-// EOF

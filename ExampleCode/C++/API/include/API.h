@@ -21,7 +21,7 @@
 /*
  *    To do list:
  *
- *    1. Amending / editing datasets
+ *    1. Appending / editing datasets
  *      - Appending now works and can also pull down all the datasets in a project.
  *      - Try the edit API call and see if its useful.
  *

@@ -43,7 +43,7 @@ int main ()
   test.set_project_title(title);
   test.set_project_label("C++");
 
-  while(test.set_email_password(email, password) == false)
+  while(!test.set_email_password(email, password))
   {
     cout << "Please set an email address for this dataset: ";
     getline(cin, email);      // Get the email address
