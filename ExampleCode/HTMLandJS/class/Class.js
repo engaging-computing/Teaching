@@ -60,8 +60,6 @@ var isense = {
             return "Dataset Not Found"
         }
         return datasetID;
-
-
     },
 
     getFieldID : function(fieldName,parsedResponseProject) {
@@ -150,11 +148,10 @@ var isense = {
     appendToDataset : function(datasetName,fields,data) {
 
         var parsedResponseProject = isense.projectGetRequest(this.projectID);
-
         var datasetId = isense.getDatasetId(datasetName,parsedResponseProject);
-
         var dataForPost = {};
         var fieldID = [];
+
         for (var i = 0; i < fields.length; i++) {
 
             fieldID[i] = isense.getFieldID(fields[i],parsedResponseProject);
