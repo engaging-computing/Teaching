@@ -443,8 +443,8 @@ bool iSENSE::get_project_fields()
     // get the project's fields.
     if(http_code != 200)
     {
-      cout << "\nGET project fields failed.\n";
-      cout << "Is the project ID you entered valid?\n";
+      cerr << "\nGET project fields failed.\n";
+      cerr << "Is the project ID you entered valid?\n";
 
       // Clean up cURL and close the memfile
       curl_easy_cleanup(curl);
@@ -464,8 +464,8 @@ bool iSENSE::get_project_fields()
     // If we have errors, print them out and quit.
     if(errors.empty() != true)
     {
-      cout << "\nError parsing JSON file!\n";
-      cout << "Error was: " << errors;
+      cerr << "\nError parsing JSON file in method: get_project_fields()\n";
+      cerr << "Error was: " << errors;
       return false;
     }
 
@@ -494,7 +494,7 @@ bool iSENSE::get_datasets_and_mediaobjects()
   // When the ID is set, the fields are also pulled down as well.
   if(project_ID == "empty" || project_ID.empty())
   {
-    cout << "\nError - please set a project ID!\n";
+    cerr << "\nError - please set a project ID!\n";
     return false;
   }
 
@@ -539,8 +539,8 @@ bool iSENSE::get_datasets_and_mediaobjects()
     // get the project's fields.
     if(http_code != 200)
     {
-      cout << "\nGET project fields failed.\n";
-      cout << "Is the project ID you entered valid?\n";
+      cerr << "\nGET project fields failed.\n";
+      cerr << "Is the project ID you entered valid?\n";
 
       // Clean up cURL and close the memfile
       curl_easy_cleanup(curl);
@@ -560,8 +560,8 @@ bool iSENSE::get_datasets_and_mediaobjects()
     // If we have errors, print them out and quit.
     if(errors.empty() != true)
     {
-      cout << "\nError parsing JSON file!\n";
-      cout << "Error was: " << errors;
+      cerr << "\nError parsing JSON file in method: get_datasets_and_mediaobjects()\n";
+      cerr << "Error was: " << errors;
       return false;
     }
 
@@ -604,20 +604,20 @@ bool iSENSE::post_json_key()
   // When the ID is set, the fields are also pulled down as well.
   if(project_ID == "empty" || project_ID.empty())
   {
-    cout << "\nError - please set a project ID!\n";
+    cerr << "\nError - please set a project ID!\n";
     return false;
   }
 
   // Check that a title and contributor key has been set.
   if(title == "title" || title.empty())
   {
-    cout << "\nError - please set a project title!\n";
+    cerr << "\nError - please set a project title!\n";
     return false;
   }
 
   if(contributor_key.empty())
   {
-    cout << "\nErrror - please set a contributor key!\n";
+    cerr << "\nErrror - please set a contributor key!\n";
     return false;
   }
 
@@ -1088,33 +1088,33 @@ bool iSENSE::append_email_byName(string dataset_name)
   // When the ID is set, the fields are also pulled down as well.
   if(project_ID == "empty" || project_ID.empty())
   {
-    cout << "\nError - please set a project ID!\n";
+    cerr << "\nError - please set a project ID!\n";
     return false;
   }
 
   // Check that a title and contributor key has been set.
   if(title == "title" || title.empty())
   {
-    cout << "\nError - please set a project title!\n";
+    cerr << "\nError - please set a project title!\n";
     return false;
   }
 
   if(email == "email" || email.empty())
   {
-    cout << "\nErrror - please set an email address!\n";
+    cerr << "\nErrror - please set an email address!\n";
     return false;
   }
 
   if(password == "password" || password.empty())
   {
-    cout << "\nErrror - please set a password!\n";
+    cerr << "\nErrror - please set a password!\n";
     return false;
   }
 
   // Make sure the map actually has stuff pushed to it.
   if(map_data.empty())
   {
-    cout << "\nMap of keys/data is empty. You should push some data back to this object.\n";
+    cerr << "\nMap of keys/data is empty. You should push some data back to this object.\n";
     return false;
   }
 
@@ -1148,6 +1148,8 @@ bool iSENSE::append_email_byName(string dataset_name)
   }
 
   // If we got here, we failed to find that dataset name in the current project.
+  cerr << "Failed to find the dataset name in project # " << project_ID << endl;
+  cerr << "Make sure to type the exact name, as it appears on iSENSE. \n";
   return false;
 }
 
@@ -1199,8 +1201,8 @@ void iSENSE::format_upload_string(int key)
   if(fields.is<picojson::null>() == true)
   {
     // Print an error and quit, we can't do anything if the field array wasn't set up correctly.
-    cout << "\nError - field array wasn't set up.";
-    cout << "Have you pulled the fields off iSENSE?\n";
+    cerr << "\nError - field array wasn't set up.";
+    cerr << "Have you pulled the fields off iSENSE?\n";
     return;
   }
 
@@ -1328,8 +1330,8 @@ int iSENSE::post_data_function(int type)
     return http_code;
   }
 
-  // If curl fails for some reason, return -1.
-  return -1;
+  // If curl fails for some reason, return CURL_ERROR (-1).
+  return CURL_ERROR;
 }
 
 

@@ -24,11 +24,12 @@ API.o:	API.cpp include/API.h include/memfile.h include/picojson.h
 	$(CC) -c API.cpp $(CFLAGS)
 
 # Appending by dataset ID test
-append_key_byID.out:	POST_key_append_byID.o API.o
-	$(CC) POST_key_append_byID.o API.o -o append_key_byID.out $(CFLAGS)
-
-POST_key_append_byID.o:	POST_key_append_byID.cpp include/API.h include/memfile.h include/picojson.h
-	$(CC) -c POST_key_append_byID.cpp $(CFLAGS)
+# Setting IDs is now private, so these are just here for testing purposes
+# append_key_byID.out:	POST_key_append_byID.o API.o
+# 	$(CC) POST_key_append_byID.o API.o -o append_key_byID.out $(CFLAGS)
+#
+# POST_key_append_byID.o:	POST_key_append_byID.cpp include/API.h include/memfile.h include/picojson.h
+# 	$(CC) -c POST_key_append_byID.cpp $(CFLAGS)
 
 # Appending by dataset name test
 append_key_byName.out:	POST_key_append_byName.o API.o
@@ -45,11 +46,13 @@ POST_email.o:	POST_email.cpp include/API.h include/memfile.h include/picojson.h
 	$(CC) -c POST_email.cpp $(CFLAGS)
 
 # Appending by dataset ID test
-append_email_byID.out:	POST_email_append_byID.o API.o
-	$(CC) POST_email_append_byID.o API.o -o append_email_byID.out $(CFLAGS)
+# Setting IDs is now private, so these are just here for testing purposes
 
-POST_email_append_byID.o: POST_email_append_byID.cpp include/API.h include/memfile.h include/picojson.h
-	$(CC) -c POST_email_append_byID.cpp $(CFLAGS)
+# append_email_byID.out:	POST_email_append_byID.o API.o
+# 	$(CC) POST_email_append_byID.o API.o -o append_email_byID.out $(CFLAGS)
+#
+# POST_email_append_byID.o: POST_email_append_byID.cpp include/API.h include/memfile.h include/picojson.h
+# 	$(CC) -c POST_email_append_byID.cpp $(CFLAGS)
 
 # Appending by dataset name test
 append_email_byName.out:	POST_email_append_byName.o API.o

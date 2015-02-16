@@ -87,6 +87,7 @@ const string dev_baseURL = "http://rsense-dev.cs.uml.edu";
 const string live_baseURL = "http://isenseproject.org";
 const string devURL = "http://rsense-dev.cs.uml.edu/api/v1";
 const string liveURL = "http://isenseproject.org/api/v1";
+const int CURL_ERROR = -1;
 
 class iSENSE
 {
@@ -105,12 +106,6 @@ public:
   void set_project_title(string proj_title);    // The user should also set the project title
   void set_project_label(string proj_label);    // Optional, by default the label will be "cURL"
   void set_contributor_key(string proj_key);    // User needs to set the contributor key
-
-  /*  In the future this function will only be called by the post_append functions.
-   *  Users will only need to make sure that they have set a title for the current dataset.
-   *  The post_append functions will call get_datasetID_byTitle();
-   */
-  void set_dataset_ID(string proj_dataset_ID);  // Need to set the dataset ID for appending.
 
   // This function should be used for setting the email / password for a project.
   // It will return true if the email / password are valid, or false if they are not.
@@ -215,10 +210,16 @@ public:
    *  void post_projects_email();    // Post a project by email / password
    */
 
-  // For debugging, dumps all the data.
+  // For debugging, this method dumps all the data.
   void debug();
 
 private:
+
+  /*  Users do not need to worry about dataset IDs. They only need to pass the
+   *  append function a valid dataset name - that is, the name as it appears on iSENSE.
+   */
+  void set_dataset_ID(string proj_dataset_ID);  // Need to set the dataset ID for appending.
+
   /*  These two 'objects' are picojson objects that will be used to upload to iSENSE.
    *  The upload_data object contains the entire upload string, in JSON format.
    *  Picojson will let us output this to a string and then pass that string to libcurl.
