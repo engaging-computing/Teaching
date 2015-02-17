@@ -10,8 +10,11 @@ CFLAGS = -Wall -Werror -pedantic -std=c++11 -lcurl
 Boost= -lboost_unit_test_framework
 
 # Makes all of the C++ projects, appends a ".out" for easy removal in make clean
-all:	key.out append_key_byID.out append_key_byName.out email.out append_email_byID.out \
+all:	key.out append_key_byName.out email.out  \
 	append_email_byName.out search.out datasets.out tests.out
+
+# No longer using:
+# append_email_byID.out append_key_byID.out
 
 # Contributor key test
 key.out:	POST_key.o API.o
@@ -25,11 +28,11 @@ API.o:	API.cpp include/API.h include/memfile.h include/picojson.h
 
 # Appending by dataset ID test
 # Setting IDs is now private, so these are just here for testing purposes
-# append_key_byID.out:	POST_key_append_byID.o API.o
-# 	$(CC) POST_key_append_byID.o API.o -o append_key_byID.out $(CFLAGS)
-#
-# POST_key_append_byID.o:	POST_key_append_byID.cpp include/API.h include/memfile.h include/picojson.h
-# 	$(CC) -c POST_key_append_byID.cpp $(CFLAGS)
+append_key_byID.out:	POST_key_append_byID.o API.o
+	$(CC) POST_key_append_byID.o API.o -o append_key_byID.out $(CFLAGS)
+
+POST_key_append_byID.o:	POST_key_append_byID.cpp include/API.h include/memfile.h include/picojson.h
+	$(CC) -c POST_key_append_byID.cpp $(CFLAGS)
 
 # Appending by dataset name test
 append_key_byName.out:	POST_key_append_byName.o API.o
@@ -47,12 +50,11 @@ POST_email.o:	POST_email.cpp include/API.h include/memfile.h include/picojson.h
 
 # Appending by dataset ID test
 # Setting IDs is now private, so these are just here for testing purposes
+append_email_byID.out:	POST_email_append_byID.o API.o
+	$(CC) POST_email_append_byID.o API.o -o append_email_byID.out $(CFLAGS)
 
-# append_email_byID.out:	POST_email_append_byID.o API.o
-# 	$(CC) POST_email_append_byID.o API.o -o append_email_byID.out $(CFLAGS)
-#
-# POST_email_append_byID.o: POST_email_append_byID.cpp include/API.h include/memfile.h include/picojson.h
-# 	$(CC) -c POST_email_append_byID.cpp $(CFLAGS)
+POST_email_append_byID.o: POST_email_append_byID.cpp include/API.h include/memfile.h include/picojson.h
+	$(CC) -c POST_email_append_byID.cpp $(CFLAGS)
 
 # Appending by dataset name test
 append_email_byName.out:	POST_email_append_byName.o API.o

@@ -40,6 +40,32 @@ using namespace picojson;
 */
 
 
+/*
+ * This is a derived class to quickly test the append_byID functions.
+ * It is derived from iSENSE, and by doing this I can create a public function
+ * which can access the two append_byID functions publicly. (for testing these functions)
+ * Users would have to derive the class to do the same - simply using iSENSE, the
+ * append_byID functions will be protected and unaccessable (since they should be using
+ * the "append_byName, using dataset names rather than dataset IDs)
+ * 
+ */
+class Test: public iSENSE
+{
+public:
+  void check_set_dataset_ID(string proj_dataset_ID)
+  { 
+    set_dataset_ID(proj_dataset_ID);
+  }
+  bool check_append_key_byID(string dataset_ID)
+  {
+    return append_key_byID(dataset_ID);
+  }
+  bool check_append_email_byID(string dataset_ID)
+  {
+    return append_email_byID(dataset_ID);
+  }
+};
+
 // Ensure the CheckUser() method works.
 BOOST_AUTO_TEST_CASE(Get_CheckUser)
 {
@@ -91,31 +117,31 @@ BOOST_AUTO_TEST_CASE(Post_JSON_withEmail)
 
 // Test Appending with Dataset IDs
 // (Email / Password)
-// BOOST_AUTO_TEST_CASE(Append_withDatasetID_byEmail)
-// {
-//   // Example of using the iSENSE class
-//   iSENSE test;
-//   string title, ID, dataset_ID, email, password, letters, num, timestamp;
-//
-//   // This will be a test of the append method.
-//   ID = "929";
-//   title = "valid";
-//   email = "j@j.j";
-//   password = "j";
-//   dataset_ID = "7659";
-//
-//   // Add project info / dataset info to the object
-//   test.set_project_ID(ID);
-//   test.set_dataset_ID(dataset_ID);
-//   test.set_project_title(title);
-//   test.set_email_password(email, password);
-//
-//   test.push_back("Number", "123456789");
-//   test.push_back("Text", "THIS");
-//   test.push_back("Timestamp", test.generate_timestamp());
-//
-//   BOOST_REQUIRE(test.append_email_byID(dataset_ID) == true);
-// }
+BOOST_AUTO_TEST_CASE(Append_withDatasetID_byEmail)
+{
+  // Example of using the iSENSE class
+  Test test;
+  string title, ID, dataset_ID, email, password, letters, num, timestamp;
+
+  // This will be a test of the append method.
+  ID = "929";
+  title = "valid";
+  email = "j@j.j";
+  password = "j";
+  dataset_ID = "7659";
+
+  // Add project info / dataset info to the object
+  test.set_project_ID(ID);
+  test.check_set_dataset_ID(dataset_ID);
+  test.set_project_title(title);
+  test.set_email_password(email, password);
+
+  test.push_back("Number", "123456789");
+  test.push_back("Text", "THIS");
+  test.push_back("Timestamp", test.generate_timestamp());
+
+  BOOST_REQUIRE(test.check_append_email_byID(dataset_ID) == true);
+}
 
 
 // Test Appending with Dataset names
@@ -150,30 +176,30 @@ BOOST_AUTO_TEST_CASE(Append_withDatasetName_byEmail)
 
 // Test Appending with Dataset IDs
 // (Contributor keys)
-// BOOST_AUTO_TEST_CASE(Append_withDatasetID_byKey)
-// {
-//   // Example of using the iSENSE class
-//   iSENSE test;
-//   string title, ID, dataset_ID, key, letters, num, timestamp;
-//
-//   // This will be a test of the append method.
-//   title = "this works?";
-//   ID = "1029";
-//   key = "key";
-//   dataset_ID = "7795";
-//
-//   // Add project info / dataset info to the object
-//   test.set_project_ID(ID);
-//   test.set_dataset_ID(dataset_ID);
-//   test.set_project_title(title);
-//   test.set_contributor_key(key);
-//
-//   timestamp = test.generate_timestamp();
-//
-//   test.push_back("Number", "99");
-//
-//   BOOST_REQUIRE(test.append_key_byID(dataset_ID) == true);
-// }
+BOOST_AUTO_TEST_CASE(Append_withDatasetID_byKey)
+{
+  // Example of using the iSENSE class
+  Test test;
+  string title, ID, dataset_ID, key, letters, num, timestamp;
+
+  // This will be a test of the append method.
+  title = "this works?";
+  ID = "1029";
+  key = "key";
+  dataset_ID = "7795";
+
+  // Add project info / dataset info to the object
+  test.set_project_ID(ID);
+  test.check_set_dataset_ID(dataset_ID);
+  test.set_project_title(title);
+  test.set_contributor_key(key);
+
+  timestamp = test.generate_timestamp();
+
+  test.push_back("Number", "99");
+
+  BOOST_REQUIRE(test.check_append_key_byID(dataset_ID) == true);
+}
 
 
 // Test Appending with Dataset names

@@ -181,45 +181,41 @@ public:
    *    Note - the edit functions are not yet complete.
    *
    */
-
-  // Will need a way to get dataset ID from dataset title.
-  // Then this function will need to call set_dataset_ID()
-  bool get_edit_key();                 // Edit a dataset with a dataset ID & contributor key
-
-  // The first one uses dataset_IDs, the other uses dataset names as seen on iSENSE.
-  bool append_key_byID(string dataset_ID);       // Appends a dataset with a contributor key
-  bool append_key_byName(string dataset_name);   // Appends by dataset_name
-
-  // Same as the above two functions, will need to find a way to append using
-  // dataset names.
-  bool get_edit_user();               // Edit a dataset with a dataset ID & email / password
-
-  // The first one uses datset_IDs, the other uses dataset names as seen on iSENSE
-  bool append_email_byID(string dataset_ID);        // Amend a dataset with a email / password
+  
+  // Appends to a dataset using a dataset name and either a key or email/password
+  bool append_key_byName(string dataset_name);
   bool append_email_byName(string dataset_name);
 
-  // Post media objects - this is less of a priority but still could be interesting to do.
-  bool post_media_objects_email();
-  bool post_media_objects_key();
-
   /*  Future functions to be implemented at a later date.
-   *
-   *  void get_fields_by_id();       // Get information about a field by field ID
-   *
-   *  void post_fields_email();      // Post fields  by email / password
-   *  void post_projects_email();    // Post a project by email / password
+      //  Editing API calls (not yet implemented)
+      bool get_edit_key();      // Edit a dataset with a dataset ID & contributor key
+      bool get_edit_user();     // Edit a dataset with a dataset ID & email / password
+  
+      //  Post media objects - this is less of a priority but still could be interesting to do.
+      bool post_media_objects_email();
+      bool post_media_objects_key();
+
+      void get_fields_by_id();       // Get information about a field by field ID
+      void post_fields_email();      // Post fields  by email / password
+      void post_projects_email();    // Post a project by email / password
    */
 
   // For debugging, this method dumps all the data.
   void debug();
 
-private:
-
+  
+protected:
+  
   /*  Users do not need to worry about dataset IDs. They only need to pass the
    *  append function a valid dataset name - that is, the name as it appears on iSENSE.
+   *  This method is marked as protected to prevent users from accessing it.
    */
   void set_dataset_ID(string proj_dataset_ID);  // Need to set the dataset ID for appending.
-
+  bool append_key_byID(string dataset_ID);       // Appends a dataset with a contributor key
+  bool append_email_byID(string dataset_ID);        // Amend a dataset with a email / password
+  
+private:
+  
   /*  These two 'objects' are picojson objects that will be used to upload to iSENSE.
    *  The upload_data object contains the entire upload string, in JSON format.
    *  Picojson will let us output this to a string and then pass that string to libcurl.
