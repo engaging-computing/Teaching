@@ -1,23 +1,16 @@
 function get(){
 
+	isense.isense(106,'key','Tyler');
+	console.log(isense.getDatasetFieldData('MLB Team Statistics 2013','Runs'));
 
-isense.isense(106,'Key','JIM');
+	data = [5,4,8,4,8,4,8];
+	isense.postDataset('Runs','TYLERTEST',data);
 
-console.log(isense.getDatasetFieldData('MLB Team Statistics 2013','Runs'));
+	fields = ['Runs'];
+	data = [[5]];
+	isense.postDatasetHorizontal(fields,'TEST12345654',data);
 
-data = [[2,5,4,8,7,4,4],[5,4,1,5],[4,2,5,2],[8,1,2,3],[4,2]];
-
-fields = ['Runs','Hits','Walks']
-
-isense.appendToDataset(fields,'titlesldfijsleifj',data);
-/*
-	console.log(isense.getDatasetFieldData(106,"MLB Team Statistics 2013","Hits"));  // Project ID, Dataset Name, Field Name
-
-
-	data = [5,4,8,4,5,3,3,84,5484]
-
-
-
-	isense.postDataset(927,"Key","Dice Roll","TEST","Tyler",data);  // Project ID,Contributor Key,Title,Contributor Name,data as an array
-	*/
+	fields2 = ['Runs','Walks'];
+	data2 = [[5],[6]];
+	isense.appendToDataset('TEST12345654 "2015-02-16T19:34:53.650Z"',fields2,data2);
 }

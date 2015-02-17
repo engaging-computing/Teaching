@@ -44,6 +44,24 @@ var isense = {
         return datasetLocation;
     },
 
+    getDatasetId : function(datasetName,parsedResponseProject) {
+
+        for (var j = 0; j < parsedResponseProject.dataSetCount; j++) { 
+
+            if (parsedResponseProject.dataSets[j].name == datasetName) {
+
+                var datasetLocation = j;
+                var datasetID = parsedResponseProject.dataSets[j].id;
+            }
+        }
+
+        if (datasetID == null) {
+
+            return "Dataset Not Found"
+        }
+        return datasetID;
+    },
+
     getFieldID : function(fieldName,parsedResponseProject) {
 
         for (var i = 0; i < parsedResponseProject.fieldCount; i++) {    // Parsing through fields looking for field id
@@ -129,13 +147,23 @@ var isense = {
 
     appendToDataset : function(datasetName,fields,data) {
 
+        var parsedResponseProject = isense.projectGetRequest(this.projectID);
+        var datasetId = isense.getDatasetId(datasetName,parsedResponseProject);
+        var dataForPost = {};
+        var fieldID = [];
+
+        for (var i = 0; i < fields.length; i++) {
+
+            fieldID[i] = isense.getFieldID(fields[i],parsedResponseProject);
+            dataForPost[fieldID[i]] = data[i];
+        };
+
         var apiUrl =' http://rsense-dev.cs.uml.edu/api/v1/data_sets/append';
         var upload = {
 
-            'email': 'isenseproject@gmail.com',
-            'password': 'fieilds',
-            'id': 7736,
-            'data': {'638':[4564,5,4,8,7,87,8,4,84]}
+            'contribution_key' : this.contributorKey,
+            'id': datasetId,
+            'data': dataForPost
         }
         $.post(apiUrl, upload);
     }
