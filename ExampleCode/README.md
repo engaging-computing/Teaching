@@ -3,9 +3,9 @@ Teaching
 
 Current Projects:
 
-1. Java GET + POST
-2. Visual Basic GET + POST
-3. C++ Winsock GET + POST
+1. C++ API
+2. Python API
+3. JavaScript API
 
 Future Projects:
 
