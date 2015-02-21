@@ -92,5 +92,5 @@ tests.o: tests.cpp include/API.h include/memfile.h include/picojson.h
 	$(CC) -c tests.cpp $(CFLAGS)
 
 clean:
-	rm *.out
 	rm *.o
+	rm *.out
