@@ -87,7 +87,9 @@ const string dev_baseURL = "http://rsense-dev.cs.uml.edu";
 const string live_baseURL = "http://isenseproject.org";
 const string devURL = "http://rsense-dev.cs.uml.edu/api/v1";
 const string liveURL = "http://isenseproject.org/api/v1";
+
 const int CURL_ERROR = -1;
+const string GET_ERROR = "ERROR";
 
 class iSENSE
 {
@@ -158,6 +160,12 @@ public:
   // Search for projects with the search term
   vector<string> get_projects_search(string search_term);
 
+  // Return a vector of data given a field name
+  vector<string> get_dataset(string dataset_name, string field_name);
+
+  // Future: return a map of media objects
+  // map<string, vector<string> > get_media_objects();
+
   bool post_json_email();          // Post using a email / password
   bool post_json_key();            // Post using contributor key
 
@@ -185,6 +193,10 @@ public:
   // Appends to a dataset using a dataset name and either a key or email/password
   bool append_key_byName(string dataset_name);
   bool append_email_byName(string dataset_name);
+
+  // Helper methods
+  std::string get_Dataset_ID(string dataset_name);
+  std::string get_Field_ID(string field_name);
 
   /*  Future functions to be implemented at a later date.
       //  Editing API calls (not yet implemented)

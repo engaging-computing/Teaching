@@ -2,37 +2,36 @@
 #include <string>                    // std::string, std::to_string;
 #include "include/API.h"             // API class
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
-using std::to_string;
-
-// For picojson
-using namespace picojson;
-
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
 int main ()
 {
   // Example of using the iSENSE class
   iSENSE test;
 
-  string search_term;
+  // Set the project ID
+  test.set_project_ID("106");
 
-  // This class just does a GET for a search term.
-  cout << "Please enter a search term: ";
-  getline(cin, search_term);
+  // Get all the datasets and media objects.
+  test.get_datasets_and_mediaobjects();
 
-  // The get_projects_search function returns a vector of strings of project titles
-  // Whatever search term you put in is searched on iSENSE and then the top 10 results are saved
-  // to the vector.
-  vector<string> project_titles = test.get_projects_search(search_term);
+  // Now let's try getting the a row of data to mess with.
+  vector<string> baseball_hits = test.get_dataset("MLB Team Statistics 2013", "Runs");
 
-  // Print out all the titles in the vector.
-  for(vector<string>::iterator it = project_titles.begin(); it != project_titles.end(); it++)
+  // Let's try printing out all the runs we found:
+  vector<string>::iterator tmp;
+
+  cout << "Runs for MLB 2013:\n";
+  for(tmp = baseball_hits.begin(); tmp != baseball_hits.end(); tmp++)
   {
-    cout << "Name: " << *it << endl;
+    cout << *tmp << endl;
   }
+
+  // We could now do fun stuff with that data, like find the average runs, or w/e
+  // and then push this average to another iSENSE object and submit this to
+  // a project.
+  // Or we could add more runs we have stored locally, and push this vector to
+  // another iSENSE object.
+  // etc.
 
   return 0;
 }

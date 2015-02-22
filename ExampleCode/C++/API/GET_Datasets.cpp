@@ -2,15 +2,6 @@
 #include <string>                    // std::string, std::to_string;
 #include "include/API.h"             // API class
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
-using std::to_string;
-
-// For picojson
-using namespace picojson;
-
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
 int main ()
 {

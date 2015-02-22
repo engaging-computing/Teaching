@@ -3,9 +3,6 @@
 #include <random>                     // random number generators
 #include "include/API.h"              // API class
 
-// For picojson
-// using namespace picojson;
-
 // Main, calls upload function. Uses picojson for JSON serialization / parsing.
 int main ()
 {
