@@ -2,15 +2,6 @@
 #include <string>                    // std::string, std::to_string;
 #include "include/API.h"             // API class
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
-using std::to_string;
-
-// For picojson
-using namespace picojson;
-
 /*
  * This file requires Boost. Please make sure to run the following command before compiling:
  * sudo apt-get install libboost-test-dev
@@ -32,10 +23,15 @@ using namespace picojson;
   push_back(string)
   push_back(vector<string>)
   clear_data()
-  format_data_upload()
+
+  Currently the following methods are tested:
   get_check_user()
   post_json_key()
   post_json_email()
+  Append_withDatasetID_byEmail()
+  Append_withDatasetID_byKey()
+  Append_withDatasetName_byEmail()
+  Append_withDatasetName_byKey()
 
 */
 
@@ -47,13 +43,13 @@ using namespace picojson;
  * Users would have to derive the class to do the same - simply using iSENSE, the
  * append_byID functions will be protected and unaccessable (since they should be using
  * the "append_byName, using dataset names rather than dataset IDs)
- * 
+ *
  */
 class Test: public iSENSE
 {
 public:
   void check_set_dataset_ID(string proj_dataset_ID)
-  { 
+  {
     set_dataset_ID(proj_dataset_ID);
   }
   bool check_append_key_byID(string dataset_ID)
@@ -86,7 +82,7 @@ BOOST_AUTO_TEST_CASE(Post_JSON_withKey)
   iSENSE test("929", "test ", "BOOST Test", "123");
 
   // Make the title unique
-  test.set_project_title("Boost " + test.generate_timestamp());
+  test.set_project_title("Boost Email Test " + test.generate_timestamp());
 
   // Push some data back
   test.push_back("Timestamp", test.generate_timestamp());
@@ -103,7 +99,7 @@ BOOST_AUTO_TEST_CASE(Post_JSON_withEmail)
   iSENSE test("929", "test ", "BOOST Test", "123");
 
   // Make the title unique + set email/password
-  test.set_project_title("Boost " + test.generate_timestamp());
+  test.set_project_title("Boost Contributor Key Test " + test.generate_timestamp());
   test.set_email_password("j@j.j", "j");
 
   // Push some data back

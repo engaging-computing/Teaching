@@ -17,21 +17,30 @@ int main ()
   // Example of using the iSENSE class
   iSENSE test;
 
-  // Test the output
-  test.debug();
-
-  test.set_project_ID("929");
+  // Set the project ID
+  test.set_project_ID("106");
 
   // Get all the datasets and media objects.
   test.get_datasets_and_mediaobjects();
 
-  // More debugging - see if the above project exists and if datasets are
-  // all saved inside the iSENSE object.
-  test.debug();
+  // Now let's try getting the a row of data to mess with.
+  vector<string> baseball_hits = test.get_dataset("MLB Team Statistics 2013", "Runs");
 
-  // Try clearing out the object.
-  test.clear_data();
-  test.debug();
+  // Let's try printing out all the runs we found:
+  vector<string>::iterator tmp;
+
+  cout << "Runs for MLB 2013:\n";
+  for(tmp = baseball_hits.begin(); tmp != baseball_hits.end(); tmp++)
+  {
+    cout << *tmp << endl;
+  }
+
+  // We could now do fun stuff with that data, like find the average runs, or w/e
+  // and then push this average to another iSENSE object and submit this to
+  // a project.
+  // Or we could add more runs we have stored locally, and push this vector to
+  // another iSENSE object.
+  // etc.
 
   return 0;
 }
