@@ -10,7 +10,8 @@ CFLAGS = -Wall -Werror -pedantic -std=c++11 -lcurl
 Boost= -lboost_unit_test_framework
 
 # Makes all of the C++ projects, appends a ".out" for easy removal in make clean
-all:	key.out append_key_byName.out email.out  \
+all:	tests.out
+#all:	key.out append_key_byName.out email.out  \
 	append_email_byName.out search.out datasets.out tests.out
 
 # No longer using:
