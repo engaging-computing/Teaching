@@ -10,12 +10,8 @@ CFLAGS = -Wall -Werror -pedantic -std=c++11 -lcurl
 Boost= -lboost_unit_test_framework
 
 # Makes all of the C++ projects, appends a ".out" for easy removal in make clean
-all:	tests.out
-#all:	key.out append_key_byName.out email.out  \
-	append_email_byName.out search.out datasets.out tests.out
-
-# No longer using:
-# append_email_byID.out append_key_byID.out
+all:	key.out append_key_byName.out email.out  \
+	append_email_byName.out search.out datasets.out
 
 # Contributor key test
 key.out:	POST_key.o API.o
@@ -84,13 +80,6 @@ api.out:	POST_API_Test.o API.o
 
 POST_API_Test.o: POST_API_Test.cpp include/API.h include/memfile.h include/picojson.h
 	$(CC) -c POST_API_Test.cpp $(CFLAGS)
-
-# Unit tests for the iSENSE code. Not yet fully implemented - future idea
-tests.out:	tests.o API.o
-	$(CC) tests.o API.o -o tests.out $(CFLAGS) $(Boost)
-
-tests.o: tests.cpp include/API.h include/memfile.h include/picojson.h
-	$(CC) -c tests.cpp $(CFLAGS)
 
 clean:
 	rm *.o
