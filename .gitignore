@@ -81,3 +81,7 @@ hs_err_pid*
 
 # ignore the picojson header file
 picojson.h
+
+# ignore the second API files in the Apps folder
+Apps/API.cpp
+Apps/include/
