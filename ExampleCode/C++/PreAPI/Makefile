@@ -1,4 +1,4 @@
-CC		= g++
+CC = g++
 CFLAGS = -O0 -g -Wall -Wextra -pedantic-errors  -w
 
 all:

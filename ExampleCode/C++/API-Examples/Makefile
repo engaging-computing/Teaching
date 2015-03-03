@@ -2,12 +2,8 @@
 # Designed to quickly compile the C++ code (only if files are changed)
 CC = g++
 
-# NOTES: -lcurl is required. std=c++11 is also needed for to_string. -ansci
-CFLAGS = -Wall -Werror -pedantic -std=c++11 -lcurl
-
-# In the future, should try compiling with these flags (change to -ansi)
-# CFLAGS= -Wall -Werror -ansi -pedantic
-Boost= -lboost_unit_test_framework
+# NOTES: -lcurl is required. -std=c++0x is also needed for to_string.
+CFLAGS = -Wall -Werror -pedantic -std=c++0x -lcurl
 
 # Makes all of the C++ projects, appends a ".out" for easy removal in make clean
 all:	key.out append_key_byName.out email.out  \
