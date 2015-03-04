@@ -3,15 +3,15 @@
 #  iSENSE C++ Class Install Script
 #*****************************************************************************
 
-echo "iSENSE C++ Class Install Script"
-echo "This script pulls all required dependencies of the iSENSE C++ Class"
-echo "Included are:"
-echo  "- Pulls down iSENSE class / includes"
-echo  "- Pulls down iSENSE examples / example apps"
-echo  "- Pulls down picojson - 3rd party JSON library that the class depends on"
-echo  "- Installs curl, libcurl"
-echo "Please only run this script once. When this script is finished, look for"
-echo "a directory named \"isense\" in your home directory (~/isense)"
+printf "iSENSE C++ Class Install Script\n"
+printf "This script pulls all required dependencies of the iSENSE C++ Class\n"
+printf "Included are:\n"
+printf  "- Pulls down iSENSE class / includes\n"
+printf  "- Pulls down iSENSE examples / example apps\n"
+printf  "- Pulls down picojson - 3rd party JSON library that the class depends on\n"
+printf  "- Installs curl, libcurl\n"
+printf "Please only run this script once. When this script is finished, look for\n"
+printf "a directory named \"isense\" in your home directory (~/isense)\n"
 printf "\n"
 
 # See if a directory with the name "isense" exists.
@@ -25,28 +25,24 @@ if [ ! -d "$DIRECTORY" ]; then
   mkdir ~/isense
 fi
 
-cd ~/isense
-
 # Install git, curl, libcurl.
-# If these are already installed, nothing happens. The following should print out to the user:
-# 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+# If these are already installed, nothing happens. Just "already newest version" comments.
 printf "This script requires git, and the iSENSE API requires curl & libcurl\n"
 printf "Please install these packages:\n"
 printf "git curl libcurl4-gnutls-dev\n"
 printf "Enter your password at the prompt to install them.\n\n"
 sudo apt-get install git curl libcurl4-gnutls-dev
-# sudo apt-get update
 
 # Clone the following repos:
 # iSENSE API
 # iSENSE Teaching
 # Picojson
 printf "\n"
-git clone https://github.com/isenseDev/iSENSE-API.git
+git clone https://github.com/isenseDev/iSENSE-API.git ~/isense/iSENSE-API
 printf "\n"
-git clone https://github.com/JasonD94/Teaching.git
+git clone https://github.com/JasonD94/Teaching.git ~/isense/Teaching
 printf "\n"
-git clone https://github.com/kazuho/picojson.git
+git clone https://github.com/kazuho/picojson.git ~/isense/picojson
 
 # Move the C++ code / Picojson header file to the right directory
 mv ~/isense/iSENSE-API/C++/API/ ~/isense/
