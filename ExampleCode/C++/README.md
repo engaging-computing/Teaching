@@ -76,6 +76,7 @@ For some of these programs, I use a JSON library called picojson to serialize an
 I have also included it in this GitHub Repository, inside the Teaching/ExampleCode/C++/Projects/
 directory in a zip called "include.zip". Unzip that zip and you will have picojson,
 as well as memfile.h and API.h.
+[You can find the include.zip archive in this directory.](https://github.com/isenseDev/Teaching/tree/master/ExampleCode/C%2B%2B/Projects)
 
 You will likely want to check this repo for updates to API.h / API.cpp, as those files contain
 the iSENSE class that provides API wrappers for using iSENSE APIs in C++.
