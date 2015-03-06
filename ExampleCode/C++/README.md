@@ -12,7 +12,7 @@ Some of these examples use cURL through the libcURL library for C.
 
 Linux
 -----
-NEW: There will be an install script in this directory that will:
+There is an install script in this directory that will:
 - pull down iSENSE Class code
 - pull down picojson header file
 - install the following packages: curl, libcurl
@@ -73,8 +73,8 @@ NOTES:
 For some of these programs, I use a JSON library called picojson to serialize and parse JSON.
 [You can grab the code for that off the following github repo.](https://github.com/kazuho/picojson)
 
-I have also included it in this GitHub Repository, inside the Projects directory in a
-zip called "include.zip". Unzip that zip and you will have picojson,
+I have also included it in this GitHub Repository, inside the Teaching/ExampleCode/C++/Projects/
+directory in a zip called "include.zip". Unzip that zip and you will have picojson,
 as well as memfile.h and API.h.
 
 You will likely want to check this repo for updates to API.h / API.cpp, as those files contain

@@ -3,20 +3,21 @@
 #  iSENSE C++ Class Install Script
 #*****************************************************************************
 
-printf "iSENSE C++ Class Install Script\n"
+printf "iSENSE C++ Class Install Script\n\n"
 printf "This script pulls all required dependencies of the iSENSE C++ Class\n"
-printf "Included are:\n"
-printf  "- Pulls down iSENSE class / includes\n"
-printf  "- Pulls down iSENSE examples / example apps\n"
-printf  "- Pulls down picojson - 3rd party JSON library that the class depends on\n"
-printf  "- Installs curl, libcurl\n"
-printf "Please only run this script once. When this script is finished, look for\n"
+printf "The script will do the following:\n"
+printf "  Creates a directory in your home folder (~/) called \"isense\"\n"
+printf "  Installs git, curl, libcurl (if not already installed)\n"
+printf "  Pulls down iSENSE class / includes\n"
+printf "  Pulls down iSENSE examples / example apps\n"
+printf "  Pulls down picojson - 3rd party JSON library that the class depends on\n\n"
+printf "This script should only be run once, as when this script is finished, look for\n"
 printf "a directory named \"isense\" in your home directory (~/isense)\n"
-printf "\n"
+printf "You may, however, run it again to update the API code should any changes\n"
+printf "be made to the C++ API\n\n"
 
 # See if a directory with the name "isense" exists.
 DIRECTORY="isense"
-
 cd ~/
 
 if [ ! -d "$DIRECTORY" ]; then
@@ -25,13 +26,28 @@ if [ ! -d "$DIRECTORY" ]; then
   mkdir ~/isense
 fi
 
-# Install git, curl, libcurl.
-# If these are already installed, nothing happens. Just "already newest version" comments.
-printf "This script requires git, and the iSENSE API requires curl & libcurl\n"
-printf "Please install these packages:\n"
-printf "git curl libcurl4-gnutls-dev\n"
-printf "Enter your password at the prompt to install them.\n\n"
-sudo apt-get install git curl libcurl4-gnutls-dev
+# Don't do the following if the user is running Mac OS
+# Users should be using Debian based systems with apt-get working
+# Plus they need sudo access - a VM or personal computer.
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  printf "This script requires git, and the iSENSE API requires curl & libcurl\n"
+  printf "Please install these packages:\n"
+  printf "git curl libcurl4-gnutls-dev\n"
+  printf "Enter your password at the prompt to install them.\n\n"
+
+  # If these are already installed, nothing happens. Just "already newest version" comments.
+  sudo apt-get install git curl libcurl4-gnutls-dev
+fi
+
+# Detect Mac OS users - tell them to use the XCode Command Line Tools,
+# and don't try apt-get install git
+# Also Mac users have curl + libcurl installed already from Apple.
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  printf "It looks like you are using some version of OS X.\n"
+  printf "Please install git using the XCode Command Line Tools.\n"
+  printf "See the following website for an example: \n"
+  printf "http://burnedpixel.com/blog/setting-up-git-and-github-on-your-mac/"
+fi
 
 # Clone the following repos:
 # iSENSE API
