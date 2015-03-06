@@ -85,3 +85,6 @@ picojson.h
 # ignore the second API files in the Apps folder
 Apps/API.cpp
 Apps/include/
+
+# Ignore Kate swap files
+*.md.kate-swp

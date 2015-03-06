@@ -37,6 +37,9 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
 
   # If these are already installed, nothing happens. Just "already newest version" comments.
   sudo apt-get install git curl libcurl4-gnutls-dev
+
+  # These are for the Python API
+  pip install requests
 fi
 
 # Detect Mac OS users - tell them to use the XCode Command Line Tools,
@@ -61,17 +64,10 @@ printf "\n"
 git clone https://github.com/kazuho/picojson.git ~/isense/picojson
 
 # Move the C++ code / Picojson header file to the right directory
-mv ~/isense/iSENSE-API/C++/API/ ~/isense/
-mv ~/isense/picojson/picojson.h ~/isense/API/include
-
-# Move the Example code / Example apps to a higher directory
-mv ~/isense/Teaching/ExampleCode/C++/API-Examples/ ~/isense/
-mv ~/isense/Teaching/ExampleCode/C++/Apps/ ~/isense/
+mv ~/isense/picojson/picojson.h ~/isense/iSENSE-API/C++/API/include/
 
 # Remove the extra directories that are no longer needed.
-rm -rf ~/isense/iSENSE-API
 rm -rf ~/isense/picojson
-rm -rf ~/isense/Teaching
 
 # Let the user know we're done.
 printf "\niSENSE C++ Install Script is finished.\n"
