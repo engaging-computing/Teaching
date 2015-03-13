@@ -12,12 +12,6 @@ Some of these examples use cURL through the libcURL library for C.
 
 Linux
 -----
-There is an install script in this directory that will:
-- pull down iSENSE Class code
-- pull down picojson header file
-- install the following packages: curl, libcurl
-
-See "install.sh" for details.
 
 You can get libcurl on Linux (Ubuntu/Debian) by running the following commands:
 
