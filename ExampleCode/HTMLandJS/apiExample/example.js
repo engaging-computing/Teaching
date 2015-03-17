@@ -1,5 +1,5 @@
 function run() {
-
+	
 //	/api/v1/projects/XX
 
     var urlProject = 'http://isenseproject.org/api/v1/projects/835';
@@ -171,8 +171,77 @@ function run() {
     }
     $.post(apiUrl, upload);
 
-	//DONT KNOW HOW TO DO MEDIA OBJECTS
-	//DONT KNOW HOW TO DO MEDIA OBJECTS
+	//WORKING MEDIA OBJECT POST WITH USERNAME AND PASSWORD DATASET
+
+    var apiUrl = 'http://isenseproject.org/api/v1/media_objects';
+    var fileSelect = document.getElementById('file-select');
+    var files = fileSelect.files;
+    var formData = new FormData();
+    var file = files[0];
+
+    formData.append('upload', file, file.name);
+    formData.append('email', 't@t.t');
+    formData.append('password', 't');
+    formData.append('type', 'data_set');
+    formData.append('id', 2801);
+ 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', apiUrl, true);
+    xhr.send(formData);
+
+	//WORKING MEDIA OBJECT POST WITH USERNAME AND PASSWORD PROJECT
+
+    var apiUrl = 'http://isenseproject.org/api/v1/media_objects';
+    var fileSelect = document.getElementById('file-select');
+    var files = fileSelect.files;
+    var formData = new FormData();
+    var file = files[0];
+
+    formData.append('upload', file, file.name);
+    formData.append('email', 't@t.t');
+    formData.append('password', 't');
+    formData.append('type', 'project');
+    formData.append('id', 106);
+ 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', apiUrl, true);
+    xhr.send(formData);
+
+
+	// WORKING MEDIA OBJECT POST WITH CONTRIB KEY PROJECT
+    var apiUrl = 'http://isenseproject.org/api/v1/media_objects';
+    var fileSelect = document.getElementById('file-select');
+    var files = fileSelect.files;
+    var formData = new FormData();
+    var file = files[0];
+
+    formData.append('upload', file, file.name);
+    formData.append('contribution_key', 'key');
+    formData.append('contributor_name', 'TYLER');
+    formData.append('type', 'project');
+    formData.append('id', 106);
+ 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', apiUrl, true);
+    xhr.send(formData);
+
+	// WORKING MEDIA OBJECT POST WITH CONTRIB KEY DATASET
+
+    var apiUrl = 'http://isenseproject.org/api/v1/media_objects';
+    var fileSelect = document.getElementById('file-select');
+    var files = fileSelect.files;
+    var formData = new FormData();
+    var file = files[0];
+
+    formData.append('upload', file, file.name);
+    formData.append('contribution_key', 'key');
+    formData.append('contributor_name', 'TYLER');
+    formData.append('type', 'data_set');
+    formData.append('id', 8089); // This data_set does not exist anymore
+ 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', apiUrl, true);
+    xhr.send(formData);
 
 //	/api/v1/users/myInfo
 
@@ -198,4 +267,5 @@ function run() {
 
     var parsedResponse = JSON.parse(response);
     console.log(parsedResponse);
+
 }
