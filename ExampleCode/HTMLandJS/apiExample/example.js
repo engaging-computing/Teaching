@@ -256,5 +256,16 @@ function run() {
     var parsedResponseProject = JSON.parse(responseProject); 
 
     console.log(parsedResponseProject);
-    
+
+// Get dataset
+    var url = 'http://rsense-dev.cs.uml.edu/api/v1/data_sets/1190';
+    var response = $.ajax({ type: "GET",
+                        url: url,
+                        async: false,
+                        dataType: "JSON"
+    }).responseText;
+
+    var parsedResponse = JSON.parse(response);
+    console.log(parsedResponse);
+
 }

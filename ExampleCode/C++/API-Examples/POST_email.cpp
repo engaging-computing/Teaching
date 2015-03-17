@@ -22,16 +22,16 @@ int main ()
 
   // Get user input.
   cout << "Please set the project ID for this dataset: ";
-  getline(cin, ID);                                   // Sets project ID
+  getline(cin, ID);         // Get the project ID
+
+  cout << "Please enter a title for the dataset: ";
+  getline(cin, title);      // Get the title
 
   cout << "Please set an email address for this dataset: ";
-  getline(cin, email);                                // Sets email address
+  getline(cin, email);      // Get the email address
 
   cout << "Please enter a password for this dataset: ";
-  getline(cin, password);                             // Sets password
-
-  cout << "Please enter a title for the dataset: ";   // Gets the title
-  getline(cin, title);
+  getline(cin, password);   // Get the password
 
   /*  Add a timestamp to the title to avoid duplicates
    *        and to make it clear when the dataset was uploaded.   */
@@ -42,8 +42,15 @@ int main ()
   test.set_project_ID(ID);
   test.set_project_title(title);
   test.set_project_label("C++");
-  test.set_email(email);
-  test.set_password(password);
+
+  while(!test.set_email_password(email, password))
+  {
+    cout << "Please set an email address for this dataset: ";
+    getline(cin, email);      // Get the email address
+
+    cout << "Please enter a password for this dataset: ";
+    getline(cin, password);   // Get the password
+  }
 
   // Do a quick test on the email / password to see if they are valid.
   test.get_check_user();
@@ -73,7 +80,7 @@ int main ()
   test.get_project_fields();
 
   // Try formatting the upload data string without uploading yet.
-  test.format_upload_string(false);
+  test.format_upload_string(3);
 
   // Check the fields for errors (manually compare against iSENSE)
   test.debug();
@@ -94,6 +101,5 @@ int main ()
   cout << "\nUploading to rSENSE.\n";
   test.post_json_email();
 
-  // In the future we should tell the user if this upload function was a success. Or if it failed then why.
   return 0;
 }
