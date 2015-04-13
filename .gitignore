@@ -88,3 +88,5 @@ Apps/include/
 
 # Ignore Kate swap files
 *.md.kate-swp
+
+*.DS_Store
