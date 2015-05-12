@@ -1,18 +1,16 @@
 package needleDrop;
 import java.util.Random;
 
-
 public class NeedleClass {
 	
-	//Creates a Needle class with a variable for the number of throws and hits
+	   //Creates a Needle class with a variable for the number of throws and hits
 	
 	   private Random generator;
 	   private int hits;
 	   private int toss;
 	   
 	  //creates an instance of the class needle and initializes the member variable to 0 
-	   public NeedleClass()
-	   {
+	   public NeedleClass() {
 	      hits = 0;
 	      toss = 0;
 	   
@@ -22,8 +20,7 @@ public class NeedleClass {
 	
 	   //"Drops the needle" calculates whether the needle hits the line or not. Increments the value of toss by 1
 	   // and determines if the value of hits should by incremented by one
-	   public void drop()
-	   {
+	   public void drop(){
 		 double ylow = 2 * generator.nextDouble();
 		 double angle = 180 * generator.nextDouble(); 
 	   
@@ -34,14 +31,12 @@ public class NeedleClass {
 	  	  
 	   }
 	   
-	   public int getHits()
-	   {
+	   public int getHits(){
 		 return hits;
 	   }
 
 	   //Returns the value of toss
-	   public int getToss()
-	   {
+	   public int getToss() {
 	      return toss;
 	   }
 

@@ -7,38 +7,54 @@ import org.json.JSONObject;
 
 public class Main {
 
-	public static void main( String[] arg) throws Exception {
+	private final static String conKey = "testing";
+	private final static String name = "Jeremy";
+	private final static int projID = 1003;
+
+	public static void main(String[] arg) throws Exception {
+
+		NeedleClass needle = new NeedleClass();
+		Scanner input = new Scanner(System.in);
+		iSENSE isense = new iSENSE(projID, conKey, name);
+
+		//hit count variable
+		int hits;
+
+		//gets the fields
+		ArrayList<String> fields;
+		fields = isense.getFields();
 		
-		 NeedleClass needle = new NeedleClass();
-		 Scanner input = new Scanner(System.in);
-		 iSENSE isense = new iSENSE(95500, "Testing", "Jeremy");
+		//initializes data 
+		ArrayList<Integer> data = new ArrayList<Integer>();
+
+		//asks user for number of needles to drop
+		System.out.println("How many needles would you like to drop?");
+		int drops = input.nextInt();
+
+		//drops needle specified number of times
+		for(int i = 0; i < drops; i++)
+			needle.drop();
+
+		//gets value of hits
+		hits = needle.getHits();
 		 
-		 int hits;
+		//puts the drops and hits into the data array list
+		data.add(drops);
+		data.add(hits);
+
+		//prints the number of drops and hits
+		needle.printValues();
 		 
-		 ArrayList<String> fields;
-		 fields = isense.getFields();
+		//puts data in the fields
+		isense.putData(fields, data);
+		 
+		//Uploads data using contributor key
+		isense.uploadConKey(conKey);
+		 
+		//Pulls down data from specified data set
+		JSONObject values = isense.getDataSet(8702);
 		
-		 ArrayList<Integer> data = new ArrayList<Integer>();
-		 
-		/* System.out.println("How many needles would you like to drop?");
-		 int drops = input.nextInt();
-		 
-		 for(int i = 0; i < drops; i++)
-			 needle.drop();
-		 
-		 hits = needle.getHits();
-		 
-		 data.add(drops);
-		 data.add(hits);
-		 
-		 needle.printValues();
-		 isense.putData(fields, data);
-		 
-		 isense.uploadConKey("new");
-		 */
-		 JSONObject values = isense.getDataSet(10000);
-		 System.out.println("hello");
-		 System.out.println(values);
+		System.out.println(values);
 	}
-		
+
 }	
