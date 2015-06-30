@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="utf-8">
+	<title>html</title>
+	<meta name="generator" content="BBEdit 10.5">
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="API.js"></script>
+</head>
+<body sj_ran="true">
+	<div id="tableLabel">
+		<h3 style="float: left;">
+			<select id="tableChoice" name="selectTable" >
+				<option value="Table A">Table A</option>
+				<option value="Table B">Table B</option>
+				<option value="Table C">Table C</option>
+			</select>
+		</h3>
+	</div>
+
+<div>
+<table align="center">
+
+	<tbody><tr>
+		<td>Set Temperature <input value=" " id="temperature" name="temperature" type="text"></td>
+		<td>Set Dissolved Oxygen<input value=" " id="do" name="do" type="text"></td>
+	</tr><tr>
+		<td>Set pH<input value=" " id="pH" name="pH" type="text"></td>
+		<td>Set Nitrate<input value=" " id="nitrate" name="nitrate" type="text"></td>	
+</tr></tbody></table>
+	
+</div>
+	<div id="publish"><h3>Publish to iSENSE</h3></div>
+	<script type="text/javascript">
+	
+ 	
+	var getTemp = document.getElementById("temperature").value;
+	var getDo = document.getElementById("do").value;
+	var getpH = document.getElementById("pH").value;
+	var getNitrate = document.getElementById("nitrate").value;
+	
+	
+	
+	
+	var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear()-5;
+    
+    
+    var today = mm+'/'+dd+'/'+yyyy;
+    
+    console.log(today);
+    
+   
+    
+	publish.onclick= function get(){
+	
+	isense.isense(522,'SOR','SOR');
+	console.log(isense.getDatasetFieldData('2010 Merrimack Historical Data','Dissolved Oxygen'));
+	
+	fields = ['Date','Temperature','Dissolved Oxygen','pH','Nitrate','Latitude','Longitude'];
+	data = [[today],[getTemp],[getDo],[getpH],[getNitrate],[42.64038567507],[-71.35201189067]];
+	isense.postDatasetHorizontal(fields,tableChoice.value,data);
+		}
+	</script>
+	
+
+
+</body></html>

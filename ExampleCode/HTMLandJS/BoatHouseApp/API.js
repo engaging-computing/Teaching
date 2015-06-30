@@ -89,6 +89,10 @@ var isense = {
         var datasetLocation = isense.getDatasetLocation(datasetName,parsedResponseProject);
         var fieldID = isense.getFieldID(fieldName,parsedResponseProject);
 
+		console.log(parsedResponseProject);
+		console.log(parsedResponseProject.dataSets);
+		console.log(datasetLocation);
+
         for (var k = 0; k < parsedResponseProject.dataSets[datasetLocation].datapointCount; k++) {
 
             values.push(parsedResponseProject.dataSets[datasetLocation].data[k][fieldID])   
@@ -118,6 +122,7 @@ var isense = {
         $.post(apiUrl, upload);
         alert("Post Successful");
     },
+
 
     postDatasetHorizontal : function(fields,title,data) {
 
