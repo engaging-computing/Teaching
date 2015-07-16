@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="babyGenerator.css">
+    <meta charset="utf-8">
+    <title>html</title>
+    <meta name="generator" content="BBEdit 10.5">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="API.js"></script>
+
+</head>
+<body> 
+<div id="publish"><h5>Click Me to Generate a Random Baby Name</h5></div>
+<div id="gender"><h3>Gender:</h3></div>
+<div id="rank"><h3>Rank: #</h3></div>
+    <script type="text/javascript">
+	      
+	      publish.onclick = function babyName(){
+	      
+	      var datasetName = ['Most Popular Girl Names'];
+	      var datasetName2 = [ 'Most Popular Boy Names'];
+	      	      
+            isense.noKey(503,'Qiana');
+            isense.projectGetRequest();
+            fieldName = ['Child First Name'];
+            fieldName2 = ['Gender'];
+            fieldName3 = ['Rank'];
+            console.log(isense.getDatasetFieldData(datasetName, fieldName));
+            console.log(isense.getDatasetFieldData(datasetName2, fieldName));
+            console.log(isense.getDatasetFieldData(datasetName, fieldName2));
+            console.log(isense.getDatasetFieldData(datasetName2, fieldName2));
+            console.log(isense.getDatasetFieldData(datasetName, fieldName3));
+           	console.log(isense.getDatasetFieldData(datasetName2, fieldName3));
+                 
+      	 var allNames = isense.getDatasetFieldData(datasetName, fieldName).concat(isense.getDatasetFieldData(datasetName2, fieldName));
+         	console.log (allNames);
+         var allGenders = isense.getDatasetFieldData(datasetName, fieldName2).concat(isense.getDatasetFieldData(datasetName2, fieldName2));
+			console.log(allGenders);        
+         var allRanks = isense.getDatasetFieldData(datasetName, fieldName3).concat(isense.getDatasetFieldData(datasetName2, fieldName3));
+         var randomName = allNames[Math.floor(Math.random()*340)];
+         	console.log(randomName);
+        	document.getElementById('publish').innerHTML = randomName; 
+         var n = allNames.indexOf(randomName);
+        	console.log(n);
+        var pickGender = allGenders[n];
+        var pickRank = allRanks[n];
+        	
+        	document.getElementById('gender').innerHTML = "Gender: " + pickGender;
+        	document.getElementById('rank').innerHTML = "Rank: #" + pickRank;
+     /*function backgroundGender() */
+     	if (pickGender==="FEMALE") {
+     	     	document.getElementById('publish').style.backgroundColor = "pink";
+        } else {
+        		document.getElementById('publish').style.backgroundColor = "#00F";
+        };
+        	        
+        
+       
+}
+    </script>
+</body></html>
