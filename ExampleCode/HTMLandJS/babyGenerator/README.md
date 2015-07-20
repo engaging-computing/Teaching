@@ -1,1 +1,1 @@
-blah
+When the window is clicked on, a random name will appear along with the corresponding gender and popularity rank. If the name is female, then the background color will change to pink, if the name is male, then the background color will change to blue.
